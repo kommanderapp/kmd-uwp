@@ -1,0 +1,19 @@
+﻿<Application x:Class="kmd.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:helperConverters="using:kmd.Helpers.Converters"
+             xmlns:vms="using:kmd.ViewModels">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <helperConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <helperConverters:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
+            <helperConverters:FocusStateToOpacityConverter x:Key="FocusStateToOpacityConverter" />
+            <helperConverters:FocusStateToOpacityReverseConverter x:Key="FocusStateToOpacityReverseConverter" />
+            <vms:ViewModelLocator x:Key="Locator" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/TextBlock.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
