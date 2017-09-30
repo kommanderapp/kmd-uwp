@@ -16,7 +16,22 @@ namespace kmd.Core.Explorer
 {
     public class ExplorerViewModel : ViewModelBase, IExplorerViewModel
     {
-        #region View State
+        public ExplorerViewModel(ICommandBindingsProvider commandBindingsProvider,
+            IStorageFolderRootsExpander folderRootsExpander,
+            IStorageFolderLister folderLister,
+            IExplorerItemMapper explorerItemMapper)
+        {
+            _folderRootsExpander = folderRootsExpander ?? throw new ArgumentNullException(nameof(folderRootsExpander));
+            _folderLister = folderLister ?? throw new ArgumentNullException(nameof(folderLister));
+            _explorerItemMapper = explorerItemMapper ?? throw new ArgumentNullException(nameof(explorerItemMapper));
+
+            if (commandBindingsProvider == null) throw new ArgumentNullException(nameof(commandBindingsProvider));
+            CommandBindings = commandBindingsProvider.GetBindings(this);
+        }
+
+        public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
+
+        public CommandBindings CommandBindings { get; internal set; }
 
         public IStorageFolder CurrentFolder
         {
@@ -55,6 +70,8 @@ namespace kmd.Core.Explorer
             }
         }
 
+        public FilterOptions FilterOptions { get; set; }
+
         public bool IsBusy
         {
             get
@@ -79,6 +96,10 @@ namespace kmd.Core.Explorer
             }
         }
 
+        public ExplorerItemsStates ItemsState { get; set; }
+
+        public DateTimeOffset LastTypedCharacterDate { get; set; }
+
         public IExplorerItem SelectedItem
         {
             get
@@ -90,6 +111,8 @@ namespace kmd.Core.Explorer
                 Set(ref _selectedItem, value);
             }
         }
+
+        public IExplorerItem SelectedItemBeforeExpanding { get; set; }
 
         public ObservableCollection<IExplorerItem> SelectedItems
         {
@@ -103,58 +126,9 @@ namespace kmd.Core.Explorer
             }
         }
 
-        private IStorageFolder _currentFolder = null;
-
-        private ObservableCollection<IStorageFolder> _currentFolderExpandedRoots;
-
-        private ObservableCollection<IExplorerItem> _explorerItems;
-
-        private bool _isBusy = false;
-
-        private bool _isPathBoxFocused = false;
-
-        private IExplorerItem _selectedItem = null;
-
-        private ObservableCollection<IExplorerItem> _selectedItems;
-
-        #endregion View State
-
-        #region Internal State
-
-        public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
-        public FilterOptions FilterOptions { get; set; }
-        public ExplorerItemsStates ItemsState { get; set; }
-        public DateTimeOffset LastTypedCharacterDate { get; set; }
-        public IExplorerItem SelectedItemBeforeExpanding { get; set; }
         public string TypedText { get; set; }
 
-        #endregion Internal State
-
-        #region Services
-
-        protected readonly IExplorerItemMapper _explorerItemMapper;
-        protected readonly IStorageFolderLister _folderLister;
-        protected readonly IStorageFolderRootsExpander _folderRootsExpander;
-
-        #endregion Services
-
-        public ExplorerViewModel(ICommandBindingsProvider commandBindingsProvider,
-            IStorageFolderRootsExpander folderRootsExpander,
-            IStorageFolderLister folderLister,
-            IExplorerItemMapper explorerItemMapper)
-        {
-            _folderRootsExpander = folderRootsExpander ?? throw new ArgumentNullException(nameof(folderRootsExpander));
-            _folderLister = folderLister ?? throw new ArgumentNullException(nameof(folderLister));
-            _explorerItemMapper = explorerItemMapper ?? throw new ArgumentNullException(nameof(explorerItemMapper));
-
-            if (commandBindingsProvider == null) throw new ArgumentNullException(nameof(commandBindingsProvider));
-            CommandBindings = commandBindingsProvider.GetBindings(this);
-        }
-
-        public CommandBindings CommandBindings { get; internal set; }
-
         public async Task GoToAsync(IStorageFolder folder)
-
         {
             if (folder == null) return;
 
@@ -169,6 +143,7 @@ namespace kmd.Core.Explorer
             CurrentFolder = folder;
             ItemsState = ExplorerItemsStates.Default;
             ExplorerItems = await _explorerItemMapper.MapAsync(items);
+
             IsBusy = false;
         }
 
@@ -177,6 +152,10 @@ namespace kmd.Core.Explorer
         {
             await GoToAsync(CurrentFolder);
         }
+
+        protected readonly IExplorerItemMapper _explorerItemMapper;
+        protected readonly IStorageFolderLister _folderLister;
+        protected readonly IStorageFolderRootsExpander _folderRootsExpander;
 
         protected async Task AppendAdditionalItems()
         {
@@ -214,5 +193,19 @@ namespace kmd.Core.Explorer
             SelectedItem = selectedItem;
             SelectedItemBeforeExpanding = null;
         }
+
+        private IStorageFolder _currentFolder = null;
+
+        private ObservableCollection<IStorageFolder> _currentFolderExpandedRoots;
+
+        private ObservableCollection<IExplorerItem> _explorerItems;
+
+        private bool _isBusy = false;
+
+        private bool _isPathBoxFocused = false;
+
+        private IExplorerItem _selectedItem = null;
+
+        private ObservableCollection<IExplorerItem> _selectedItems;
     }
 }

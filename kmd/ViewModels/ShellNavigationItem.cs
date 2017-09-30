@@ -11,31 +11,27 @@ namespace kmd.ViewModels
 {
     public class ShellNavigationItem : ViewModelBase
     {
-        public ShellNavigationItem(string label, Symbol symbol, string viewModelName)
-            : this(label, viewModelName)
+        public string Label { get; set; }
+
+        public Symbol Symbol { get; set; }
+
+        public string ViewModelName { get; set; }
+
+        private Visibility _selectedVis = Visibility.Collapsed;
+
+        public Visibility SelectedVis
         {
-            Symbol = symbol;
+            get { return _selectedVis; }
+
+            set { Set(ref _selectedVis, value); }
         }
 
-        public ShellNavigationItem(string label, IconElement icon, string viewModelName)
-            : this(label, viewModelName)
+        public char SymbolAsChar
         {
-            _iconElement = icon;
+            get { return (char)Symbol; }
         }
 
-        public ShellNavigationItem(string label, string viewModelName)
-        {
-            Label = label;
-            ViewModelName = viewModelName;
-
-            ThemeSelectorService.OnThemeChanged += (s, e) =>
-            {
-                if (!IsSelected)
-                {
-                    SelectedForeground = GetStandardTextColorBrush();
-                }
-            };
-        }
+        private IconElement _iconElement = null;
 
         public IconElement Icon
         {
@@ -64,6 +60,8 @@ namespace kmd.ViewModels
             }
         }
 
+        private bool _isSelected;
+
         public bool IsSelected
         {
             get
@@ -83,7 +81,7 @@ namespace kmd.ViewModels
             }
         }
 
-        public string Label { get; set; }
+        private SolidColorBrush _selectedForeground = null;
 
         public SolidColorBrush SelectedForeground
         {
@@ -92,35 +90,40 @@ namespace kmd.ViewModels
             set { Set(ref _selectedForeground, value); }
         }
 
-        public Visibility SelectedVis
+        public ShellNavigationItem(string label, Symbol symbol, string viewModelName)
+            : this(label, viewModelName)
         {
-            get { return _selectedVis; }
-
-            set { Set(ref _selectedVis, value); }
+            Symbol = symbol;
         }
 
-        public Symbol Symbol { get; set; }
-
-        public char SymbolAsChar
+        public ShellNavigationItem(string label, IconElement icon, string viewModelName)
+            : this(label, viewModelName)
         {
-            get { return (char)Symbol; }
+            _iconElement = icon;
         }
 
-        public string ViewModelName { get; set; }
-
-        public override string ToString()
+        public ShellNavigationItem(string label, string viewModelName)
         {
-            return Label;
-        }
+            Label = label;
+            ViewModelName = viewModelName;
 
-        private IconElement _iconElement = null;
-        private bool _isSelected;
-        private SolidColorBrush _selectedForeground = null;
-        private Visibility _selectedVis = Visibility.Collapsed;
+            ThemeSelectorService.OnThemeChanged += (s, e) =>
+            {
+                if (!IsSelected)
+                {
+                    SelectedForeground = GetStandardTextColorBrush();
+                }
+            };
+        }
 
         private SolidColorBrush GetStandardTextColorBrush()
         {
             return ThemeSelectorService.GetSystemControlForegroundForTheme();
+        }
+
+        public override string ToString()
+        {
+            return Label;
         }
     }
 }
