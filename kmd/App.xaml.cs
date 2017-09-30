@@ -1,4 +1,4 @@
-﻿using kmd.DI;
+﻿using kmd.DependecyInjection;
 using kmd.Services;
 using System;
 using Windows.ApplicationModel.Activation;

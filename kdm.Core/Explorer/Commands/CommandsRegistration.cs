@@ -1,9 +1,9 @@
 ﻿using kdm.Core.Explorer.Commands.Default;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace kdm.Core.Explorer.Commands.DI
+namespace kdm.Core.Explorer.Commands
 {
-    public static class ServiceCollectionExtensions
+    public static class CommandsRegistration
     {
         public static void AddExplorerDefaultCommands(this IServiceCollection sp)
         {

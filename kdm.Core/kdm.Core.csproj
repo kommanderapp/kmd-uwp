@@ -106,7 +106,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DI\ServiceCollectionExtensions.cs" />
+    <Compile Include="CoreRegistration.cs" />
     <Compile Include="Explorer\Commands\Abstractions\CommandBindings.cs" />
     <Compile Include="Explorer\Commands\Abstractions\ExplorerCommand.cs" />
     <Compile Include="Explorer\Commands\Abstractions\ICommandBindingsProvider.cs" />
@@ -126,7 +126,7 @@
     <Compile Include="Explorer\Commands\Default\OpenSelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\Default\PasteToCurrentFolderCommand.cs" />
     <Compile Include="Explorer\Commands\Default\TypingHiglightCommand.cs" />
-    <Compile Include="Explorer\Commands\DI\ServiceCollectionExtensions.cs" />
+    <Compile Include="Explorer\Commands\CommandsRegistration.cs" />
     <Compile Include="Explorer\Commands\ExplorerCommandAttribute.cs" />
     <Compile Include="Explorer\Contracts\ExplorerItemsStates.cs" />
     <Compile Include="Explorer\Contracts\IExplorerInternalState.cs" />

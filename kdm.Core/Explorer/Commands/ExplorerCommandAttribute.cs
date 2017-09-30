@@ -8,11 +8,13 @@ namespace kdm.Core.Explorer.Commands
     public class ExplorerCommandAttribute : Attribute
     {
         public string Name { get; }
+        public string Description { get; set; }
         public Hotkey Hotkey { get; }
 
-        public ExplorerCommandAttribute(string name = null, ModifierKeys modifierKey = ModifierKeys.None, VirtualKey key = VirtualKey.None)
+        public ExplorerCommandAttribute(string name = null, string description = null, ModifierKeys modifierKey = ModifierKeys.None, VirtualKey key = VirtualKey.None)
         {
             Name = name;
+            Description = description;
             if (modifierKey != ModifierKeys.None || key != VirtualKey.None)
             {
                 Hotkey = Hotkey.For(modifierKey, key);

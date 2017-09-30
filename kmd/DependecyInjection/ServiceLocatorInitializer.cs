@@ -9,7 +9,7 @@ using kmd.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Practices.ServiceLocation;
 
-namespace kmd.DI
+namespace kmd.DependecyInjection
 {
     public static class ServiceLocatorInitializer
     {

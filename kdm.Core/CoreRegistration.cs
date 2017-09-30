@@ -1,6 +1,5 @@
 ﻿using kdm.Core.Explorer.Commands;
 using kdm.Core.Explorer.Commands.Abstractions;
-using kdm.Core.Explorer.Commands.DI;
 using kdm.Core.Services.Contracts;
 using kdm.Core.Services.Impl;
 using kmd.Core.Explorer;
@@ -10,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace kdm.Core.DI
 {
-    public static class ServiceCollectionExtensions
+    public static class CoreRegistration
     {
         public static void AddCoreServices(this IServiceCollection sp)
         {
