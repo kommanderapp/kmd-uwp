@@ -108,29 +108,30 @@
   <ItemGroup>
     <Compile Include="CoreRegistration.cs" />
     <Compile Include="Explorer\Commands\Abstractions\CommandBindings.cs" />
-    <Compile Include="Explorer\Commands\Abstractions\ExplorerCommand.cs" />
+    <Compile Include="Explorer\Commands\Abstractions\ExplorerCommandBase.cs" />
     <Compile Include="Explorer\Commands\Abstractions\ICommandBindingsProvider.cs" />
     <Compile Include="Explorer\Commands\Abstractions\CommandInfo.cs" />
-    <Compile Include="Explorer\Commands\CommandBindingsProvider.cs" />
-    <Compile Include="Explorer\Commands\Default\CancelOperationsCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\CopySelectedItemCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\CutSelectedItemCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\DeleteSelectedItemCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\ExpandCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\FilterCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\GoToPathBoxCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\ItemPathToClipboardCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\NavigateByPathCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\NavigateCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\NavigateToParrentCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\OpenSelectedItemCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\PasteToCurrentFolderCommand.cs" />
-    <Compile Include="Explorer\Commands\Default\TypingHiglightCommand.cs" />
-    <Compile Include="Explorer\Commands\CommandsRegistration.cs" />
-    <Compile Include="Explorer\Commands\ExplorerCommandAttribute.cs" />
+    <Compile Include="Explorer\Commands\Configuration\CommandBindingsProvider.cs" />
+    <Compile Include="Explorer\Commands\CancelOperationsCommand.cs" />
+    <Compile Include="Explorer\Commands\CopySelectedItemCommand.cs" />
+    <Compile Include="Explorer\Commands\CutSelectedItemCommand.cs" />
+    <Compile Include="Explorer\Commands\DeleteSelectedItemCommand.cs" />
+    <Compile Include="Explorer\Commands\ExplodeCurrentFolderCommand.cs" />
+    <Compile Include="Explorer\Commands\FilterCommand.cs" />
+    <Compile Include="Explorer\Commands\GoToPathBoxCommand.cs" />
+    <Compile Include="Explorer\Commands\ItemPathToClipboardCommand.cs" />
+    <Compile Include="Explorer\Commands\NavigateByPathCommand.cs" />
+    <Compile Include="Explorer\Commands\NavigateCommand.cs" />
+    <Compile Include="Explorer\Commands\NavigateToParrentCommand.cs" />
+    <Compile Include="Explorer\Commands\OpenSelectedItemCommand.cs" />
+    <Compile Include="Explorer\Commands\PasteToCurrentFolderCommand.cs" />
+    <Compile Include="Explorer\Commands\TypingHiglightCommand.cs" />
+    <Compile Include="Explorer\Commands\Configuration\CommandsRegistration.cs" />
+    <Compile Include="Explorer\Commands\Configuration\ExplorerCommandAttribute.cs" />
     <Compile Include="Explorer\Contracts\ExplorerItemsStates.cs" />
     <Compile Include="Explorer\Contracts\IExplorerInternalState.cs" />
-    <Compile Include="Explorer\Contracts\IExplorerModel.cs" />
+    <Compile Include="Explorer\Contracts\IExplorerItem.cs" />
+    <Compile Include="Explorer\Contracts\IExplorerViewModel.cs" />
     <Compile Include="Explorer\Contracts\IExplorerViewState.cs" />
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbControl.xaml.cs">
       <DependentUpon>BreadcrumbControl.xaml</DependentUpon>
@@ -139,16 +140,16 @@
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbItem.cs" />
     <Compile Include="Explorer\Controls\ExplorerListView.cs" />
     <Compile Include="Explorer\Controls\PathBox.cs" />
+    <Compile Include="Explorer\Models\ExplorerItem.cs" />
     <Compile Include="Explorer\ExplorerViewModelLocator.cs" />
     <Compile Include="Explorer\ExplorerControl.xaml.cs">
       <DependentUpon>ExplorerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Explorer\ExplorerModel.cs" />
     <Compile Include="Explorer\ExplorerViewModel.cs" />
     <Compile Include="Hotkeys\Hotkey.cs" />
     <Compile Include="Hotkeys\HotkeyEventArg.cs" />
     <Compile Include="Hotkeys\KeyEventsAgregator.cs" />
-    <Compile Include="Explorer\UpperFolderLinkModel.cs" />
+    <Compile Include="Explorer\Models\ExplorerUpperFolderLinkItem.cs" />
     <Compile Include="Behaviors\FocusBehavior.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\ResourceExtensions.cs" />
@@ -159,8 +160,10 @@
     <Compile Include="Services\Contracts\ICilpboardService.cs" />
     <Compile Include="Services\Contracts\IDriveAccessService.cs" />
     <Compile Include="Services\Contracts\IExplorerInitialLocationService.cs" />
+    <Compile Include="Services\Contracts\IExplorerItemMapper.cs" />
     <Compile Include="Services\Impl\CilpboardService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Impl\ExplorerItemMapper.cs" />
     <Compile Include="Services\Impl\ExplorerLocationService.cs" />
     <EmbeddedResource Include="Properties\kdm.Core.rd.xml" />
   </ItemGroup>

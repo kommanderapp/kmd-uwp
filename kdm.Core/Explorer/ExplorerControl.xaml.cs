@@ -1,4 +1,4 @@
-﻿using kdm.Core.Explorer.Commands.Default;
+﻿using kdm.Core.Explorer.Commands;
 using kmd.Core.Explorer.Controls;
 using kmd.Core.Hotkeys;
 using kmd.Helpers;
@@ -61,7 +61,7 @@ namespace kmd.Core.Explorer
             var command = ViewModel.CommandBindings.GetCommandByHotkey(e.Hotkey);
             if (command != null)
             {
-                command.Execute(ViewModel.Model);
+                command.Execute(null);
                 e.Handled = true;
             }
         }

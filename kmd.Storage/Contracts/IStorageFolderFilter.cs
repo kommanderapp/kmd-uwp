@@ -12,6 +12,6 @@ namespace kmd.Storage.Contracts
 
     public interface IStorageFolderFilter
     {
-        Task<IEnumerable<IExplorerItem>> FilterAsync(IStorageFolder folder, FilterOptions options, CancellationToken cancellationToken = default(CancellationToken));
+        Task<IEnumerable<IStorageItem2>> FilterAsync(IStorageFolder folder, FilterOptions options, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

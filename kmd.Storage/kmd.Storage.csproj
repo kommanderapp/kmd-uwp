@@ -109,19 +109,19 @@
     <Compile Include="Contracts\IFileLauncher.cs" />
     <Compile Include="Contracts\IFolderPickerService.cs" />
     <Compile Include="Contracts\IPathService.cs" />
-    <Compile Include="Contracts\IStorageFolderExpander.cs" />
+    <Compile Include="Contracts\IStorageFolderExploder.cs" />
     <Compile Include="Contracts\IStorageFolderFilter.cs" />
     <Compile Include="Contracts\IStorageFolderLister.cs" />
-    <Compile Include="Contracts\IExplorerItem.cs" />
+    <Compile Include="Contracts\IStorageFolderRootsExpander.cs" />
     <Compile Include="Extensions\StorageFolderExtensions.cs" />
     <Compile Include="Impl\FileLauncher.cs" />
     <Compile Include="Impl\FolderPickerService.cs" />
     <Compile Include="Impl\PathService.cs" />
     <Compile Include="Impl\StorageFolderFilter.cs" />
+    <Compile Include="Impl\StorageFolderRootsExpander.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Impl\StorageFolderExpander.cs" />
+    <Compile Include="Impl\StorageFolderExploder.cs" />
     <Compile Include="Impl\StorageFolderLister.cs" />
-    <Compile Include="Impl\ExplorerItem.cs" />
     <EmbeddedResource Include="Properties\kmd.Storage.rd.xml" />
   </ItemGroup>
   <ItemGroup>

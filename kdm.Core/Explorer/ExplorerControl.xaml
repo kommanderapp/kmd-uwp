@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:bh="using:kdm.Core.Behaviors"
+    xmlns:contracts="using:kmd.Core.Explorer.Contracts"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls1="using:kmd.Core.Explorer.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -109,7 +110,7 @@
                         </controls:ScrollHeader>
                     </ListView.Header>
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="storage:IExplorerItem">
+                        <DataTemplate x:DataType="contracts:IExplorerItem">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />

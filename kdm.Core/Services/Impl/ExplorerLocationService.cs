@@ -116,9 +116,10 @@ namespace kdm.Core.Services.Impl
         private async Task AddDriveTokenSettingAsync(string drive, string token)
         {
             var driveTokens = await GetDriveTokensSettingAsync();
-            var driveTokensList = new List<DriveToken>(driveTokens);
-
-            driveTokensList.Add(new DriveToken(drive, token));
+            var driveTokensList = new List<DriveToken>(driveTokens)
+            {
+                new DriveToken(drive, token)
+            };
 
             await ApplicationData.Current.LocalSettings.SaveAsync(_settingsKey, driveTokensList);
         }

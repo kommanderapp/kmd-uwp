@@ -9,11 +9,11 @@ namespace kmd.Storage.Impl
 {
     public class StorageFolderLister : IStorageFolderLister
     {
-        public async Task<IEnumerable<IExplorerItem>> ListAsync(IStorageFolder folder, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<IEnumerable<IStorageItem2>> ListAsync(IStorageFolder folder, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (folder == null) throw new ArgumentNullException(nameof(folder));
 
-            var result = new List<ExplorerItem>();
+            var result = new List<IStorageItem2>();
 
             foreach (var item in await folder.GetItemsAsync())
             {
@@ -23,8 +23,7 @@ namespace kmd.Storage.Impl
                 }
 
                 if (!(item is IStorageItem2)) continue;
-                var storageItem = await ExplorerItem.CreateAsync(item as IStorageItem2);
-                result.Add(storageItem);
+                result.Add((IStorageItem2)item);
             }
 
             return result;

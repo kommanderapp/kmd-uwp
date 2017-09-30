@@ -7,6 +7,6 @@ namespace kmd.Storage.Contracts
 {
     public interface IStorageFolderLister
     {
-        Task<IEnumerable<IExplorerItem>> ListAsync(IStorageFolder folder, CancellationToken cancellationToken = default(CancellationToken));
+        Task<IEnumerable<IStorageItem2>> ListAsync(IStorageFolder folder, CancellationToken cancellationToken = default(CancellationToken));
     }
 }
