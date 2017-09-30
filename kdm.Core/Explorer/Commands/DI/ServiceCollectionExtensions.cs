@@ -12,6 +12,7 @@ namespace kdm.Core.Explorer.Commands.DI
     {
         public static void AddExplorerDefaultCommands(this IServiceCollection sp)
         {
+            sp.AddTransient<GoToPathBoxCommand>();
             sp.AddTransient<CancelOperationsCommand>();
             sp.AddTransient<CopySelectedItemCommand>();
             sp.AddTransient<CutSelectedItemCommand>();

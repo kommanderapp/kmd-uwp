@@ -9,6 +9,7 @@ namespace kmd.Core.Explorer.Contracts
 {
     public interface IExplorerViewState
     {
+        bool IsPathBoxFocused { get; set; }
         bool IsBusy { get; set; }
         ObservableCollection<IExplorerItem> ExplorerItems { get; set; }
         IStorageFolder CurrentFolder { get; set; }

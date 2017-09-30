@@ -18,6 +18,7 @@ using kmd.Core.Helpers;
 using kdm.Core.Commands.Abstractions;
 using kdm.Core.Explorer.Commands.Abstractions;
 using kdm.Core.Explorer.Commands.Default;
+using kdm.Core.Helpers;
 
 namespace kmd.Core.Explorer
 {
@@ -65,6 +66,20 @@ namespace kmd.Core.Explorer
 
         private ObservableCollection<IStorageFolder> _currentFolderExpandedRoots;
 
+        public bool IsPathBoxFocused
+        {
+            get
+            {
+                return _isPathBoxFocused;
+            }
+            set
+            {
+                Set(ref _isPathBoxFocused, value);
+            }
+        }
+
+        private bool _isPathBoxFocused = false;
+
         public IExplorerItem SelectedItem
         {
             get
@@ -88,7 +103,7 @@ namespace kmd.Core.Explorer
             set
             {
                 Set(ref _explorerItems, value);
-                OnExplorerItemsUpdate();
+                OnExplorerItemsUpdateAsync().FireAndForget();
             }
         }
 
@@ -120,14 +135,14 @@ namespace kmd.Core.Explorer
             CommandBindings = commandBindingsProvider.GetBindings(Model);
         }
 
-        protected void OnExplorerItemsUpdate()
+        protected async Task OnExplorerItemsUpdateAsync()
         {
             Model.InternalState.TypedText = string.Empty;
-            AppendAdditionalItems();
+            await AppendAdditionalItems();
             UpdateSelectedItem();
         }
 
-        protected async void AppendAdditionalItems()
+        protected async Task AppendAdditionalItems()
         {
             if (Model.InternalState.ItemsState == ExplorerItemsStates.Default && CurrentFolder != null)
             {
