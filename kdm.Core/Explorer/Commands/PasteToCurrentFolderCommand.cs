@@ -12,8 +12,6 @@ namespace kdm.Core.Explorer.Commands
     [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.Enter)]
     public class PasteToCurrentFolderCommand : ExplorerCommandBase
     {
-        protected readonly ICilpboardService _clipboardService;
-
         public PasteToCurrentFolderCommand(ICilpboardService cilpboardService)
         {
             _clipboardService = cilpboardService ?? throw new ArgumentNullException(nameof(_clipboardService));
@@ -53,5 +51,7 @@ namespace kdm.Core.Explorer.Commands
 
             ViewModel.IsBusy = false;
         }
+
+        protected readonly ICilpboardService _clipboardService;
     }
 }

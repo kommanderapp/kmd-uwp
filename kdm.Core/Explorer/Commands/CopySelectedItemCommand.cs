@@ -14,8 +14,6 @@ namespace kdm.Core.Explorer.Commands
     [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.Escape)]
     public class CopySelectedItemCommand : ExplorerCommandBase
     {
-        protected readonly ICilpboardService _clipboardService;
-
         public CopySelectedItemCommand(ICilpboardService cilpboardService)
         {
             _clipboardService = cilpboardService ?? throw new ArgumentNullException(nameof(cilpboardService));
@@ -39,5 +37,7 @@ namespace kdm.Core.Explorer.Commands
             }
             await Task.FromResult(0);
         }
+
+        protected readonly ICilpboardService _clipboardService;
     }
 }

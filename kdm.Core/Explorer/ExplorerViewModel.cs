@@ -18,20 +18,6 @@ namespace kmd.Core.Explorer
     {
         #region View State
 
-        public bool IsBusy
-        {
-            get
-            {
-                return _isBusy;
-            }
-            set
-            {
-                Set(ref _isBusy, value);
-            }
-        }
-
-        private bool _isBusy = false;
-
         public IStorageFolder CurrentFolder
         {
             get
@@ -44,8 +30,6 @@ namespace kmd.Core.Explorer
             }
         }
 
-        private IStorageFolder _currentFolder = null;
-
         public ObservableCollection<IStorageFolder> CurrentFolderExpandedRoots
         {
             get
@@ -57,36 +41,6 @@ namespace kmd.Core.Explorer
                 Set(ref _currentFolderExpandedRoots, value);
             }
         }
-
-        private ObservableCollection<IStorageFolder> _currentFolderExpandedRoots;
-
-        public bool IsPathBoxFocused
-        {
-            get
-            {
-                return _isPathBoxFocused;
-            }
-            set
-            {
-                Set(ref _isPathBoxFocused, value);
-            }
-        }
-
-        private bool _isPathBoxFocused = false;
-
-        public IExplorerItem SelectedItem
-        {
-            get
-            {
-                return _selectedItem;
-            }
-            set
-            {
-                Set(ref _selectedItem, value);
-            }
-        }
-
-        private IExplorerItem _selectedItem = null;
 
         public ObservableCollection<IExplorerItem> ExplorerItems
         {
@@ -101,7 +55,41 @@ namespace kmd.Core.Explorer
             }
         }
 
-        private ObservableCollection<IExplorerItem> _explorerItems;
+        public bool IsBusy
+        {
+            get
+            {
+                return _isBusy;
+            }
+            set
+            {
+                Set(ref _isBusy, value);
+            }
+        }
+
+        public bool IsPathBoxFocused
+        {
+            get
+            {
+                return _isPathBoxFocused;
+            }
+            set
+            {
+                Set(ref _isPathBoxFocused, value);
+            }
+        }
+
+        public IExplorerItem SelectedItem
+        {
+            get
+            {
+                return _selectedItem;
+            }
+            set
+            {
+                Set(ref _selectedItem, value);
+            }
+        }
 
         public ObservableCollection<IExplorerItem> SelectedItems
         {
@@ -115,30 +103,40 @@ namespace kmd.Core.Explorer
             }
         }
 
+        private IStorageFolder _currentFolder = null;
+
+        private ObservableCollection<IStorageFolder> _currentFolderExpandedRoots;
+
+        private ObservableCollection<IExplorerItem> _explorerItems;
+
+        private bool _isBusy = false;
+
+        private bool _isPathBoxFocused = false;
+
+        private IExplorerItem _selectedItem = null;
+
         private ObservableCollection<IExplorerItem> _selectedItems;
 
         #endregion View State
 
         #region Internal State
 
-        public IExplorerItem SelectedItemBeforeExpanding { get; set; }
-        public string TypedText { get; set; }
+        public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
         public FilterOptions FilterOptions { get; set; }
         public ExplorerItemsStates ItemsState { get; set; }
-        public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
         public DateTimeOffset LastTypedCharacterDate { get; set; }
+        public IExplorerItem SelectedItemBeforeExpanding { get; set; }
+        public string TypedText { get; set; }
 
         #endregion Internal State
 
         #region Services
 
-        protected readonly IStorageFolderRootsExpander _folderRootsExpander;
-        protected readonly IStorageFolderLister _folderLister;
         protected readonly IExplorerItemMapper _explorerItemMapper;
+        protected readonly IStorageFolderLister _folderLister;
+        protected readonly IStorageFolderRootsExpander _folderRootsExpander;
 
         #endregion Services
-
-        public CommandBindings CommandBindings { get; internal set; }
 
         public ExplorerViewModel(ICommandBindingsProvider commandBindingsProvider,
             IStorageFolderRootsExpander folderRootsExpander,
@@ -153,42 +151,7 @@ namespace kmd.Core.Explorer
             CommandBindings = commandBindingsProvider.GetBindings(this);
         }
 
-        protected async Task OnExplorerItemsUpdateAsync()
-        {
-            TypedText = string.Empty;
-            await AppendAdditionalItems();
-            UpdateSelectedItem();
-        }
-
-        protected async Task AppendAdditionalItems()
-        {
-            if (ItemsState == ExplorerItemsStates.Default && CurrentFolder != null)
-            {
-                var upperFolder = await ((StorageFolder)CurrentFolder).GetParentAsync();
-                if (upperFolder != null)
-                {
-                    var upperFolderModel = await ExplorerUpperFolderLinkItem.CreateAsync(upperFolder);
-                    ExplorerItems.Insert(0, upperFolderModel);
-                }
-            }
-        }
-
-        protected void UpdateSelectedItem()
-        {
-            IExplorerItem selectedItem = null;
-            if (SelectedItemBeforeExpanding != null)
-            {
-                selectedItem = ExplorerItems.FirstOrDefault(x => x.Path == SelectedItemBeforeExpanding.Path);
-            }
-
-            if (selectedItem == null)
-            {
-                selectedItem = ExplorerItems.FirstOrDefault();
-            }
-
-            SelectedItem = selectedItem;
-            SelectedItemBeforeExpanding = null;
-        }
+        public CommandBindings CommandBindings { get; internal set; }
 
         public async Task GoToAsync(IStorageFolder folder)
 
@@ -213,6 +176,43 @@ namespace kmd.Core.Explorer
 
         {
             await GoToAsync(CurrentFolder);
+        }
+
+        protected async Task AppendAdditionalItems()
+        {
+            if (ItemsState == ExplorerItemsStates.Default && CurrentFolder != null)
+            {
+                var upperFolder = await ((StorageFolder)CurrentFolder).GetParentAsync();
+                if (upperFolder != null)
+                {
+                    var upperFolderModel = await ExplorerUpperFolderLinkItem.CreateAsync(upperFolder);
+                    ExplorerItems.Insert(0, upperFolderModel);
+                }
+            }
+        }
+
+        protected async Task OnExplorerItemsUpdateAsync()
+        {
+            TypedText = string.Empty;
+            await AppendAdditionalItems();
+            UpdateSelectedItem();
+        }
+
+        protected void UpdateSelectedItem()
+        {
+            IExplorerItem selectedItem = null;
+            if (SelectedItemBeforeExpanding != null)
+            {
+                selectedItem = ExplorerItems.FirstOrDefault(x => x.Path == SelectedItemBeforeExpanding.Path);
+            }
+
+            if (selectedItem == null)
+            {
+                selectedItem = ExplorerItems.FirstOrDefault();
+            }
+
+            SelectedItem = selectedItem;
+            SelectedItemBeforeExpanding = null;
         }
     }
 }

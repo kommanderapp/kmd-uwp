@@ -14,8 +14,6 @@ namespace kdm.Core.Explorer.Commands
     [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.X)]
     internal class CutSelectedItemCommand : ExplorerCommandBase
     {
-        protected readonly ICilpboardService _clipboardService;
-
         public CutSelectedItemCommand(ICilpboardService cilpboardService)
         {
             _clipboardService = cilpboardService ?? throw new ArgumentNullException(nameof(cilpboardService));
@@ -41,5 +39,7 @@ namespace kdm.Core.Explorer.Commands
 
             await Task.FromResult(0);
         }
+
+        protected readonly ICilpboardService _clipboardService;
     }
 }

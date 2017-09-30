@@ -5,8 +5,8 @@ namespace kdm.Core.Services.Contracts
 {
     public interface IExplorerLocationService
     {
-        Task<IStorageFolder> PickInitialLocationAsync();
-
         Task<IStorageFolder> GtoToLocationAsync(string path);
+
+        Task<IStorageFolder> PickInitialLocationAsync();
     }
 }

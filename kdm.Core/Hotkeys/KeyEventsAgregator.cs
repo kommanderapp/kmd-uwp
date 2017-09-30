@@ -6,8 +6,6 @@ namespace kmd.Core.Hotkeys
 {
     public class KeyEventsAgregator
     {
-        protected bool _isCtrlKeyPressed = false;
-
         public event EventHandler<HotkeyEventArg> HotKey;
 
         public void KeyDownHandler(object sender, KeyRoutedEventArgs e)
@@ -31,5 +29,7 @@ namespace kmd.Core.Hotkeys
         {
             if (e.Key == VirtualKey.Control) _isCtrlKeyPressed = false;
         }
+
+        protected bool _isCtrlKeyPressed = false;
     }
 }

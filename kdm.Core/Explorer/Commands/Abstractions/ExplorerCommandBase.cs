@@ -6,6 +6,8 @@ namespace kdm.Core.Explorer.Commands.Abstractions
 {
     public abstract class ExplorerCommandBase : ICommand
     {
+        public event EventHandler CanExecuteChanged;
+
         public IExplorerViewModel ViewModel
         {
             get
@@ -22,12 +24,10 @@ namespace kdm.Core.Explorer.Commands.Abstractions
             }
         }
 
-        private IExplorerViewModel _model;
-
-        public event EventHandler CanExecuteChanged;
-
         public abstract bool CanExecute(object parameter);
 
         public abstract void Execute(object parameter);
+
+        private IExplorerViewModel _model;
     }
 }

@@ -6,8 +6,6 @@ namespace kmd.Helpers
     internal static class Singleton<T>
         where T : new()
     {
-        private static ConcurrentDictionary<Type, T> _instances = new ConcurrentDictionary<Type, T>();
-
         public static T Instance
         {
             get
@@ -15,5 +13,7 @@ namespace kmd.Helpers
                 return _instances.GetOrAdd(typeof(T), (t) => new T());
             }
         }
+
+        private static ConcurrentDictionary<Type, T> _instances = new ConcurrentDictionary<Type, T>();
     }
 }

@@ -15,20 +15,14 @@ namespace kmd.Services
     // For more information on application activation see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/activation.md
     internal class ActivationService
     {
-        private readonly App _app;
-        private readonly UIElement _shell;
-        private readonly Type _defaultNavItem;
-
-        private ViewModels.ViewModelLocator Locator => Application.Current.Resources["Locator"] as ViewModels.ViewModelLocator;
-
-        private NavigationServiceEx NavigationService => Locator.NavigationService;
-
         public ActivationService(App app, Type defaultNavItem, UIElement shell = null)
         {
             _app = app;
             _shell = shell ?? new Frame();
             _defaultNavItem = defaultNavItem;
         }
+
+        private NavigationServiceEx NavigationService => Locator.NavigationService;
 
         public async Task ActivateAsync(object activationArgs)
         {
@@ -79,33 +73,10 @@ namespace kmd.Services
             }
         }
 
-        private async Task InitializeAsync()
-        {
-            await ThemeSelectorService.InitializeAsync();
-            await Task.CompletedTask;
-        }
-
-        private async Task StartupAsync()
-        {
-            ThemeSelectorService.SetRequestedTheme();
-            await Task.CompletedTask;
-        }
-
-        private IEnumerable<ActivationHandler> GetActivationHandlers()
-        {
-            yield return Singleton<ToastNotificationsService>.Instance;
-        }
-
-        private bool IsInteractive(object args)
-        {
-            return args is IActivatedEventArgs;
-        }
-
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
-        {
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationService.CanGoBack ?
-                AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-        }
+        private readonly App _app;
+        private readonly Type _defaultNavItem;
+        private readonly UIElement _shell;
+        private ViewModels.ViewModelLocator Locator => Application.Current.Resources["Locator"] as ViewModels.ViewModelLocator;
 
         private void ActivationService_BackRequested(object sender, BackRequestedEventArgs e)
         {
@@ -114,6 +85,34 @@ namespace kmd.Services
                 NavigationService.GoBack();
                 e.Handled = true;
             }
+        }
+
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationService.CanGoBack ?
+                AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+        }
+
+        private IEnumerable<ActivationHandler> GetActivationHandlers()
+        {
+            yield return Singleton<ToastNotificationsService>.Instance;
+        }
+
+        private async Task InitializeAsync()
+        {
+            await ThemeSelectorService.InitializeAsync();
+            await Task.CompletedTask;
+        }
+
+        private bool IsInteractive(object args)
+        {
+            return args is IActivatedEventArgs;
+        }
+
+        private async Task StartupAsync()
+        {
+            ThemeSelectorService.SetRequestedTheme();
+            await Task.CompletedTask;
         }
     }
 }

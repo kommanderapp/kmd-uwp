@@ -7,19 +7,15 @@ namespace kmd.Activation
 {
     internal class DefaultLaunchActivationHandler : ActivationHandler<LaunchActivatedEventArgs>
     {
-        private readonly string _navElement;
-
-        private NavigationServiceEx NavigationService
-        {
-            get
-            {
-                return Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<NavigationServiceEx>();
-            }
-        }
-
         public DefaultLaunchActivationHandler(Type navElement)
         {
             _navElement = navElement.FullName;
+        }
+
+        protected override bool CanHandleInternal(LaunchActivatedEventArgs args)
+        {
+            // None of the ActivationHandlers has handled the app activation
+            return NavigationService.Frame.Content == null;
         }
 
         protected override async Task HandleInternalAsync(LaunchActivatedEventArgs args)
@@ -32,10 +28,14 @@ namespace kmd.Activation
             await Task.CompletedTask;
         }
 
-        protected override bool CanHandleInternal(LaunchActivatedEventArgs args)
+        private readonly string _navElement;
+
+        private NavigationServiceEx NavigationService
         {
-            // None of the ActivationHandlers has handled the app activation
-            return NavigationService.Frame.Content == null;
+            get
+            {
+                return Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<NavigationServiceEx>();
+            }
         }
     }
 }

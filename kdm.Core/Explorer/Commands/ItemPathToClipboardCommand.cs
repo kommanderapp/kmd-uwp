@@ -12,8 +12,6 @@ namespace kdm.Core.Explorer.Commands
     [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.Enter)]
     public class ItemPathToClipboardCommand : ExplorerCommandBase
     {
-        protected readonly ICilpboardService _cilpboardService;
-
         public ItemPathToClipboardCommand(ICilpboardService cilpboardService)
         {
             _cilpboardService = cilpboardService ?? throw new ArgumentNullException(nameof(cilpboardService));
@@ -36,5 +34,7 @@ namespace kdm.Core.Explorer.Commands
 
             await Task.FromResult(0);
         }
+
+        protected readonly ICilpboardService _cilpboardService;
     }
 }

@@ -9,8 +9,9 @@ namespace kmd.ViewModels
 {
     public class SettingsViewModel : ViewModelBase
     {
-        // TODO WTS: Add other settings as necessary. For help see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/pages/settings.md
-        private ElementTheme _elementTheme = ThemeSelectorService.Theme;
+        public SettingsViewModel()
+        {
+        }
 
         public ElementTheme ElementTheme
         {
@@ -18,17 +19,6 @@ namespace kmd.ViewModels
 
             set { Set(ref _elementTheme, value); }
         }
-
-        private string _versionDescription;
-
-        public string VersionDescription
-        {
-            get { return _versionDescription; }
-
-            set { Set(ref _versionDescription, value); }
-        }
-
-        private ICommand _switchThemeCommand;
 
         public ICommand SwitchThemeCommand
         {
@@ -47,14 +37,24 @@ namespace kmd.ViewModels
             }
         }
 
-        public SettingsViewModel()
+        public string VersionDescription
         {
+            get { return _versionDescription; }
+
+            set { Set(ref _versionDescription, value); }
         }
 
         public void Initialize()
         {
             VersionDescription = GetVersionDescription();
         }
+
+        // TODO WTS: Add other settings as necessary. For help see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/pages/settings.md
+        private ElementTheme _elementTheme = ThemeSelectorService.Theme;
+
+        private ICommand _switchThemeCommand;
+
+        private string _versionDescription;
 
         private string GetVersionDescription()
         {

@@ -8,8 +8,6 @@ namespace kdm.Core.Explorer.Commands
     [ExplorerCommand(key: VirtualKey.Enter)]
     internal class OpenSelectedItemCommand : ExplorerCommandBase
     {
-        private IFileLauncher _fileLauncher;
-
         public OpenSelectedItemCommand(IFileLauncher fileLauncher)
         {
             _fileLauncher = fileLauncher;
@@ -36,5 +34,7 @@ namespace kdm.Core.Explorer.Commands
 
             ViewModel.IsBusy = false;
         }
+
+        private IFileLauncher _fileLauncher;
     }
 }

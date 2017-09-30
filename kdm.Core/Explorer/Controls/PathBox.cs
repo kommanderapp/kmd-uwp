@@ -7,11 +7,9 @@ namespace kmd.Core.Explorer.Controls
 {
     public class PathBox : TextBox
     {
-        public Control FocusFallbackControl
-        {
-            get { return (Control)GetValue(FocusFallbackControlProperty); }
-            set { SetValue(FocusFallbackControlProperty, value); }
-        }
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty EscFallbackValueProperty =
+            DependencyProperty.Register("EscFallbackValue", typeof(string), typeof(PathBox), new PropertyMetadata(0));
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FocusFallbackControlProperty =
@@ -23,9 +21,11 @@ namespace kmd.Core.Explorer.Controls
             set { SetValue(EscFallbackValueProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty EscFallbackValueProperty =
-            DependencyProperty.Register("EscFallbackValue", typeof(string), typeof(PathBox), new PropertyMetadata(0));
+        public Control FocusFallbackControl
+        {
+            get { return (Control)GetValue(FocusFallbackControlProperty); }
+            set { SetValue(FocusFallbackControlProperty, value); }
+        }
 
         protected override void OnGotFocus(RoutedEventArgs e)
         {

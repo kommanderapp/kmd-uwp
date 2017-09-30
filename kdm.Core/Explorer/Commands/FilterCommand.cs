@@ -9,9 +9,6 @@ namespace kdm.Core.Explorer.Commands
     [ExplorerCommand]
     public class FilterCommand : ExplorerCommandBase
     {
-        protected readonly IStorageFolderFilter _storageFolderFilter;
-        protected readonly IExplorerItemMapper _explorerItemMapper;
-
         public FilterCommand(IStorageFolderFilter storageFolderFilter, IExplorerItemMapper explorerItemMapper)
         {
             _storageFolderFilter = storageFolderFilter ?? throw new ArgumentNullException(nameof(storageFolderFilter));
@@ -34,5 +31,8 @@ namespace kdm.Core.Explorer.Commands
 
             ViewModel.IsBusy = false;
         }
+
+        protected readonly IExplorerItemMapper _explorerItemMapper;
+        protected readonly IStorageFolderFilter _storageFolderFilter;
     }
 }

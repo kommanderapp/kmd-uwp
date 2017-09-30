@@ -4,8 +4,6 @@ namespace kmd.Core.Helpers
 {
     internal static class ResourceExtensions
     {
-        private static readonly ResourceLoader _resLoader = new ResourceLoader();
-
         public static string GetLocalized(this string resourceKey)
         {
             var localizedString = _resLoader.GetString(resourceKey);
@@ -18,5 +16,7 @@ namespace kmd.Core.Helpers
                 return localizedString;
             }
         }
+
+        private static readonly ResourceLoader _resLoader = new ResourceLoader();
     }
 }

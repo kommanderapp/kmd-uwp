@@ -7,10 +7,6 @@ namespace kdm.Core.Explorer.Commands.Configuration
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ExplorerCommandAttribute : Attribute
     {
-        public string Name { get; }
-        public string Description { get; set; }
-        public Hotkey Hotkey { get; }
-
         public ExplorerCommandAttribute(string name = null, string description = null, ModifierKeys modifierKey = ModifierKeys.None, VirtualKey key = VirtualKey.None)
         {
             Name = name;
@@ -20,5 +16,9 @@ namespace kdm.Core.Explorer.Commands.Configuration
                 Hotkey = Hotkey.For(modifierKey, key);
             }
         }
+
+        public string Description { get; set; }
+        public Hotkey Hotkey { get; }
+        public string Name { get; }
     }
 }

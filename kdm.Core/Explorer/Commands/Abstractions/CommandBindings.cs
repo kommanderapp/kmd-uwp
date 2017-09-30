@@ -8,7 +8,10 @@ namespace kdm.Core.Explorer.Commands.Abstractions
 {
     public class CommandBindings
     {
-        private IEnumerable<CommandInfo> _underlyingCommands;
+        public CommandBindings(IEnumerable<CommandInfo> commands)
+        {
+            _underlyingCommands = commands ?? throw new ArgumentNullException(nameof(commands));
+        }
 
         public ICommand this[string name]
         {
@@ -18,9 +21,9 @@ namespace kdm.Core.Explorer.Commands.Abstractions
             }
         }
 
-        public CommandBindings(IEnumerable<CommandInfo> commands)
+        public ICommand GetCommandByHotkey(Hotkey hotkey)
         {
-            _underlyingCommands = commands ?? throw new ArgumentNullException(nameof(commands));
+            return _underlyingCommands.FirstOrDefault(x => x.Hotkey == hotkey)?.Command;
         }
 
         public ICommand GetCommandByName(string name)
@@ -28,9 +31,6 @@ namespace kdm.Core.Explorer.Commands.Abstractions
             return _underlyingCommands.FirstOrDefault(x => x.Name == name)?.Command;
         }
 
-        public ICommand GetCommandByHotkey(Hotkey hotkey)
-        {
-            return _underlyingCommands.FirstOrDefault(x => x.Hotkey == hotkey)?.Command;
-        }
+        private IEnumerable<CommandInfo> _underlyingCommands;
     }
 }

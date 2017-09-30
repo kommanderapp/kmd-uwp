@@ -8,19 +8,19 @@ namespace kmd.Core.Explorer.Contracts
     {
         IStorageFile AsFile { get; }
         IStorageFolder AsFolder { get; }
-        IStorageItemProperties Props { get; }
-        IStorageItem2 StorageItem { get; }
-        ImageSource Icon { get; }
-        bool IsPhysical { get; }
-        bool IsFile { get; }
-        bool IsFolder { get; }
-        DateTimeOffset DateCreated { get; }
         FileAttributes Attributes { get; }
         string ContentType { get; }
+        DateTimeOffset DateCreated { get; }
         string DisplayName { get; }
         string DisplayType { get; }
         string FileType { get; }
+        ImageSource Icon { get; }
+        bool IsFile { get; }
+        bool IsFolder { get; }
+        bool IsPhysical { get; }
         string Name { get; }
         string Path { get; }
+        IStorageItemProperties Props { get; }
+        IStorageItem2 StorageItem { get; }
     }
 }

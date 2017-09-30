@@ -65,8 +65,8 @@ namespace kdm.Core.Explorer.Commands.Configuration
                 Attribute = attribute ?? throw new ArgumentNullException(nameof(attribute));
             }
 
-            public Type Type { get; }
             public ExplorerCommandAttribute Attribute { get; }
+            public Type Type { get; }
         }
     }
 }

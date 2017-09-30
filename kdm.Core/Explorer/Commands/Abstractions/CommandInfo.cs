@@ -18,8 +18,8 @@ namespace kdm.Core.Explorer.Commands.Abstractions
             Hotkey = hotkey;
         }
 
-        public string Name { get; }
-        public Hotkey Hotkey { get; }
         public ICommand Command { get; }
+        public Hotkey Hotkey { get; }
+        public string Name { get; }
     }
 }

@@ -10,8 +10,6 @@ namespace kdm.Core.Explorer.Commands
     [ExplorerCommand(key: VirtualKey.Delete)]
     public class DeleteSelectedItemCommand : ExplorerCommandBase
     {
-        protected readonly IDialogService _dialogService;
-
         public DeleteSelectedItemCommand(IDialogService dialogService)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
@@ -42,5 +40,7 @@ namespace kdm.Core.Explorer.Commands
              );
             }
         }
+
+        protected readonly IDialogService _dialogService;
     }
 }

@@ -12,9 +12,6 @@ namespace kdm.Core.Explorer.Commands
     [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.B)]
     public class ExplodeCurrentFolderCommand : ExplorerCommandBase
     {
-        protected readonly IStorageFolderExploder _storageFolderExploder;
-        protected readonly IExplorerItemMapper _explorerItemMapper;
-
         public ExplodeCurrentFolderCommand(IStorageFolderExploder storageFolderExploder, IExplorerItemMapper explorerItemMapper)
         {
             _storageFolderExploder = storageFolderExploder ?? throw new ArgumentNullException(nameof(storageFolderExploder));
@@ -39,5 +36,8 @@ namespace kdm.Core.Explorer.Commands
 
             ViewModel.IsBusy = false;
         }
+
+        protected readonly IExplorerItemMapper _explorerItemMapper;
+        protected readonly IStorageFolderExploder _storageFolderExploder;
     }
 }

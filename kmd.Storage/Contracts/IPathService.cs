@@ -6,10 +6,10 @@ namespace kmd.Storage.Contracts
 {
     public interface IPathService
     {
-        Task<IStorageFolder> GoToAsync(IStorageFolder root, string path);
+        Task<IEnumerable<IStorageFolder>> ExpandParents(IStorageFolder folder);
 
         Task<IStorageFolder> GetRootAsync(IStorageFolder folder);
 
-        Task<IEnumerable<IStorageFolder>> ExpandParents(IStorageFolder folder);
+        Task<IStorageFolder> GoToAsync(IStorageFolder root, string path);
     }
 }

@@ -24,21 +24,9 @@ namespace kdm.Core.Services.Impl
     // TODO refactor
     public class LocationAccessService
     {
-        private IFolderPickerService _folderPickerService;
-
         public LocationAccessService(IFolderPickerService folderPickerService)
         {
             _folderPickerService = folderPickerService ?? throw new ArgumentNullException(nameof(folderPickerService));
-        }
-
-        private const string _settingsKey = "LocationTokens";
-
-        public async Task<IStorageFolder> GetDriveAsync(string drive)
-        {
-            var tokens = await GetDriveTokensSettingAsync();
-            var driveToken = tokens.FirstOrDefault(x => x.Drive == drive);
-            var folder = await GetFoldeFromFalAsync(driveToken.Token);
-            return folder;
         }
 
         public async Task<IStorageFolder> GetDefaultDriveAsync()
@@ -46,6 +34,14 @@ namespace kdm.Core.Services.Impl
             var tokens = await GetDriveTokensSettingAsync();
             var driveToken = tokens.FirstOrDefault();
             if (driveToken == null) return null;
+            var folder = await GetFoldeFromFalAsync(driveToken.Token);
+            return folder;
+        }
+
+        public async Task<IStorageFolder> GetDriveAsync(string drive)
+        {
+            var tokens = await GetDriveTokensSettingAsync();
+            var driveToken = tokens.FirstOrDefault(x => x.Drive == drive);
             var folder = await GetFoldeFromFalAsync(driveToken.Token);
             return folder;
         }
@@ -81,15 +77,18 @@ namespace kdm.Core.Services.Impl
             return driveFolder;
         }
 
-        private async Task<IStorageFolder> GetFoldeFromFalAsync(string token)
+        private const string _settingsKey = "LocationTokens";
+        private IFolderPickerService _folderPickerService;
+
+        private async Task AddDriveTokenSettingAsync(string drive, string token)
         {
-            IStorageFolder storageItem = null;
-            var fal = StorageApplicationPermissions.FutureAccessList;
-            if (token != null)
+            var driveTokens = await GetDriveTokensSettingAsync();
+            var driveTokensList = new List<DriveToken>(driveTokens)
             {
-                storageItem = await fal.GetFolderAsync(token);
-            }
-            return storageItem;
+                new DriveToken(drive, token)
+            };
+
+            await ApplicationData.Current.LocalSettings.SaveAsync(_settingsKey, driveTokensList);
         }
 
         private async Task<string> AddFolderToFalAsync(IStorageFolder folder)
@@ -113,15 +112,15 @@ namespace kdm.Core.Services.Impl
             return driveTokens;
         }
 
-        private async Task AddDriveTokenSettingAsync(string drive, string token)
+        private async Task<IStorageFolder> GetFoldeFromFalAsync(string token)
         {
-            var driveTokens = await GetDriveTokensSettingAsync();
-            var driveTokensList = new List<DriveToken>(driveTokens)
+            IStorageFolder storageItem = null;
+            var fal = StorageApplicationPermissions.FutureAccessList;
+            if (token != null)
             {
-                new DriveToken(drive, token)
-            };
-
-            await ApplicationData.Current.LocalSettings.SaveAsync(_settingsKey, driveTokensList);
+                storageItem = await fal.GetFolderAsync(token);
+            }
+            return storageItem;
         }
     }
 }

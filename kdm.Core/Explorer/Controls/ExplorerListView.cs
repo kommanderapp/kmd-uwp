@@ -9,15 +9,24 @@ namespace kmd.Core.Explorer.Controls
     {
         public bool IsFocusedEx = false;
 
+        public void ForceFocusSelectedItem(FocusState state = FocusState.Keyboard)
+        {
+            // according to https://stackoverflow.com/questions/10444518/how-do-you-programmatically-set-focus-to-the-selecteditem-in-a-wpf-listbox-that
+            // to properly set focus on listview item
+
+            this.UpdateLayout();
+
+            var listViewItem = (ListViewItem)this
+                .ContainerFromItem(this.SelectedItem);
+            if (listViewItem != null)
+            {
+                listViewItem.Focus(state);
+            }
+        }
+
         protected override void OnGotFocus(RoutedEventArgs e)
         {
             IsFocusedEx = true;
-            base.OnGotFocus(e);
-        }
-
-        protected override void OnLostFocus(RoutedEventArgs e)
-        {
-            IsFocusedEx = false;
             base.OnGotFocus(e);
         }
 
@@ -32,19 +41,10 @@ namespace kmd.Core.Explorer.Controls
             base.OnKeyDown(e);
         }
 
-        public void ForceFocusSelectedItem(FocusState state = FocusState.Keyboard)
+        protected override void OnLostFocus(RoutedEventArgs e)
         {
-            // according to https://stackoverflow.com/questions/10444518/how-do-you-programmatically-set-focus-to-the-selecteditem-in-a-wpf-listbox-that
-            // to properly set focus on listview item
-
-            this.UpdateLayout();
-
-            var listViewItem = (ListViewItem)this
-                .ContainerFromItem(this.SelectedItem);
-            if (listViewItem != null)
-            {
-                listViewItem.Focus(state);
-            }
+            IsFocusedEx = false;
+            base.OnGotFocus(e);
         }
     }
 }

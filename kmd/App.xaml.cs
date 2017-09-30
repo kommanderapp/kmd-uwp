@@ -11,13 +11,6 @@ namespace kmd
     /// </summary>
     public sealed partial class App : Application
     {
-        private Lazy<ActivationService> _activationService;
-
-        private ActivationService ActivationService
-        {
-            get { return _activationService.Value; }
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
         /// This is the first line of authored code executed, and as such
@@ -35,6 +28,20 @@ namespace kmd
         }
 
         /// <summary>
+        /// Invoked when the application is activated by some means other than normal launching.
+        /// </summary>
+        /// <param name="args">Event data for the event.</param>
+        protected override async void OnActivated(IActivatedEventArgs args)
+        {
+            await ActivationService.ActivateAsync(args);
+        }
+
+        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            await ActivationService.ActivateAsync(args);
+        }
+
+        /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
@@ -47,18 +54,11 @@ namespace kmd
             }
         }
 
-        /// <summary>
-        /// Invoked when the application is activated by some means other than normal launching.
-        /// </summary>
-        /// <param name="args">Event data for the event.</param>
-        protected override async void OnActivated(IActivatedEventArgs args)
-        {
-            await ActivationService.ActivateAsync(args);
-        }
+        private Lazy<ActivationService> _activationService;
 
-        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        private ActivationService ActivationService
         {
-            await ActivationService.ActivateAsync(args);
+            get { return _activationService.Value; }
         }
 
         private ActivationService CreateActivationService()

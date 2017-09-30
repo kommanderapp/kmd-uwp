@@ -14,6 +14,10 @@ namespace kmd.Core.Hotkeys
 
     public class Hotkey : IEquatable<Hotkey>
     {
+        public VirtualKey Key { get; }
+
+        public ModifierKeys ModifierKey { get; }
+
         public static Hotkey For(ModifierKeys modifierKey, VirtualKey key)
         {
             if (modifierKey == ModifierKeys.None && key == VirtualKey.None)
@@ -24,30 +28,9 @@ namespace kmd.Core.Hotkeys
             return hotkey;
         }
 
-        private Hotkey(ModifierKeys modifierKey, VirtualKey key)
+        public static bool operator !=(Hotkey a, Hotkey b)
         {
-            ModifierKey = modifierKey;
-            Key = key;
-        }
-
-        public ModifierKeys ModifierKey { get; }
-        public VirtualKey Key { get; }
-
-        public bool Equals(Hotkey other)
-        {
-            return this.ModifierKey == other.ModifierKey && this.Key == other.Key;
-        }
-
-        public override bool Equals(object obj)
-        {
-            var other = obj as Hotkey;
-            if (other == null) throw new InvalidOperationException();
-            return Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            return ModifierKey.GetHashCode() * 13 + Key.GetHashCode() * 13;
+            return !(a == b);
         }
 
         public static bool operator ==(Hotkey a, Hotkey b)
@@ -67,9 +50,27 @@ namespace kmd.Core.Hotkeys
             return a.Equals(b);
         }
 
-        public static bool operator !=(Hotkey a, Hotkey b)
+        public bool Equals(Hotkey other)
         {
-            return !(a == b);
+            return this.ModifierKey == other.ModifierKey && this.Key == other.Key;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as Hotkey;
+            if (other == null) throw new InvalidOperationException();
+            return Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return ModifierKey.GetHashCode() * 13 + Key.GetHashCode() * 13;
+        }
+
+        private Hotkey(ModifierKeys modifierKey, VirtualKey key)
+        {
+            ModifierKey = modifierKey;
+            Key = key;
         }
     }
 }

@@ -9,8 +9,6 @@ namespace kdm.Core.Explorer.Commands
     [ExplorerCommand]
     public class TypingHiglightCommand : ExplorerCommandBase
     {
-        private const double _typingIntervalThreashold = 0.5;
-
         public override bool CanExecute(object parameter)
         {
             return true;
@@ -45,5 +43,7 @@ namespace kdm.Core.Explorer.Commands
 
             await Task.FromResult(0);
         }
+
+        private const double _typingIntervalThreashold = 0.5;
     }
 }

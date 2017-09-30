@@ -7,11 +7,6 @@ namespace kmd.Views
 {
     public sealed partial class MainPage : Page
     {
-        private MainViewModel ViewModel
-        {
-            get { return DataContext as MainViewModel; }
-        }
-
         public MainPage()
         {
             InitializeComponent();
@@ -20,6 +15,11 @@ namespace kmd.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             await ViewModel.InitializeAsync();
+        }
+
+        private MainViewModel ViewModel
+        {
+            get { return DataContext as MainViewModel; }
         }
     }
 }

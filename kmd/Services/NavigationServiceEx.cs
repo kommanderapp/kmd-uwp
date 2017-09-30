@@ -15,9 +15,8 @@ namespace kmd.Services
 
         public event NavigationFailedEventHandler NavigationFailed;
 
-        private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
-
-        private Frame _frame;
+        public bool CanGoBack => Frame.CanGoBack;
+        public bool CanGoForward => Frame.CanGoForward;
 
         public Frame Frame
         {
@@ -37,28 +36,6 @@ namespace kmd.Services
                 UnregisterFrameEvents();
                 _frame = value;
                 RegisterFrameEvents();
-            }
-        }
-
-        public bool CanGoBack => Frame.CanGoBack;
-
-        public bool CanGoForward => Frame.CanGoForward;
-
-        public void GoBack() => Frame.GoBack();
-
-        public void GoForward() => Frame.GoForward();
-
-        public bool Navigate(string pageKey, object parameter = null, NavigationTransitionInfo infoOverride = null)
-        {
-            lock (_pages)
-            {
-                if (!_pages.ContainsKey(pageKey))
-                {
-                    throw new ArgumentException($"Page not found: {pageKey}. Did you forget to call NavigationService.Configure?", "pageKey");
-                }
-
-                var navigationResult = Frame.Navigate(_pages[pageKey], parameter, infoOverride);
-                return navigationResult;
             }
         }
 
@@ -95,6 +72,32 @@ namespace kmd.Services
             }
         }
 
+        public void GoBack() => Frame.GoBack();
+
+        public void GoForward() => Frame.GoForward();
+
+        public bool Navigate(string pageKey, object parameter = null, NavigationTransitionInfo infoOverride = null)
+        {
+            lock (_pages)
+            {
+                if (!_pages.ContainsKey(pageKey))
+                {
+                    throw new ArgumentException($"Page not found: {pageKey}. Did you forget to call NavigationService.Configure?", "pageKey");
+                }
+
+                var navigationResult = Frame.Navigate(_pages[pageKey], parameter, infoOverride);
+                return navigationResult;
+            }
+        }
+
+        private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
+
+        private Frame _frame;
+
+        private void Frame_Navigated(object sender, NavigationEventArgs e) => Navigated?.Invoke(sender, e);
+
+        private void Frame_NavigationFailed(object sender, NavigationFailedEventArgs e) => NavigationFailed?.Invoke(sender, e);
+
         private void RegisterFrameEvents()
         {
             if (_frame != null)
@@ -112,9 +115,5 @@ namespace kmd.Services
                 _frame.NavigationFailed -= Frame_NavigationFailed;
             }
         }
-
-        private void Frame_NavigationFailed(object sender, NavigationFailedEventArgs e) => NavigationFailed?.Invoke(sender, e);
-
-        private void Frame_Navigated(object sender, NavigationEventArgs e) => Navigated?.Invoke(sender, e);
     }
 }

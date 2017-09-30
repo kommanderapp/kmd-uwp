@@ -9,9 +9,6 @@ namespace kdm.Core.Explorer.Commands
     [ExplorerCommand]
     public class NavigateCommand : ExplorerCommandBase
     {
-        protected readonly IStorageFolderExploder _storageFolderExpander;
-        protected readonly IStorageFolderLister _storageFolderLister;
-
         public NavigateCommand(IStorageFolderExploder storageFolderExpander, IStorageFolderLister storageFolderLister)
         {
             _storageFolderExpander = storageFolderExpander ?? throw new ArgumentNullException(nameof(storageFolderExpander));
@@ -27,5 +24,8 @@ namespace kdm.Core.Explorer.Commands
         {
             await ViewModel.GoToAsync(parameter as IStorageFolder);
         }
+
+        protected readonly IStorageFolderExploder _storageFolderExpander;
+        protected readonly IStorageFolderLister _storageFolderLister;
     }
 }

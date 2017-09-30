@@ -8,7 +8,10 @@ namespace kmd.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private StorageFolder _rootFolder;
+        public MainViewModel(LocationAccessService driveAccessService)
+        {
+            _driveAccessService = driveAccessService ?? throw new ArgumentNullException(nameof(driveAccessService));
+        }
 
         public StorageFolder RootFolder
         {
@@ -22,13 +25,6 @@ namespace kmd.ViewModels
             }
         }
 
-        private LocationAccessService _driveAccessService;
-
-        public MainViewModel(LocationAccessService driveAccessService)
-        {
-            _driveAccessService = driveAccessService ?? throw new ArgumentNullException(nameof(driveAccessService));
-        }
-
         public async Task InitializeAsync()
         {
             IStorageFolder drive = null;
@@ -39,5 +35,8 @@ namespace kmd.ViewModels
             }
             RootFolder = drive as StorageFolder;
         }
+
+        private LocationAccessService _driveAccessService;
+        private StorageFolder _rootFolder;
     }
 }

@@ -13,9 +13,58 @@ namespace kmd.Core.Explorer.Controls
 {
     public partial class BreadcrumbControl : UserControl
     {
+        public readonly DependencyProperty DisplayMemberPathProperty =
+            DependencyProperty.Register(nameof(DisplayMemberPath), typeof(string), typeof(BreadcrumbControl), new PropertyMetadata(null));
+
+        public readonly DependencyProperty ItemCommandProperty =
+          DependencyProperty.Register("ItemCommand", typeof(ICommand), typeof(BreadcrumbControl), new PropertyMetadata(null));
+
+        public readonly DependencyProperty ItemsProperty =
+            DependencyProperty.Register("Items", typeof(ObservableCollection<object>), typeof(BreadcrumbControl), new PropertyMetadata(new ObservableCollection<object>()));
+
+        public readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(BreadcrumbControl),
+                new PropertyMetadata(null, OnItemsSourcePropertyChanged));
+
+        public readonly DependencyProperty ItemStyleProperty =
+            DependencyProperty.Register(nameof(ItemStyle), typeof(Style), typeof(BreadcrumbControl), new PropertyMetadata(null));
+
+        public readonly DependencyProperty ItemTemplateProperty =
+            DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(BreadcrumbControl), new PropertyMetadata(null));
+
+        public readonly DependencyProperty OverFlowProperty =
+            DependencyProperty.Register(nameof(OverFlow), typeof(string), typeof(BreadcrumbControl), new PropertyMetadata("..."));
+
+        public readonly DependencyProperty OverFlowTemplateProperty =
+            DependencyProperty.Register(nameof(OverFlowTemplate), typeof(DataTemplate), typeof(BreadcrumbControl), new PropertyMetadata(null));
+
+        public readonly DependencyProperty SeperatorProperty =
+            DependencyProperty.Register(nameof(Seperator), typeof(string), typeof(BreadcrumbControl), new PropertyMetadata("/"));
+
+        public readonly DependencyProperty SeperatorTemplateProperty =
+            DependencyProperty.Register(nameof(SeperatorTemplate), typeof(DataTemplate), typeof(BreadcrumbControl), new PropertyMetadata(null));
+
         public BreadcrumbControl()
         {
             this.InitializeComponent();
+        }
+
+        public string DisplayMemberPath
+        {
+            get { return (string)GetValue(DisplayMemberPathProperty); }
+            set { SetValue(DisplayMemberPathProperty, value); }
+        }
+
+        public ICommand ItemCommand
+        {
+            get { return (ICommand)GetValue(ItemCommandProperty); }
+            set { SetValue(ItemCommandProperty, value); }
+        }
+
+        public ObservableCollection<object> Items
+        {
+            get { return (ObservableCollection<object>)GetValue(ItemsProperty); }
+            set { SetValue(ItemsProperty, value); }
         }
 
         public IEnumerable ItemsSource
@@ -24,9 +73,88 @@ namespace kmd.Core.Explorer.Controls
             set { SetValue(ItemsSourceProperty, value); }
         }
 
-        public readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(BreadcrumbControl),
-                new PropertyMetadata(null, OnItemsSourcePropertyChanged));
+        public Style ItemStyle
+        {
+            get { return (Style)GetValue(ItemStyleProperty); }
+            set { SetValue(ItemStyleProperty, value); }
+        }
+
+        public DataTemplate ItemTemplate
+        {
+            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+            set { SetValue(ItemTemplateProperty, value); }
+        }
+
+        public string OverFlow
+        {
+            get { return (string)GetValue(OverFlowProperty); }
+            set { SetValue(OverFlowProperty, value); }
+        }
+
+        public DataTemplate OverFlowTemplate
+        {
+            get { return (DataTemplate)GetValue(OverFlowTemplateProperty); }
+            set { SetValue(OverFlowTemplateProperty, value); }
+        }
+
+        public string Seperator
+        {
+            get { return (string)GetValue(SeperatorProperty); }
+            set { SetValue(SeperatorProperty, value); }
+        }
+
+        public DataTemplate SeperatorTemplate
+        {
+            get { return (DataTemplate)GetValue(SeperatorTemplateProperty); }
+            set { SetValue(SeperatorTemplateProperty, value); }
+        }
+
+        protected void Initialize()
+        {
+            this.StackPanel.Children.Clear();
+
+            if (!this.Items.Any()) return;
+
+            foreach (var item in this.Items)
+            {
+                SetItem(this.StackPanel.Children, item, this.Items, this.ItemTemplate, this.DisplayMemberPath);
+                SetSeperatorItem(this.StackPanel.Children, this.SeperatorTemplate, this.Seperator);
+            }
+
+            // Update layout to be able to measure the actual width
+            this.UpdateLayout();
+
+            var items = this.StackPanel.Children.OfType<BreadcrumbItem>().ToList();
+            var seperators = this.StackPanel.Children.OfType<BreadcrumbSeperator>().ToList();
+            int i = 0;
+            while (this.StackPanel.ActualWidth > this.ActualWidth)
+            {
+                if (i < items.Count - 1)
+                {
+                    var item = items?[i];
+
+                    if (item == null) break;
+
+                    SetOverflowItem(item, this.OverFlowTemplate, this.OverFlow);
+                    i++;
+                }
+                else
+                {
+                    var item = items.FirstOrDefault(b => b.Visibility == Visibility.Visible);
+                    var seperator = seperators.FirstOrDefault(b => b.Visibility == Visibility.Visible);
+                    seperator.Visibility = Visibility.Collapsed;
+                    item.Visibility = Visibility.Collapsed;
+                }
+
+                this.UpdateLayout();
+            }
+        }
+
+        protected virtual void OnItemSelected(BreadcrumbEventArgs e)
+        {
+            if (this.ItemCommand == null) return;
+            if (this.ItemCommand.CanExecute(null)) this.ItemCommand.Execute(e.Item);
+        }
 
         private static void OnItemsSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -34,14 +162,32 @@ namespace kmd.Core.Explorer.Controls
             control?.OnItemsSourceChanged((IEnumerable)e.OldValue, (IEnumerable)e.NewValue);
         }
 
-        private void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+        private static void SetSeperatorItem(UIElementCollection collection, DataTemplate seperatorTemplate, string seperator)
         {
-            if (oldValue is INotifyCollectionChanged value) value.CollectionChanged -= ItemsOnCollectionChanged;
+            if (seperatorTemplate != null)
+            {
+                collection.Add(new BreadcrumbSeperator()
+                {
+                    ContentTemplate = seperatorTemplate,
+                    VerticalAlignment = VerticalAlignment.Center
+                });
+            }
+            else
+            {
+                collection.Add(new BreadcrumbSeperator()
+                {
+                    Content = seperator,
+                    VerticalAlignment = VerticalAlignment.Center
+                });
+            }
+        }
 
-            this.Items = new ObservableCollection<object>(newValue as IEnumerable<object>);
-            if (newValue is INotifyCollectionChanged)
-                (newValue as INotifyCollectionChanged).CollectionChanged += ItemsOnCollectionChanged;
-            Initialize();
+        private BreadcrumbItem CreateButton()
+        {
+            return new BreadcrumbItem()
+            {
+                Style = this.ItemStyle
+            };
         }
 
         private void ItemsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -92,157 +238,14 @@ namespace kmd.Core.Explorer.Controls
             Initialize();
         }
 
-        public ObservableCollection<object> Items
+        private void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
         {
-            get { return (ObservableCollection<object>)GetValue(ItemsProperty); }
-            set { SetValue(ItemsProperty, value); }
-        }
+            if (oldValue is INotifyCollectionChanged value) value.CollectionChanged -= ItemsOnCollectionChanged;
 
-        public readonly DependencyProperty ItemsProperty =
-            DependencyProperty.Register("Items", typeof(ObservableCollection<object>), typeof(BreadcrumbControl), new PropertyMetadata(new ObservableCollection<object>()));
-
-        public DataTemplate ItemTemplate
-        {
-            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
-            set { SetValue(ItemTemplateProperty, value); }
-        }
-
-        public readonly DependencyProperty ItemTemplateProperty =
-            DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(BreadcrumbControl), new PropertyMetadata(null));
-
-        public DataTemplate SeperatorTemplate
-        {
-            get { return (DataTemplate)GetValue(SeperatorTemplateProperty); }
-            set { SetValue(SeperatorTemplateProperty, value); }
-        }
-
-        public readonly DependencyProperty SeperatorTemplateProperty =
-            DependencyProperty.Register(nameof(SeperatorTemplate), typeof(DataTemplate), typeof(BreadcrumbControl), new PropertyMetadata(null));
-
-        public DataTemplate OverFlowTemplate
-        {
-            get { return (DataTemplate)GetValue(OverFlowTemplateProperty); }
-            set { SetValue(OverFlowTemplateProperty, value); }
-        }
-
-        public readonly DependencyProperty OverFlowTemplateProperty =
-            DependencyProperty.Register(nameof(OverFlowTemplate), typeof(DataTemplate), typeof(BreadcrumbControl), new PropertyMetadata(null));
-
-        public string DisplayMemberPath
-        {
-            get { return (string)GetValue(DisplayMemberPathProperty); }
-            set { SetValue(DisplayMemberPathProperty, value); }
-        }
-
-        public readonly DependencyProperty DisplayMemberPathProperty =
-            DependencyProperty.Register(nameof(DisplayMemberPath), typeof(string), typeof(BreadcrumbControl), new PropertyMetadata(null));
-
-        public string Seperator
-        {
-            get { return (string)GetValue(SeperatorProperty); }
-            set { SetValue(SeperatorProperty, value); }
-        }
-
-        public readonly DependencyProperty SeperatorProperty =
-            DependencyProperty.Register(nameof(Seperator), typeof(string), typeof(BreadcrumbControl), new PropertyMetadata("/"));
-
-        public string OverFlow
-        {
-            get { return (string)GetValue(OverFlowProperty); }
-            set { SetValue(OverFlowProperty, value); }
-        }
-
-        public readonly DependencyProperty OverFlowProperty =
-            DependencyProperty.Register(nameof(OverFlow), typeof(string), typeof(BreadcrumbControl), new PropertyMetadata("..."));
-
-        public Style ItemStyle
-        {
-            get { return (Style)GetValue(ItemStyleProperty); }
-            set { SetValue(ItemStyleProperty, value); }
-        }
-
-        public readonly DependencyProperty ItemStyleProperty =
-            DependencyProperty.Register(nameof(ItemStyle), typeof(Style), typeof(BreadcrumbControl), new PropertyMetadata(null));
-
-        public ICommand ItemCommand
-        {
-            get { return (ICommand)GetValue(ItemCommandProperty); }
-            set { SetValue(ItemCommandProperty, value); }
-        }
-
-        public readonly DependencyProperty ItemCommandProperty =
-          DependencyProperty.Register("ItemCommand", typeof(ICommand), typeof(BreadcrumbControl), new PropertyMetadata(null));
-
-        protected void Initialize()
-        {
-            this.StackPanel.Children.Clear();
-
-            if (!this.Items.Any()) return;
-
-            foreach (var item in this.Items)
-            {
-                SetItem(this.StackPanel.Children, item, this.Items, this.ItemTemplate, this.DisplayMemberPath);
-                SetSeperatorItem(this.StackPanel.Children, this.SeperatorTemplate, this.Seperator);
-            }
-
-            // Update layout to be able to measure the actual width
-            this.UpdateLayout();
-
-            var items = this.StackPanel.Children.OfType<BreadcrumbItem>().ToList();
-            var seperators = this.StackPanel.Children.OfType<BreadcrumbSeperator>().ToList();
-            int i = 0;
-            while (this.StackPanel.ActualWidth > this.ActualWidth)
-            {
-                if (i < items.Count - 1)
-                {
-                    var item = items?[i];
-
-                    if (item == null) break;
-
-                    SetOverflowItem(item, this.OverFlowTemplate, this.OverFlow);
-                    i++;
-                }
-                else
-                {
-                    var item = items.FirstOrDefault(b => b.Visibility == Visibility.Visible);
-                    var seperator = seperators.FirstOrDefault(b => b.Visibility == Visibility.Visible);
-                    seperator.Visibility = Visibility.Collapsed;
-                    item.Visibility = Visibility.Collapsed;
-                }
-
-                this.UpdateLayout();
-            }
-        }
-
-        private static void SetSeperatorItem(UIElementCollection collection, DataTemplate seperatorTemplate, string seperator)
-        {
-            if (seperatorTemplate != null)
-            {
-                collection.Add(new BreadcrumbSeperator()
-                {
-                    ContentTemplate = seperatorTemplate,
-                    VerticalAlignment = VerticalAlignment.Center
-                });
-            }
-            else
-            {
-                collection.Add(new BreadcrumbSeperator()
-                {
-                    Content = seperator,
-                    VerticalAlignment = VerticalAlignment.Center
-                });
-            }
-        }
-
-        private void SetOverflowItem(BreadcrumbItem item, DataTemplate overflowTemplate, string overflow)
-        {
-            item.Content = null;
-            item.ContentTemplate = null;
-
-            if (overflowTemplate != null)
-                item.ContentTemplate = overflowTemplate;
-            else
-                item.Content = overflow;
+            this.Items = new ObservableCollection<object>(newValue as IEnumerable<object>);
+            if (newValue is INotifyCollectionChanged)
+                (newValue as INotifyCollectionChanged).CollectionChanged += ItemsOnCollectionChanged;
+            Initialize();
         }
 
         private void SetItem(UIElementCollection collection, object item, IList<object> items,
@@ -268,18 +271,15 @@ namespace kmd.Core.Explorer.Controls
             collection.Add(content);
         }
 
-        private BreadcrumbItem CreateButton()
+        private void SetOverflowItem(BreadcrumbItem item, DataTemplate overflowTemplate, string overflow)
         {
-            return new BreadcrumbItem()
-            {
-                Style = this.ItemStyle
-            };
-        }
+            item.Content = null;
+            item.ContentTemplate = null;
 
-        protected virtual void OnItemSelected(BreadcrumbEventArgs e)
-        {
-            if (this.ItemCommand == null) return;
-            if (this.ItemCommand.CanExecute(null)) this.ItemCommand.Execute(e.Item);
+            if (overflowTemplate != null)
+                item.ContentTemplate = overflowTemplate;
+            else
+                item.Content = overflow;
         }
     }
 }

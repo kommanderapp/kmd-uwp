@@ -9,13 +9,9 @@ namespace kmd.Services
 {
     public static class ThemeSelectorService
     {
-        private const string SettingsKey = "RequestedTheme";
-
         public static event EventHandler<ElementTheme> OnThemeChanged = (sender, args) => { };
 
         public static ElementTheme Theme { get; set; } = ElementTheme.Default;
-
-        private static readonly SolidColorBrush _baseBrush = Application.Current.Resources["ThemeControlForegroundBaseHighBrush"] as SolidColorBrush;
 
         public static SolidColorBrush GetSystemControlForegroundForTheme()
         {
@@ -25,6 +21,14 @@ namespace kmd.Services
         public static async Task InitializeAsync()
         {
             Theme = await LoadThemeFromSettingsAsync();
+        }
+
+        public static void SetRequestedTheme()
+        {
+            if (Window.Current.Content is FrameworkElement frameworkElement)
+            {
+                frameworkElement.RequestedTheme = Theme;
+            }
         }
 
         public static async Task SetThemeAsync(ElementTheme theme)
@@ -37,13 +41,9 @@ namespace kmd.Services
             OnThemeChanged(null, Theme);
         }
 
-        public static void SetRequestedTheme()
-        {
-            if (Window.Current.Content is FrameworkElement frameworkElement)
-            {
-                frameworkElement.RequestedTheme = Theme;
-            }
-        }
+        private const string SettingsKey = "RequestedTheme";
+
+        private static readonly SolidColorBrush _baseBrush = Application.Current.Resources["ThemeControlForegroundBaseHighBrush"] as SolidColorBrush;
 
         private static async Task<ElementTheme> LoadThemeFromSettingsAsync()
         {
