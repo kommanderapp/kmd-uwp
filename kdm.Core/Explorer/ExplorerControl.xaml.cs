@@ -1,8 +1,7 @@
 ﻿using kdm.Core.Explorer.Commands.Default;
 using kmd.Core.Explorer.Controls;
-using kmd.Core.Explorer.Hotkeys;
+using kmd.Core.Hotkeys;
 using kmd.Helpers;
-using System.Windows.Input;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -87,8 +86,7 @@ namespace kmd.Core.Explorer
 
         private static void RootFolder_Changed(DependencyObject depObj, DependencyPropertyChangedEventArgs depProp)
         {
-            var explorer = depObj as ExplorerControl;
-            if (explorer != null && depProp.NewValue != null)
+            if (depObj is ExplorerControl explorer && depProp.NewValue != null)
             {
                 explorer.ViewModel.CommandBindings[nameof(NavigateCommand)].Execute((IStorageFolder)depProp.NewValue);
             }

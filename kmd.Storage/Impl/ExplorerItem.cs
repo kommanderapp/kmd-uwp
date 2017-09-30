@@ -1,10 +1,10 @@
-﻿using System;
+﻿using kmd.Storage.Contracts;
+using System;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using System.Threading.Tasks;
-using kmd.Storage.Contracts;
 
 namespace kmd.Storage.Impl
 {

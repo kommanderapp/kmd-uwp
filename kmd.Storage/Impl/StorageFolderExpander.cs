@@ -1,9 +1,9 @@
 ﻿using kmd.Storage.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using System.Threading;
 
 namespace kmd.Storage.Impl
 {

@@ -1,14 +1,10 @@
 ﻿using kdm.Core.Explorer.Commands.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using kmd.Core.Explorer.Contracts;
-using kmd.Core.Explorer.Hotkeys;
-using Windows.System;
+using kmd.Core.Hotkeys;
 using kmd.Storage.Contracts;
+using System;
 using System.Collections.ObjectModel;
+using Windows.System;
 
 namespace kdm.Core.Explorer.Commands.Default
 {

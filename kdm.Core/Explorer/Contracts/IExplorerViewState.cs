@@ -1,8 +1,5 @@
 ﻿using kmd.Storage.Contracts;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading;
 using Windows.Storage;
 
 namespace kmd.Core.Explorer.Contracts

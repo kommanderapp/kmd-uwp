@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace kmd.Core.Explorer.Hotkeys
+namespace kmd.Core.Hotkeys
 {
     public class HotkeyEventArg : EventArgs
     {

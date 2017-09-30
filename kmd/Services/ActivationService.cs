@@ -1,11 +1,9 @@
-﻿using System;
+﻿using kmd.Activation;
+using kmd.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using kmd.Activation;
-using kmd.Helpers;
-
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;

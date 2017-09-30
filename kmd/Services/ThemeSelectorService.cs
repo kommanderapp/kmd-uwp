@@ -1,8 +1,6 @@
-﻿using System;
+﻿using kmd.Helpers;
+using System;
 using System.Threading.Tasks;
-
-using kmd.Helpers;
-
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;

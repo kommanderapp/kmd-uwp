@@ -28,6 +28,5 @@
   <Library Name="kdm.Core">
 
   	<!-- add directives for your library here -->
-
   </Library>
 </Directives>

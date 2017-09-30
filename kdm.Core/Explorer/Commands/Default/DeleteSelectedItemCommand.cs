@@ -1,12 +1,7 @@
-﻿using kdm.Core.Explorer.Commands.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using kmd.Core.Explorer.Contracts;
-using GalaSoft.MvvmLight.Views;
+﻿using GalaSoft.MvvmLight.Views;
+using kdm.Core.Explorer.Commands.Abstractions;
 using kmd.Core.Helpers;
+using System;
 using Windows.System;
 
 namespace kdm.Core.Explorer.Commands.Default

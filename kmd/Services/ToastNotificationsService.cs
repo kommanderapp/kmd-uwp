@@ -1,7 +1,5 @@
-﻿using System.Threading.Tasks;
-
-using kmd.Activation;
-
+﻿using kmd.Activation;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Notifications;
 

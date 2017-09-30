@@ -1,10 +1,7 @@
 ﻿using kmd.Core.Explorer.Contracts;
 using kmd.Storage.Contracts;
-using Stateless;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;

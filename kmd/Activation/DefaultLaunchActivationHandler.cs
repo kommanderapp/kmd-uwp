@@ -1,7 +1,6 @@
-﻿using System;
+﻿using kmd.Services;
+using System;
 using System.Threading.Tasks;
-using kmd.Services;
-
 using Windows.ApplicationModel.Activation;
 
 namespace kmd.Activation

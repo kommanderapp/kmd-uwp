@@ -2,7 +2,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using kmd.Core.Explorer.Contracts;
 
 namespace kdm.Core.Explorer.Commands.Default
 {

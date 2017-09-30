@@ -1,9 +1,4 @@
 ﻿using kdm.Core.Explorer.Commands.Default;
-using kdm.Core.Services.Contracts;
-using kdm.Core.Services.Impl;
-using kmd.Core.Explorer;
-using kmd.Storage.Contracts;
-using kmd.Storage.Impl;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace kdm.Core.Explorer.Commands.DI

@@ -2,7 +2,7 @@
 using Windows.System;
 using Windows.UI.Xaml.Input;
 
-namespace kmd.Core.Explorer.Hotkeys
+namespace kmd.Core.Hotkeys
 {
     public class KeyEventsAgregator
     {

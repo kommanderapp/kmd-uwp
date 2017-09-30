@@ -1,24 +1,14 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Views;
-using kmd.Storage.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using kmd.Storage.Extensions;
-using kmd.Core.Explorer.Contracts;
-using kdm.Core.Services.Contracts;
-using kmd.Core.Helpers;
 using kdm.Core.Commands.Abstractions;
 using kdm.Core.Explorer.Commands.Abstractions;
-using kdm.Core.Explorer.Commands.Default;
 using kdm.Core.Helpers;
+using kmd.Core.Explorer.Contracts;
+using kmd.Storage.Contracts;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace kmd.Core.Explorer
 {

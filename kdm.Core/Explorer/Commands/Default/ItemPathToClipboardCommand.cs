@@ -1,11 +1,9 @@
-﻿using System;
-using kmd.Core.Explorer.Contracts;
-using System.Windows.Input;
+﻿using kdm.Core.Explorer.Commands.Abstractions;
 using kdm.Core.Services.Contracts;
-using Windows.ApplicationModel.DataTransfer;
-using kdm.Core.Explorer.Commands.Abstractions;
+using kmd.Core.Hotkeys;
+using System;
 using System.Threading.Tasks;
-using kmd.Core.Explorer.Hotkeys;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 
 namespace kdm.Core.Explorer.Commands.Default

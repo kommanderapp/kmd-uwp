@@ -36,8 +36,8 @@ namespace kmd.Core.Explorer.Controls
 
         private void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
         {
-            var value = oldValue as INotifyCollectionChanged;
-            if (value != null) value.CollectionChanged -= ItemsOnCollectionChanged;
+            if (oldValue is INotifyCollectionChanged value) value.CollectionChanged -= ItemsOnCollectionChanged;
+
             this.Items = new ObservableCollection<object>(newValue as IEnumerable<object>);
             if (newValue is INotifyCollectionChanged)
                 (newValue as INotifyCollectionChanged).CollectionChanged += ItemsOnCollectionChanged;

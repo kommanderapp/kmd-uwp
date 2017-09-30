@@ -1,10 +1,8 @@
-﻿using System;
-
+﻿using kmd.DI;
 using kmd.Services;
-
+using System;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
-using kmd.DI;
 
 namespace kmd
 {

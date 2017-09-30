@@ -1,5 +1,4 @@
-﻿using kmd.Storage.Contracts;
-using System;
+﻿using System;
 using Windows.UI.Xaml.Data;
 
 namespace kmd.Helpers.Converters

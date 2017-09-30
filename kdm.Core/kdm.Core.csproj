@@ -132,7 +132,6 @@
     <Compile Include="Explorer\Contracts\IExplorerInternalState.cs" />
     <Compile Include="Explorer\Contracts\IExplorerModel.cs" />
     <Compile Include="Explorer\Contracts\IExplorerViewState.cs" />
-    <Compile Include="Explorer\Contracts\StateChangedArgs.cs" />
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbControl.xaml.cs">
       <DependentUpon>BreadcrumbControl.xaml</DependentUpon>
     </Compile>
@@ -146,11 +145,11 @@
     </Compile>
     <Compile Include="Explorer\ExplorerModel.cs" />
     <Compile Include="Explorer\ExplorerViewModel.cs" />
-    <Compile Include="Explorer\Hotkeys\Hotkey.cs" />
-    <Compile Include="Explorer\Hotkeys\HotkeyEventArg.cs" />
-    <Compile Include="Explorer\Hotkeys\KeyEventsAgregator.cs" />
+    <Compile Include="Hotkeys\Hotkey.cs" />
+    <Compile Include="Hotkeys\HotkeyEventArg.cs" />
+    <Compile Include="Hotkeys\KeyEventsAgregator.cs" />
     <Compile Include="Explorer\UpperFolderLinkModel.cs" />
-    <Compile Include="AttachedExtensions\FocusBehavior.cs" />
+    <Compile Include="Behaviors\FocusBehavior.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\ResourceExtensions.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
@@ -198,9 +197,7 @@
       <Name>kmd.Storage</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

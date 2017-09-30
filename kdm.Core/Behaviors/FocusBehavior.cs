@@ -1,13 +1,8 @@
 ﻿using Microsoft.Xaml.Interactivity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace kdm.Core.AttachedExtensions
+namespace kdm.Core.Behaviors
 {
     public class FocusBehavior : Behavior<Control>
     {

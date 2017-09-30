@@ -1,5 +1,4 @@
-﻿
-using kmd.ViewModels;
+﻿using kmd.ViewModels;
 
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;

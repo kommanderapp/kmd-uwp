@@ -1,8 +1,8 @@
-﻿using System;
-using GalaSoft.MvvmLight;
-using Windows.Storage;
-using System.Threading.Tasks;
+﻿using GalaSoft.MvvmLight;
 using kdm.Core.Services.Impl;
+using System;
+using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace kmd.ViewModels
 {

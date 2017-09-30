@@ -1,14 +1,9 @@
 ﻿using kdm.Core.Explorer.Commands.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using kmd.Core.Explorer.Contracts;
 using kdm.Core.Services.Contracts;
-using Windows.Storage;
+using kmd.Core.Hotkeys;
 using kmd.Storage.Extensions;
-using kmd.Core.Explorer.Hotkeys;
+using System;
+using Windows.Storage;
 using Windows.System;
 
 namespace kdm.Core.Explorer.Commands.Default

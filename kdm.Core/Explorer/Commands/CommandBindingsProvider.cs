@@ -1,14 +1,11 @@
 ﻿using kdm.Core.Explorer.Commands.Abstractions;
+using kmd.Core.Explorer.Contracts;
+using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using kmd.Core.Explorer.Contracts;
-using Microsoft.Practices.ServiceLocation;
 using System.Reflection;
 using System.Windows.Input;
-using kmd.Core.Explorer.Hotkeys;
 
 namespace kdm.Core.Explorer.Commands
 {
@@ -50,10 +47,9 @@ namespace kdm.Core.Explorer.Commands
             {
                 if (type.GetTypeInfo().GetCustomAttributes(typeof(ExplorerCommandAttribute), true).Count() > 0)
                 {
-                    var commandAttr = type.GetTypeInfo()
+                    if (type.GetTypeInfo()
                         .GetCustomAttributes(typeof(ExplorerCommandAttribute), true)
-                        .FirstOrDefault() as ExplorerCommandAttribute;
-                    if (commandAttr != null)
+                        .FirstOrDefault() is ExplorerCommandAttribute commandAttr)
                     {
                         yield return new CommandDescriptor(type, commandAttr);
                     }

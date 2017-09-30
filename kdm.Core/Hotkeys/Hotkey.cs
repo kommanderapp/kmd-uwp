@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.System;
 
-namespace kmd.Core.Explorer.Hotkeys
+namespace kmd.Core.Hotkeys
 {
     [Flags]
     public enum ModifierKeys
