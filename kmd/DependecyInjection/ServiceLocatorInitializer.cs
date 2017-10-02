@@ -2,8 +2,8 @@
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.CommonServiceLocator;
 using GalaSoft.MvvmLight.Views;
-using kdm.Core.DI;
-using kdm.Core.Services.Impl;
+using kmd.Core.DI;
+using kmd.Core.Services.Impl;
 using kmd.Services;
 using kmd.ViewModels;
 using Microsoft.Extensions.DependencyInjection;

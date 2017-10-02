@@ -230,9 +230,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\kdm.Core\kdm.Core.csproj">
+    <ProjectReference Include="..\kmd.Core\kmd.Core.csproj">
       <Project>{4ad12ca8-8e7c-4b55-bf0f-d60dcf10c110}</Project>
-      <Name>kdm.Core</Name>
+      <Name>kmd.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\kmd.Storage\kmd.Storage.csproj">
       <Project>{ec2d1011-fed6-4f3a-9199-429a87f88c6d}</Project>

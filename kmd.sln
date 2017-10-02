@@ -7,11 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kmd", "kmd\kmd.csproj", "{7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kmd.Storage", "kmd.Storage\kmd.Storage.csproj", "{EC2D1011-FED6-4F3A-9199-429A87F88C6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kdm.Core", "kdm.Core\kdm.Core.csproj", "{4AD12CA8-8E7C-4B55-BF0F-D60DCF10C110}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D875094A-3990-44C8-AF2F-87B330C3C567}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kdm.Core.Tests", "kdm.Core.Tests\kdm.Core.Tests.csproj", "{D6A4F8BA-56AB-4B2A-9920-238E630FD839}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kmd.Core", "kmd.Core\kmd.Core.csproj", "{4AD12CA8-8E7C-4B55-BF0F-D60DCF10C110}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,28 +73,9 @@ Global
 		{4AD12CA8-8E7C-4B55-BF0F-D60DCF10C110}.Release|x64.Build.0 = Release|x64
 		{4AD12CA8-8E7C-4B55-BF0F-D60DCF10C110}.Release|x86.ActiveCfg = Release|x86
 		{4AD12CA8-8E7C-4B55-BF0F-D60DCF10C110}.Release|x86.Build.0 = Release|x86
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Debug|ARM.ActiveCfg = Debug|ARM
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Debug|ARM.Build.0 = Debug|ARM
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Debug|x64.ActiveCfg = Debug|x64
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Debug|x64.Build.0 = Debug|x64
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Debug|x86.ActiveCfg = Debug|x86
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Debug|x86.Build.0 = Debug|x86
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Release|ARM.ActiveCfg = Release|ARM
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Release|ARM.Build.0 = Release|ARM
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Release|x64.ActiveCfg = Release|x64
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Release|x64.Build.0 = Release|x64
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Release|x86.ActiveCfg = Release|x86
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{D6A4F8BA-56AB-4B2A-9920-238E630FD839} = {D875094A-3990-44C8-AF2F-87B330C3C567}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BAB46731-6E94-4AB2-A080-EAA3A46437F8}
