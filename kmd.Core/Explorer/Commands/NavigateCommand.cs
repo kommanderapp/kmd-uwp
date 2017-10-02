@@ -15,17 +15,18 @@ namespace kmd.Core.Explorer.Commands
             _storageFolderLister = storageFolderLister ?? throw new ArgumentNullException(nameof(storageFolderLister));
         }
 
-        public override bool CanExecute(object parameter)
+        protected readonly IStorageFolderExploder _storageFolderExpander;
+
+        protected readonly IStorageFolderLister _storageFolderLister;
+
+        protected override bool OnCanExecute(object parameter)
         {
             return true;
         }
 
-        public override async void Execute(object parameter)
+        protected override async void OnExecute(object parameter)
         {
             await ViewModel.GoToAsync(parameter as IStorageFolder);
         }
-
-        protected readonly IStorageFolderExploder _storageFolderExpander;
-        protected readonly IStorageFolderLister _storageFolderLister;
     }
 }

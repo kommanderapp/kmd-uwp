@@ -15,12 +15,16 @@ namespace kmd.Core.Explorer.Commands
             _explorerItemMapper = explorerItemMapper ?? throw new ArgumentNullException(nameof(explorerItemMapper));
         }
 
-        public override bool CanExecute(object parameter)
+        protected readonly IExplorerItemMapper _explorerItemMapper;
+
+        protected readonly IStorageFolderFilter _storageFolderFilter;
+
+        protected override bool OnCanExecute(object parameter)
         {
             return true;
         }
 
-        public override async void Execute(object parameter)
+        protected override async void OnExecute(object parameter)
         {
             ViewModel.IsBusy = true;
 
@@ -31,8 +35,5 @@ namespace kmd.Core.Explorer.Commands
 
             ViewModel.IsBusy = false;
         }
-
-        protected readonly IExplorerItemMapper _explorerItemMapper;
-        protected readonly IStorageFolderFilter _storageFolderFilter;
     }
 }

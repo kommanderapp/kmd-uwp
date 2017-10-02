@@ -24,9 +24,19 @@ namespace kmd.Core.Explorer.Commands.Abstractions
             }
         }
 
-        public abstract bool CanExecute(object parameter);
+        public bool CanExecute(object parameter) => OnCanExecute(parameter);
 
-        public abstract void Execute(object parameter);
+        public void Execute(object parameter)
+        {
+            if (CanExecute(parameter))
+            {
+                OnExecute(parameter);
+            }
+        }
+
+        protected abstract bool OnCanExecute(object parameter);
+
+        protected abstract void OnExecute(object parameter);
 
         private IExplorerViewModel _model;
     }

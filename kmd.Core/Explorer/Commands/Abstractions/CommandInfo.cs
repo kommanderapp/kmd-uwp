@@ -13,9 +13,10 @@ namespace kmd.Core.Explorer.Commands.Abstractions
         public CommandInfo(string name, ICommand command, Hotkey hotkey)
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+
             Name = name;
-            Command = command ?? throw new ArgumentNullException(nameof(command));
             Hotkey = hotkey;
+            Command = command ?? throw new ArgumentNullException(nameof(command));
         }
 
         public ICommand Command { get; }

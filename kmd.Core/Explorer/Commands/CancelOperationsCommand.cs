@@ -9,12 +9,12 @@ namespace kmd.Core.Explorer.Commands
     [ExplorerCommand(key: VirtualKey.Escape)]
     internal class CancelOperationsCommand : ExplorerCommandBase
     {
-        public override bool CanExecute(object parameter)
+        protected override bool OnCanExecute(object parameter)
         {
             return true;
         }
 
-        public override async void Execute(object parameter)
+        protected override async void OnExecute(object parameter)
         {
             ViewModel.CancellationTokenSource.Cancel();
             ViewModel.CancellationTokenSource.Dispose();

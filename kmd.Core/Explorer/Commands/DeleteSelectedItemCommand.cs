@@ -15,12 +15,14 @@ namespace kmd.Core.Explorer.Commands
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         }
 
-        public override bool CanExecute(object parameter)
+        protected readonly IDialogService _dialogService;
+
+        protected override bool OnCanExecute(object parameter)
         {
             return true;
         }
 
-        public override async void Execute(object parameter)
+        protected override async void OnExecute(object parameter)
         {
             var selectedItem = ViewModel.SelectedItem;
             if (selectedItem != null && selectedItem.IsPhysical)
@@ -40,7 +42,5 @@ namespace kmd.Core.Explorer.Commands
              );
             }
         }
-
-        protected readonly IDialogService _dialogService;
     }
 }

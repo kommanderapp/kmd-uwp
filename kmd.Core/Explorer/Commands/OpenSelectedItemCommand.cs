@@ -13,12 +13,12 @@ namespace kmd.Core.Explorer.Commands
             _fileLauncher = fileLauncher;
         }
 
-        public override bool CanExecute(object parameter)
+        protected override bool OnCanExecute(object parameter)
         {
             return true;
         }
 
-        public override async void Execute(object parameter)
+        protected override async void OnExecute(object parameter)
         {
             ViewModel.IsBusy = true;
 

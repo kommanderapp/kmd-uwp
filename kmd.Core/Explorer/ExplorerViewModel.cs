@@ -11,13 +11,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
+using System.Windows.Input;
+using kmd.Core.Explorer.Commands;
 
 namespace kmd.Core.Explorer
 {
     public class ExplorerViewModel : ViewModelBase, IExplorerViewModel
     {
         public ExplorerViewModel(ICommandBindingsProvider commandBindingsProvider,
-            IStorageFolderRootsExpander folderRootsExpander,
+                    IStorageFolderRootsExpander folderRootsExpander,
             IStorageFolderLister folderLister,
             IExplorerItemMapper explorerItemMapper)
         {
@@ -27,10 +29,11 @@ namespace kmd.Core.Explorer
 
             if (commandBindingsProvider == null) throw new ArgumentNullException(nameof(commandBindingsProvider));
             CommandBindings = commandBindingsProvider.GetBindings(this);
+
+            NavigateCommand = CommandBindings.OfType(typeof(NavigateCommand));
         }
 
         public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
-
         public CommandBindings CommandBindings { get; internal set; }
 
         public IStorageFolder CurrentFolder
@@ -97,8 +100,8 @@ namespace kmd.Core.Explorer
         }
 
         public ExplorerItemsStates ItemsState { get; set; }
-
         public DateTimeOffset LastTypedCharacterDate { get; set; }
+        public ICommand NavigateCommand { get; }
 
         public IExplorerItem SelectedItem
         {

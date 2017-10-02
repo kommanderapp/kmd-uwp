@@ -17,18 +17,23 @@ namespace kmd.Core.Explorer.Commands.Abstractions
         {
             get
             {
-                return GetCommandByName(name);
+                return OfName(name);
             }
         }
 
-        public ICommand GetCommandByHotkey(Hotkey hotkey)
+        public ICommand OfHotkey(Hotkey hotkey)
         {
             return _underlyingCommands.FirstOrDefault(x => x.Hotkey == hotkey)?.Command;
         }
 
-        public ICommand GetCommandByName(string name)
+        public ICommand OfName(string name)
         {
             return _underlyingCommands.FirstOrDefault(x => x.Name == name)?.Command;
+        }
+
+        public ICommand OfType(Type type)
+        {
+            return _underlyingCommands.FirstOrDefault(x => x.Command.GetType() == type)?.Command;
         }
 
         private IEnumerable<CommandInfo> _underlyingCommands;

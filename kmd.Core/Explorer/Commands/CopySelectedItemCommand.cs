@@ -19,12 +19,14 @@ namespace kmd.Core.Explorer.Commands
             _clipboardService = cilpboardService ?? throw new ArgumentNullException(nameof(cilpboardService));
         }
 
-        public override bool CanExecute(object parameter)
+        protected readonly ICilpboardService _clipboardService;
+
+        protected override bool OnCanExecute(object parameter)
         {
             return true;
         }
 
-        public override async void Execute(object parameter)
+        protected override async void OnExecute(object parameter)
         {
             if (ViewModel.SelectedItem != null && ViewModel.SelectedItem.IsPhysical)
             {
@@ -37,7 +39,5 @@ namespace kmd.Core.Explorer.Commands
             }
             await Task.FromResult(0);
         }
-
-        protected readonly ICilpboardService _clipboardService;
     }
 }

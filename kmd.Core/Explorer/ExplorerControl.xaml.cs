@@ -48,7 +48,7 @@ namespace kmd.Core.Explorer
         {
             if (depObj is ExplorerControl explorer && depProp.NewValue != null)
             {
-                explorer.ViewModel.CommandBindings[nameof(NavigateCommand)].Execute((IStorageFolder)depProp.NewValue);
+                explorer.ViewModel.CommandBindings.OfType(typeof(NavigateCommand)).Execute((IStorageFolder)depProp.NewValue);
             }
         }
 
@@ -57,7 +57,7 @@ namespace kmd.Core.Explorer
             if (StorageItemsControl.IsFocusedEx)
             {
                 args.Handled = true;
-                ViewModel.CommandBindings[nameof(TypingHiglightCommand)].Execute(Unicode.ToString(args.KeyCode));
+                ViewModel.CommandBindings.OfType(typeof(TypingHiglightCommand)).Execute(Unicode.ToString(args.KeyCode));
             }
         }
 
@@ -73,7 +73,7 @@ namespace kmd.Core.Explorer
 
         private void HotKeyPressed(object sender, HotkeyEventArg e)
         {
-            var command = ViewModel.CommandBindings.GetCommandByHotkey(e.Hotkey);
+            var command = ViewModel.CommandBindings.OfHotkey(e.Hotkey);
             if (command != null)
             {
                 command.Execute(null);
@@ -99,7 +99,7 @@ namespace kmd.Core.Explorer
 
         private void StorageItems_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         {
-            ViewModel.CommandBindings[nameof(OpenSelectedItemCommand)].Execute(ViewModel);
+            ViewModel.CommandBindings.OfType(typeof(OpenSelectedItemCommand)).Execute(ViewModel);
         }
 
         private void StorageItems_SelectionChanged(object sender, SelectionChangedEventArgs e)

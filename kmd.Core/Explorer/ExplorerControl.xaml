@@ -56,7 +56,7 @@
                     </controls1:PathBox>
                     <controls1:BreadcrumbControl
                         x:Name="Breadcrumb"
-                        ItemCommand="{Binding CommandBindings[Navigatecommand]}"
+                        ItemCommand="{Binding NavigateCommand}"
                         ItemsSource="{Binding CurrentFolderExpandedRoots}"
                         Opacity="{Binding ElementName=PathBox, Path=FocusState, Converter={StaticResource FocusStateToOpacityConverter}}"
                         Seperator="&gt;">
