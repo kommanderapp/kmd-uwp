@@ -1,5 +1,6 @@
-﻿using kmd.Core.Explorer.Commands.Abstractions;
+﻿using kmd.Core.Command;
 using kmd.Core.Explorer.Commands.Configuration;
+using kmd.Core.Explorer.Contracts;
 using kmd.Core.Services.Contracts;
 using kmd.Storage.Contracts;
 using System;
@@ -19,21 +20,21 @@ namespace kmd.Core.Explorer.Commands
 
         protected readonly IStorageFolderFilter _storageFolderFilter;
 
-        protected override bool OnCanExecute(object parameter)
+        protected override bool OnCanExecute(IExplorerViewModel vm)
         {
             return true;
         }
 
-        protected override async void OnExecute(object parameter)
+        protected async override void OnExecute(IExplorerViewModel vm)
         {
-            ViewModel.IsBusy = true;
+            vm.IsBusy = true;
 
-            var filteredItems = await _storageFolderFilter.FilterAsync(ViewModel.CurrentFolder,
-                ViewModel.FilterOptions, ViewModel.CancellationTokenSource.Token);
+            var filteredItems = await _storageFolderFilter.FilterAsync(vm.CurrentFolder,
+                vm.FilterOptions, vm.CancellationTokenSource.Token);
 
-            ViewModel.ExplorerItems = await _explorerItemMapper.MapAsync(filteredItems);
+            vm.ExplorerItems = await _explorerItemMapper.MapAsync(filteredItems);
 
-            ViewModel.IsBusy = false;
+            vm.IsBusy = false;
         }
     }
 }

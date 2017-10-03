@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
-namespace kmd.Core.Explorer.Commands.Abstractions
+namespace kmd.Core.Command
 {
     public class CommandBindings
     {
@@ -13,11 +13,11 @@ namespace kmd.Core.Explorer.Commands.Abstractions
             _underlyingCommands = commands ?? throw new ArgumentNullException(nameof(commands));
         }
 
-        public ICommand this[string name]
+        public ICommand this[Type type]
         {
             get
             {
-                return OfName(name);
+                return OfType(type);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using kmd.Core.Explorer.Commands;
+﻿using kmd.Core.Command;
+using kmd.Core.Explorer.Commands;
 using kmd.Core.Explorer.Controls;
 using kmd.Core.Hotkeys;
 using kmd.Helpers;
@@ -48,7 +49,16 @@ namespace kmd.Core.Explorer
         {
             if (depObj is ExplorerControl explorer && depProp.NewValue != null)
             {
-                explorer.ViewModel.CommandBindings.OfType(typeof(NavigateCommand)).Execute((IStorageFolder)depProp.NewValue);
+                explorer.ViewModel.CurrentFolder = (IStorageFolder)depProp.NewValue;
+            }
+        }
+
+        private void Breadcrumb_ItemSelected(object sender, BreadcrumbEventArgs e)
+        {
+            var folder = e.Item as IStorageFolder;
+            if (folder != null)
+            {
+                ViewModel.CurrentFolder = folder;
             }
         }
 
@@ -57,7 +67,7 @@ namespace kmd.Core.Explorer
             if (StorageItemsControl.IsFocusedEx)
             {
                 args.Handled = true;
-                ViewModel.CommandBindings.OfType(typeof(TypingHiglightCommand)).Execute(Unicode.ToString(args.KeyCode));
+                ViewModel.LastTypedChar = Unicode.ToString(args.KeyCode);
             }
         }
 
@@ -76,13 +86,9 @@ namespace kmd.Core.Explorer
             var command = ViewModel.CommandBindings.OfHotkey(e.Hotkey);
             if (command != null)
             {
-                command.Execute(null);
+                ViewModel.ExecuteCommand(command.GetType());
                 e.Handled = true;
             }
-        }
-
-        private void PathBox_LostFocus(object sender, RoutedEventArgs e)
-        {
         }
 
         private void RegisterHotkeyHandlers()
@@ -99,7 +105,7 @@ namespace kmd.Core.Explorer
 
         private void StorageItems_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         {
-            ViewModel.CommandBindings.OfType(typeof(OpenSelectedItemCommand)).Execute(ViewModel);
+            ViewModel.ExecuteCommand(typeof(OpenSelectedItemCommand));
         }
 
         private void StorageItems_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using kmd.Core.Explorer.Commands.Abstractions;
 using kmd.Core.Helpers;
 using kmd.Core.Services.Contracts;
 using kmd.Core.Explorer.Contracts;
@@ -13,28 +12,21 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using System.Windows.Input;
 using kmd.Core.Explorer.Commands;
+using kmd.Core.Explorer.Commands.Configuration;
+using kmd.Core.Command;
 
 namespace kmd.Core.Explorer
 {
-    public class ExplorerViewModel : ViewModelBase, IExplorerViewModel
+    public class ExplorerViewModel : ViewModelBase, IExplorerViewModel, IViewModelWithCommandBindings
     {
-        public ExplorerViewModel(ICommandBindingsProvider commandBindingsProvider,
-                    IStorageFolderRootsExpander folderRootsExpander,
-            IStorageFolderLister folderLister,
-            IExplorerItemMapper explorerItemMapper)
+        public ExplorerViewModel(IExplorerCommandBindingsProvider commandBindingsProvider)
         {
-            _folderRootsExpander = folderRootsExpander ?? throw new ArgumentNullException(nameof(folderRootsExpander));
-            _folderLister = folderLister ?? throw new ArgumentNullException(nameof(folderLister));
-            _explorerItemMapper = explorerItemMapper ?? throw new ArgumentNullException(nameof(explorerItemMapper));
-
-            if (commandBindingsProvider == null) throw new ArgumentNullException(nameof(commandBindingsProvider));
-            CommandBindings = commandBindingsProvider.GetBindings(this);
-
-            NavigateCommand = CommandBindings.OfType(typeof(NavigateCommand));
+            _commandBindingsProvider = commandBindingsProvider ?? throw new ArgumentNullException(nameof(commandBindingsProvider));
+            CommandBindings = _commandBindingsProvider.GetBindings(this);
         }
 
         public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
-        public CommandBindings CommandBindings { get; internal set; }
+        public CommandBindings CommandBindings { get; }
 
         public IStorageFolder CurrentFolder
         {
@@ -45,6 +37,7 @@ namespace kmd.Core.Explorer
             set
             {
                 Set(ref _currentFolder, value);
+                OnCurrentFolderUpdate();
             }
         }
 
@@ -100,8 +93,21 @@ namespace kmd.Core.Explorer
         }
 
         public ExplorerItemsStates ItemsState { get; set; }
+
+        public string LastTypedChar
+        {
+            get
+            {
+                return _lastTypedChar;
+            }
+            set
+            {
+                _lastTypedChar = value;
+                OnCharTyped();
+            }
+        }
+
         public DateTimeOffset LastTypedCharacterDate { get; set; }
-        public ICommand NavigateCommand { get; }
 
         public IExplorerItem SelectedItem
         {
@@ -131,34 +137,7 @@ namespace kmd.Core.Explorer
 
         public string TypedText { get; set; }
 
-        public async Task GoToAsync(IStorageFolder folder)
-        {
-            if (folder == null) return;
-
-            IsBusy = true;
-
-            var expandedRoots = await _folderRootsExpander.ExpandOuterAsync(folder, CancellationTokenSource.Token);
-
-            CurrentFolderExpandedRoots = new ObservableCollection<IStorageFolder>(expandedRoots);
-
-            var items = await _folderLister.ListAsync(folder, CancellationTokenSource.Token);
-
-            CurrentFolder = folder;
-            ItemsState = ExplorerItemsStates.Default;
-            ExplorerItems = await _explorerItemMapper.MapAsync(items);
-
-            IsBusy = false;
-        }
-
-        public async Task RefreshAsync()
-
-        {
-            await GoToAsync(CurrentFolder);
-        }
-
-        protected readonly IExplorerItemMapper _explorerItemMapper;
-        protected readonly IStorageFolderLister _folderLister;
-        protected readonly IStorageFolderRootsExpander _folderRootsExpander;
+        protected readonly IExplorerCommandBindingsProvider _commandBindingsProvider;
 
         protected async Task AppendAdditionalItems()
         {
@@ -171,6 +150,16 @@ namespace kmd.Core.Explorer
                     ExplorerItems.Insert(0, upperFolderModel);
                 }
             }
+        }
+
+        protected void OnCharTyped()
+        {
+            this.ExecuteCommand(typeof(TypingHiglightCommand));
+        }
+
+        protected void OnCurrentFolderUpdate()
+        {
+            this.ExecuteCommand(typeof(NavigateCommand));
         }
 
         protected async Task OnExplorerItemsUpdateAsync()
@@ -206,6 +195,8 @@ namespace kmd.Core.Explorer
         private bool _isBusy = false;
 
         private bool _isPathBoxFocused = false;
+
+        private string _lastTypedChar;
 
         private IExplorerItem _selectedItem = null;
 

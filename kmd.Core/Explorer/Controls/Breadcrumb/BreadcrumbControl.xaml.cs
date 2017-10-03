@@ -16,9 +16,6 @@ namespace kmd.Core.Explorer.Controls
         public readonly DependencyProperty DisplayMemberPathProperty =
             DependencyProperty.Register(nameof(DisplayMemberPath), typeof(string), typeof(BreadcrumbControl), new PropertyMetadata(null));
 
-        public readonly DependencyProperty ItemCommandProperty =
-          DependencyProperty.Register("ItemCommand", typeof(ICommand), typeof(BreadcrumbControl), new PropertyMetadata(null));
-
         public readonly DependencyProperty ItemsProperty =
             DependencyProperty.Register("Items", typeof(ObservableCollection<object>), typeof(BreadcrumbControl), new PropertyMetadata(new ObservableCollection<object>()));
 
@@ -49,16 +46,12 @@ namespace kmd.Core.Explorer.Controls
             this.InitializeComponent();
         }
 
+        public event EventHandler<BreadcrumbEventArgs> ItemSelected;
+
         public string DisplayMemberPath
         {
             get { return (string)GetValue(DisplayMemberPathProperty); }
             set { SetValue(DisplayMemberPathProperty, value); }
-        }
-
-        public ICommand ItemCommand
-        {
-            get { return (ICommand)GetValue(ItemCommandProperty); }
-            set { SetValue(ItemCommandProperty, value); }
         }
 
         public ObservableCollection<object> Items
@@ -152,8 +145,7 @@ namespace kmd.Core.Explorer.Controls
 
         protected virtual void OnItemSelected(BreadcrumbEventArgs e)
         {
-            if (this.ItemCommand == null) return;
-            if (this.ItemCommand.CanExecute(null)) this.ItemCommand.Execute(e.Item);
+            ItemSelected?.Invoke(this, e);
         }
 
         private static void OnItemsSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace kmd.Core.Behaviors
+namespace kmd.Core.Extensions.Behaviors
 {
     public class FocusBehavior : Behavior<Control>
     {

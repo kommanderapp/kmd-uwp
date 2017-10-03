@@ -9,6 +9,7 @@ namespace kmd.Core.Explorer.Contracts
         CancellationTokenSource CancellationTokenSource { get; set; }
         FilterOptions FilterOptions { get; set; }
         ExplorerItemsStates ItemsState { get; set; }
+        string LastTypedChar { get; set; }
         DateTimeOffset LastTypedCharacterDate { get; set; }
         IExplorerItem SelectedItemBeforeExpanding { get; set; }
         string TypedText { get; set; }

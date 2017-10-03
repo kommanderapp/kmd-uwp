@@ -1,18 +1,19 @@
-﻿using kmd.Core.Explorer.Commands.Abstractions;
+﻿using kmd.Core.Command;
 using kmd.Core.Explorer.Commands.Configuration;
+using kmd.Core.Explorer.Contracts;
 using System;
 
 namespace kmd.Core.Explorer.Commands
 {
     [ExplorerCommand]
-    internal class NavigateByPathCommand : ExplorerCommandBase
+    public class NavigateByPathCommand : ExplorerCommandBase
     {
-        protected override bool OnCanExecute(object parameter)
+        protected override bool OnCanExecute(IExplorerViewModel vm)
         {
             return true;
         }
 
-        protected override void OnExecute(object parameter)
+        protected override void OnExecute(IExplorerViewModel vm)
         {
             throw new NotImplementedException();
         }

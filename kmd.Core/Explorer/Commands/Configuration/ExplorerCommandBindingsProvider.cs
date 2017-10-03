@@ -1,4 +1,4 @@
-﻿using kmd.Core.Explorer.Commands.Abstractions;
+﻿using kmd.Core.Command;
 using kmd.Core.Explorer.Contracts;
 using Microsoft.Practices.ServiceLocation;
 using System;
@@ -9,25 +9,29 @@ using System.Windows.Input;
 
 namespace kmd.Core.Explorer.Commands.Configuration
 {
-    public class CommandBindingsProvider : ICommandBindingsProvider
+    public class ExplorerCommandBindingsProvider : IExplorerCommandBindingsProvider
     {
+        public static Func<Type, object> Resolve { private get; set; }
+
         public CommandBindings GetBindings(IExplorerViewModel explorerViewModel)
         {
+            if (Resolve == null)
+            {
+                throw new InvalidOperationException("CommandBindngs Resolve must be set in application startup.");
+            }
+
             if (explorerViewModel == null) throw new Exception(nameof(explorerViewModel));
 
             var commandInfos = new List<CommandInfo>();
-            var serviceLocator = ServiceLocator.Current;
 
             var explorerCommandDescriptors = GetExplorerCommandDescriptors();
 
             foreach (var commandDescriptor in explorerCommandDescriptors)
             {
-                var command = serviceLocator.GetInstance(commandDescriptor.Type) as ICommand;
-                if (command == null) throw new Exception($"No instance registered for {commandDescriptor.Type.FullName} command.");
-
-                if (command is ExplorerCommandBase)
+                var command = Resolve(commandDescriptor.Type) as ICommand;
+                if (command == null)
                 {
-                    (command as ExplorerCommandBase).ViewModel = explorerViewModel;
+                    throw new Exception($"No instance resoled for {commandDescriptor.Type.FullName} command.");
                 }
 
                 var commandName = commandDescriptor.Attribute.Name ?? commandDescriptor.Type.Name;
@@ -40,9 +44,9 @@ namespace kmd.Core.Explorer.Commands.Configuration
             return bindings;
         }
 
-        private static IEnumerable<CommandDescriptor> GetExplorerCommandDescriptors()
+        private static IEnumerable<ExplorerCommandDescriptor> GetExplorerCommandDescriptors()
         {
-            var assembly = typeof(ExplorerCommandBase).GetTypeInfo().Assembly;
+            var assembly = typeof(CommandBase).GetTypeInfo().Assembly;
             foreach (Type type in assembly.GetTypes())
             {
                 if (type.GetTypeInfo().GetCustomAttributes(typeof(ExplorerCommandAttribute), true).Count() > 0)
@@ -51,15 +55,15 @@ namespace kmd.Core.Explorer.Commands.Configuration
                         .GetCustomAttributes(typeof(ExplorerCommandAttribute), true)
                         .FirstOrDefault() is ExplorerCommandAttribute commandAttr)
                     {
-                        yield return new CommandDescriptor(type, commandAttr);
+                        yield return new ExplorerCommandDescriptor(type, commandAttr);
                     }
                 }
             }
         }
 
-        private class CommandDescriptor
+        private class ExplorerCommandDescriptor
         {
-            public CommandDescriptor(Type type, ExplorerCommandAttribute attribute)
+            public ExplorerCommandDescriptor(Type type, ExplorerCommandAttribute attribute)
             {
                 Type = type ?? throw new ArgumentNullException(nameof(type));
                 Attribute = attribute ?? throw new ArgumentNullException(nameof(attribute));

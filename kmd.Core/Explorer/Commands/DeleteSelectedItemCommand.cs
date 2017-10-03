@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Views;
-using kmd.Core.Explorer.Commands.Abstractions;
+using kmd.Core.Command;
 using kmd.Core.Explorer.Commands.Configuration;
+using kmd.Core.Explorer.Contracts;
 using kmd.Core.Helpers;
 using System;
 using Windows.System;
@@ -17,30 +18,26 @@ namespace kmd.Core.Explorer.Commands
 
         protected readonly IDialogService _dialogService;
 
-        protected override bool OnCanExecute(object parameter)
+        protected override bool OnCanExecute(IExplorerViewModel vm)
         {
-            return true;
+            return vm.SelectedItem != null && vm.SelectedItem.IsPhysical;
         }
 
-        protected override async void OnExecute(object parameter)
+        protected override async void OnExecute(IExplorerViewModel vm)
         {
-            var selectedItem = ViewModel.SelectedItem;
-            if (selectedItem != null && selectedItem.IsPhysical)
-            {
-                await _dialogService.ShowMessage("Explorer_DeleteFile_Message".GetLocalized(),
-                    "Explorer_DeleteFile_Title".GetLocalized(),
-                    "Explorer_DeleteFile_ConfirmButtonText".GetLocalized(),
-                    "Explorer_DeleteFile_CancelButtonText".GetLocalized(),
-                    async (accepted) =>
+            await _dialogService.ShowMessage("Explorer_DeleteFile_Message".GetLocalized(),
+                "Explorer_DeleteFile_Title".GetLocalized(),
+                "Explorer_DeleteFile_ConfirmButtonText".GetLocalized(),
+                "Explorer_DeleteFile_CancelButtonText".GetLocalized(),
+                async (accepted) =>
+                {
+                    if (accepted)
                     {
-                        if (accepted)
-                        {
-                            await selectedItem.StorageItem.DeleteAsync();
-                            ViewModel.ExplorerItems.Remove(selectedItem);
-                        }
+                        await vm.SelectedItem.StorageItem.DeleteAsync();
+                        vm.ExplorerItems.Remove(vm.SelectedItem);
                     }
-             );
-            }
+                }
+         );
         }
     }
 }
