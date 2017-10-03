@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Views;
-using kmd.Core.Explorer.Commands.Abstractions;
+using kmd.Core.Command;
 using kmd.Core.Explorer.Commands.Configuration;
+using kmd.Core.Explorer.Contracts;
 using kmd.Core.Helpers;
 using System;
 using Windows.System;
@@ -17,14 +18,14 @@ namespace kmd.Core.Explorer.Commands
 
         protected readonly IDialogService _dialogService;
 
-        protected override bool OnCanExecute(object parameter)
+        protected override bool OnCanExecute(IExplorerViewModel vm)
         {
             return true;
         }
 
-        protected override async void OnExecute(object parameter)
+        protected override async void OnExecute(IExplorerViewModel vm)
         {
-            var selectedItem = ViewModel.SelectedItem;
+            var selectedItem = vm.SelectedItem;
             if (selectedItem != null && selectedItem.IsPhysical)
             {
                 await _dialogService.ShowMessage("Explorer_DeleteFile_Message".GetLocalized(),
@@ -36,7 +37,7 @@ namespace kmd.Core.Explorer.Commands
                         if (accepted)
                         {
                             await selectedItem.StorageItem.DeleteAsync();
-                            ViewModel.ExplorerItems.Remove(selectedItem);
+                            vm.ExplorerItems.Remove(selectedItem);
                         }
                     }
              );

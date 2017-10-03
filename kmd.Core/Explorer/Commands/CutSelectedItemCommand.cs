@@ -1,5 +1,4 @@
-﻿using kmd.Core.Explorer.Commands.Abstractions;
-using kmd.Core.Explorer.Commands.Configuration;
+﻿using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Services.Contracts;
 using kmd.Core.Hotkeys;
 using System;
@@ -8,11 +7,13 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
+using kmd.Core.Command;
+using kmd.Core.Explorer.Contracts;
 
 namespace kmd.Core.Explorer.Commands
 {
     [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.X)]
-    internal class CutSelectedItemCommand : ExplorerCommandBase
+    public class CutSelectedItemCommand : ExplorerCommandBase
     {
         public CutSelectedItemCommand(ICilpboardService cilpboardService)
         {
@@ -21,14 +22,14 @@ namespace kmd.Core.Explorer.Commands
 
         protected readonly ICilpboardService _clipboardService;
 
-        protected override bool OnCanExecute(object parameter)
+        protected override bool OnCanExecute(IExplorerViewModel vm)
         {
             return true;
         }
 
-        protected override async void OnExecute(object parameter)
+        protected override void OnExecute(IExplorerViewModel vm)
         {
-            var selectedItem = ViewModel.SelectedItem;
+            var selectedItem = vm.SelectedItem;
             if (selectedItem != null && selectedItem.IsPhysical)
             {
                 var dataObject = new DataPackage
@@ -38,8 +39,6 @@ namespace kmd.Core.Explorer.Commands
                 dataObject.SetStorageItems(new List<IStorageItem>() { selectedItem.StorageItem });
                 _clipboardService.Set(dataObject);
             }
-
-            await Task.FromResult(0);
         }
     }
 }

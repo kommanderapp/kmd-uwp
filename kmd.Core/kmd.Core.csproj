@@ -107,13 +107,16 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Command\CommandBindings.cs" />
+    <Compile Include="Command\CommandInfo.cs" />
+    <Compile Include="Config\IConfigPersistanceService.cs" />
+    <Compile Include="Config\IConfigProvider.cs" />
+    <Compile Include="Config\JsonConfigPersistanceService.cs" />
     <Compile Include="CoreRegistration.cs" />
-    <Compile Include="Explorer\Commands\Abstractions\CommandBindings.cs" />
-    <Compile Include="Explorer\Commands\Abstractions\ExplorerCommandBase.cs" />
-    <Compile Include="Explorer\Commands\Abstractions\ICommandBindingsProvider.cs" />
-    <Compile Include="Explorer\Commands\Abstractions\CommandInfo.cs" />
+    <Compile Include="Command\CommandBase.cs" />
     <Compile Include="Explorer\Commands\Configuration\CommandBindingsProvider.cs" />
     <Compile Include="Explorer\Commands\CancelOperationsCommand.cs" />
+    <Compile Include="Explorer\Commands\Configuration\ExplorerCommandBase.cs" />
     <Compile Include="Explorer\Commands\CopySelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\CutSelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\DeleteSelectedItemCommand.cs" />
@@ -127,7 +130,6 @@
     <Compile Include="Explorer\Commands\OpenSelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\PasteToCurrentFolderCommand.cs" />
     <Compile Include="Explorer\Commands\TypingHiglightCommand.cs" />
-    <Compile Include="Explorer\Commands\Configuration\CommandsRegistration.cs" />
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandAttribute.cs" />
     <Compile Include="Explorer\Contracts\ExplorerItemsStates.cs" />
     <Compile Include="Explorer\Contracts\IExplorerInternalState.cs" />
@@ -154,10 +156,9 @@
     <Compile Include="Behaviors\FocusBehavior.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\ResourceExtensions.cs" />
-    <Compile Include="Helpers\SettingsStorageExtensions.cs" />
+    <Compile Include="Config\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
     <Compile Include="Helpers\Unicode.cs" />
-    <Compile Include="Explorer\Commands\Abstractions\IViewModelWithCommands.cs" />
     <Compile Include="Services\Contracts\ICilpboardService.cs" />
     <Compile Include="Services\Contracts\IDriveAccessService.cs" />
     <Compile Include="Services\Contracts\IExplorerInitialLocationService.cs" />
@@ -169,6 +170,9 @@
     <EmbeddedResource Include="Properties\kmd.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Autofac">
+      <Version>4.6.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
       <Version>1.0.0</Version>
     </PackageReference>
@@ -201,7 +205,9 @@
       <Name>kmd.Storage</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Config\Settings\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

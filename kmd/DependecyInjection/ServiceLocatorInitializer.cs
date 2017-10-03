@@ -18,19 +18,16 @@ namespace kmd.DependecyInjection
             var builder = new ContainerBuilder();
             var sc = new ServiceCollection();
 
-            sc.AddSingleton<NavigationServiceEx>();
-
-            sc.AddSingleton<IDialogService, DialogService>();
-            sc.AddSingleton<LocationAccessService>();
+            builder.RegisterType<NavigationServiceEx>().AsSelf().SingleInstance();
+            builder.RegisterType<DialogService>().As<IDialogService>();
+            builder.RegisterType<LocationAccessService>().AsSelf().SingleInstance();
 
             // ViewModels
-            sc.AddSingleton<ShellViewModel>();
-            sc.AddSingleton<MainViewModel>();
-            sc.AddSingleton<SettingsViewModel>();
+            builder.RegisterType<ShellViewModel>().AsSelf().SingleInstance();
+            builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
+            builder.RegisterType<SettingsViewModel>().AsSelf().SingleInstance();
 
-            sc.AddCoreServices();
-
-            builder.Populate(sc);
+            builder.RegisterCoreServices();
             var container = builder.Build();
 
             ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(container));

@@ -48,7 +48,7 @@ namespace kmd.Core.Explorer
         {
             if (depObj is ExplorerControl explorer && depProp.NewValue != null)
             {
-                explorer.ViewModel.CommandBindings.OfType(typeof(NavigateCommand)).Execute((IStorageFolder)depProp.NewValue);
+                explorer.ViewModel.CurrentFolder = (IStorageFolder)depProp.NewValue;
             }
         }
 
@@ -57,7 +57,7 @@ namespace kmd.Core.Explorer
             if (StorageItemsControl.IsFocusedEx)
             {
                 args.Handled = true;
-                ViewModel.CommandBindings.OfType(typeof(TypingHiglightCommand)).Execute(Unicode.ToString(args.KeyCode));
+                ViewModel.LastTypedChar = Unicode.ToString(args.KeyCode);
             }
         }
 
@@ -73,12 +73,12 @@ namespace kmd.Core.Explorer
 
         private void HotKeyPressed(object sender, HotkeyEventArg e)
         {
-            var command = ViewModel.CommandBindings.OfHotkey(e.Hotkey);
-            if (command != null)
-            {
-                command.Execute(null);
-                e.Handled = true;
-            }
+            //var command = ViewModel.CommandBindings.OfHotkey(e.Hotkey);
+            //if (command != null)
+            //{
+            //    command.Execute(null);
+            //    e.Handled = true;
+            //}
         }
 
         private void PathBox_LostFocus(object sender, RoutedEventArgs e)
@@ -99,7 +99,7 @@ namespace kmd.Core.Explorer
 
         private void StorageItems_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         {
-            ViewModel.CommandBindings.OfType(typeof(OpenSelectedItemCommand)).Execute(ViewModel);
+            ViewModel.OpenSelectedItemCommand.Execute(ViewModel);
         }
 
         private void StorageItems_SelectionChanged(object sender, SelectionChangedEventArgs e)

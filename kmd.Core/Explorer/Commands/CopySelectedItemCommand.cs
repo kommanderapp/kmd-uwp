@@ -1,5 +1,4 @@
-﻿using kmd.Core.Explorer.Commands.Abstractions;
-using kmd.Core.Explorer.Commands.Configuration;
+﻿using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Services.Contracts;
 using kmd.Core.Hotkeys;
 using System;
@@ -8,6 +7,8 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
+using kmd.Core.Command;
+using kmd.Core.Explorer.Contracts;
 
 namespace kmd.Core.Explorer.Commands
 {
@@ -21,23 +22,22 @@ namespace kmd.Core.Explorer.Commands
 
         protected readonly ICilpboardService _clipboardService;
 
-        protected override bool OnCanExecute(object parameter)
+        protected override bool OnCanExecute(IExplorerViewModel vm)
         {
             return true;
         }
 
-        protected override async void OnExecute(object parameter)
+        protected override void OnExecute(IExplorerViewModel vm)
         {
-            if (ViewModel.SelectedItem != null && ViewModel.SelectedItem.IsPhysical)
+            if (vm.SelectedItem != null && vm.SelectedItem.IsPhysical)
             {
                 var dataObject = new DataPackage
                 {
                     RequestedOperation = DataPackageOperation.Copy
                 };
-                dataObject.SetStorageItems(new List<IStorageItem>() { ViewModel.SelectedItem.StorageItem });
+                dataObject.SetStorageItems(new List<IStorageItem>() { vm.SelectedItem.StorageItem });
                 _clipboardService.Set(dataObject);
             }
-            await Task.FromResult(0);
         }
     }
 }

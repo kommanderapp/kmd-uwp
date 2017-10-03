@@ -1,40 +1,41 @@
-﻿using kmd.Core.Explorer.Commands.Abstractions;
+﻿using kmd.Core.Command;
 using kmd.Core.Explorer.Commands.Configuration;
+using kmd.Core.Explorer.Contracts;
 using kmd.Storage.Contracts;
+using System;
 using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
     [ExplorerCommand(key: VirtualKey.Enter)]
-    internal class OpenSelectedItemCommand : ExplorerCommandBase
+    public class OpenSelectedItemCommand : ExplorerCommandBase
     {
-        public OpenSelectedItemCommand(IFileLauncher fileLauncher)
+        public OpenSelectedItemCommand(IFileLauncher fileLauncher, NavigateCommand navigateCommand)
         {
-            _fileLauncher = fileLauncher;
+            _fileLauncher = fileLauncher ?? throw new ArgumentNullException(nameof(fileLauncher));
+            _navigateCommand = navigateCommand ?? throw new ArgumentNullException(nameof(navigateCommand));
         }
 
-        protected override bool OnCanExecute(object parameter)
+        protected readonly IFileLauncher _fileLauncher;
+
+        protected readonly NavigateCommand _navigateCommand;
+
+        protected override bool OnCanExecute(IExplorerViewModel vm)
         {
             return true;
         }
 
-        protected override async void OnExecute(object parameter)
+        protected override async void OnExecute(IExplorerViewModel vm)
         {
-            ViewModel.IsBusy = true;
-
-            var selectedItem = ViewModel.SelectedItem;
+            var selectedItem = vm.SelectedItem;
             if (selectedItem.IsFolder)
             {
-                await ViewModel.GoToAsync(selectedItem.AsFolder);
+                vm.CurrentFolder = selectedItem.AsFolder;
             }
             else
             {
                 await _fileLauncher.LaunchAsync(selectedItem.AsFile);
             }
-
-            ViewModel.IsBusy = false;
         }
-
-        private IFileLauncher _fileLauncher;
     }
 }

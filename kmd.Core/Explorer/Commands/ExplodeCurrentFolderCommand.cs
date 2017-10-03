@@ -1,18 +1,19 @@
-﻿using kmd.Core.Explorer.Commands.Abstractions;
-using kmd.Core.Explorer.Commands.Configuration;
+﻿using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Services.Contracts;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Hotkeys;
 using kmd.Storage.Contracts;
 using System;
 using Windows.System;
+using kmd.Core.Command;
 
 namespace kmd.Core.Explorer.Commands
 {
     [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.B)]
     public class ExplodeCurrentFolderCommand : ExplorerCommandBase
     {
-        public ExplodeCurrentFolderCommand(IStorageFolderExploder storageFolderExploder, IExplorerItemMapper explorerItemMapper)
+        public ExplodeCurrentFolderCommand(IStorageFolderExploder storageFolderExploder,
+            IExplorerItemMapper explorerItemMapper)
         {
             _storageFolderExploder = storageFolderExploder ?? throw new ArgumentNullException(nameof(storageFolderExploder));
             _explorerItemMapper = explorerItemMapper ?? throw new ArgumentNullException(nameof(explorerItemMapper));
@@ -22,23 +23,23 @@ namespace kmd.Core.Explorer.Commands
 
         protected readonly IStorageFolderExploder _storageFolderExploder;
 
-        protected override bool OnCanExecute(object parameter)
+        protected override bool OnCanExecute(IExplorerViewModel vm)
         {
             return true;
         }
 
-        protected override async void OnExecute(object parameter)
+        protected override async void OnExecute(IExplorerViewModel vm)
         {
-            ViewModel.IsBusy = true;
+            vm.IsBusy = true;
 
-            var items = await _storageFolderExploder.ExplodeAsync(ViewModel.CurrentFolder, ViewModel.CancellationTokenSource.Token);
+            var items = await _storageFolderExploder.ExplodeAsync(vm.CurrentFolder, vm.CancellationTokenSource.Token);
 
-            ViewModel.ItemsState = ExplorerItemsStates.Expanded;
-            ViewModel.SelectedItemBeforeExpanding = ViewModel.SelectedItem;
+            vm.ItemsState = ExplorerItemsStates.Expanded;
+            vm.SelectedItemBeforeExpanding = vm.SelectedItem;
 
-            ViewModel.ExplorerItems = await _explorerItemMapper.MapAsync(items);
+            vm.ExplorerItems = await _explorerItemMapper.MapAsync(items);
 
-            ViewModel.IsBusy = false;
+            vm.IsBusy = false;
         }
     }
 }

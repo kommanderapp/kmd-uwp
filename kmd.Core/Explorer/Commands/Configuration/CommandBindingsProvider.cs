@@ -1,4 +1,4 @@
-﻿using kmd.Core.Explorer.Commands.Abstractions;
+﻿using kmd.Core.Command;
 using kmd.Core.Explorer.Contracts;
 using Microsoft.Practices.ServiceLocation;
 using System;
@@ -9,9 +9,9 @@ using System.Windows.Input;
 
 namespace kmd.Core.Explorer.Commands.Configuration
 {
-    public class CommandBindingsProvider : ICommandBindingsProvider
+    public static class CommandBindingsProvider
     {
-        public CommandBindings GetBindings(IExplorerViewModel explorerViewModel)
+        public static CommandBindings GetBindings(IExplorerViewModel explorerViewModel)
         {
             if (explorerViewModel == null) throw new Exception(nameof(explorerViewModel));
 
@@ -25,11 +25,6 @@ namespace kmd.Core.Explorer.Commands.Configuration
                 var command = serviceLocator.GetInstance(commandDescriptor.Type) as ICommand;
                 if (command == null) throw new Exception($"No instance registered for {commandDescriptor.Type.FullName} command.");
 
-                if (command is ExplorerCommandBase)
-                {
-                    (command as ExplorerCommandBase).ViewModel = explorerViewModel;
-                }
-
                 var commandName = commandDescriptor.Attribute.Name ?? commandDescriptor.Type.Name;
                 var commandHotkey = commandDescriptor.Attribute.Hotkey ?? null; // TODO get hotkey from settings
                 var commandInfo = new CommandInfo(commandName, command, commandHotkey);
@@ -40,9 +35,9 @@ namespace kmd.Core.Explorer.Commands.Configuration
             return bindings;
         }
 
-        private static IEnumerable<CommandDescriptor> GetExplorerCommandDescriptors()
+        private static IEnumerable<ExplorerCommandDescriptor> GetExplorerCommandDescriptors()
         {
-            var assembly = typeof(ExplorerCommandBase).GetTypeInfo().Assembly;
+            var assembly = typeof(CommandBase).GetTypeInfo().Assembly;
             foreach (Type type in assembly.GetTypes())
             {
                 if (type.GetTypeInfo().GetCustomAttributes(typeof(ExplorerCommandAttribute), true).Count() > 0)
@@ -51,15 +46,15 @@ namespace kmd.Core.Explorer.Commands.Configuration
                         .GetCustomAttributes(typeof(ExplorerCommandAttribute), true)
                         .FirstOrDefault() is ExplorerCommandAttribute commandAttr)
                     {
-                        yield return new CommandDescriptor(type, commandAttr);
+                        yield return new ExplorerCommandDescriptor(type, commandAttr);
                     }
                 }
             }
         }
 
-        private class CommandDescriptor
+        private class ExplorerCommandDescriptor
         {
-            public CommandDescriptor(Type type, ExplorerCommandAttribute attribute)
+            public ExplorerCommandDescriptor(Type type, ExplorerCommandAttribute attribute)
             {
                 Type = type ?? throw new ArgumentNullException(nameof(type));
                 Attribute = attribute ?? throw new ArgumentNullException(nameof(attribute));

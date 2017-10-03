@@ -1,11 +1,11 @@
-﻿using System;
+﻿using kmd.Core.Helpers;
+using System;
 using System.IO;
 using System.Threading.Tasks;
-
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace kmd.Core.Helpers
+namespace kmd.Core.Config
 {
     // Use these extension methods to store and retrieve local and roaming app data
     // For more info regarding storing and retrieving app data see documentation at

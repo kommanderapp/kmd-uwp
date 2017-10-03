@@ -1,4 +1,4 @@
-﻿using kmd.Core.Explorer.Commands.Abstractions;
+﻿using kmd.Core.Command;
 using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using System;
@@ -10,30 +10,33 @@ namespace kmd.Core.Explorer.Commands
     [ExplorerCommand(key: VirtualKey.Back)]
     public class NavigateToParrentCommand : ExplorerCommandBase
     {
-        protected override bool OnCanExecute(object parameter)
+        public NavigateToParrentCommand(NavigateCommand navigateCommand)
+        {
+            _navigateCommand = navigateCommand ?? throw new ArgumentNullException(nameof(navigateCommand));
+        }
+
+        protected readonly NavigateCommand _navigateCommand;
+
+        protected override bool OnCanExecute(IExplorerViewModel vm)
         {
             return true;
         }
 
-        protected override async void OnExecute(object parameter)
+        protected async override void OnExecute(IExplorerViewModel vm)
         {
-            ViewModel.IsBusy = true;
-
-            if (ViewModel.ItemsState == ExplorerItemsStates.Default)
+            if (vm.ItemsState == ExplorerItemsStates.Default)
             {
-                var parentFolder = await (ViewModel.CurrentFolder as IStorageItem2)?.GetParentAsync();
+                var parentFolder = await (vm.CurrentFolder as IStorageItem2)?.GetParentAsync();
                 if (parentFolder != null)
                 {
-                    await ViewModel.GoToAsync(parentFolder);
+                    vm.CurrentFolder = parentFolder;
                 }
             }
             else
             {
                 // if it is expanded or filtered view, just reset view to normal state
-                await ViewModel.RefreshAsync();
+                vm.CurrentFolder = vm.CurrentFolder;
             }
-
-            ViewModel.IsBusy = false;
         }
     }
 }
