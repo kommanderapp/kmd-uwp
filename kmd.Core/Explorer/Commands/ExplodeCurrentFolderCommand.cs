@@ -25,7 +25,7 @@ namespace kmd.Core.Explorer.Commands
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
         {
-            return true;
+            return vm.ItemsState != ExplorerItemsStates.Expanded;
         }
 
         protected override async void OnExecute(IExplorerViewModel vm)

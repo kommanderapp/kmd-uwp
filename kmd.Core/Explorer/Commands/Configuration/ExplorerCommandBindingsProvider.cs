@@ -9,21 +9,30 @@ using System.Windows.Input;
 
 namespace kmd.Core.Explorer.Commands.Configuration
 {
-    public static class CommandBindingsProvider
+    public class ExplorerCommandBindingsProvider : IExplorerCommandBindingsProvider
     {
-        public static CommandBindings GetBindings(IExplorerViewModel explorerViewModel)
+        public static Func<Type, object> Resolve { private get; set; }
+
+        public CommandBindings GetBindings(IExplorerViewModel explorerViewModel)
         {
+            if (Resolve == null)
+            {
+                throw new InvalidOperationException("CommandBindngs Resolve must be set in application startup.");
+            }
+
             if (explorerViewModel == null) throw new Exception(nameof(explorerViewModel));
 
             var commandInfos = new List<CommandInfo>();
-            var serviceLocator = ServiceLocator.Current;
 
             var explorerCommandDescriptors = GetExplorerCommandDescriptors();
 
             foreach (var commandDescriptor in explorerCommandDescriptors)
             {
-                var command = serviceLocator.GetInstance(commandDescriptor.Type) as ICommand;
-                if (command == null) throw new Exception($"No instance registered for {commandDescriptor.Type.FullName} command.");
+                var command = Resolve(commandDescriptor.Type) as ICommand;
+                if (command == null)
+                {
+                    throw new Exception($"No instance resoled for {commandDescriptor.Type.FullName} command.");
+                }
 
                 var commandName = commandDescriptor.Attribute.Name ?? commandDescriptor.Type.Name;
                 var commandHotkey = commandDescriptor.Attribute.Hotkey ?? null; // TODO get hotkey from settings

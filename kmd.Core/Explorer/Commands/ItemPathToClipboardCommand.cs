@@ -22,18 +22,14 @@ namespace kmd.Core.Explorer.Commands
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
         {
-            return true;
+            return vm.SelectedItem != null && vm.SelectedItem.IsPhysical;
         }
 
         protected override void OnExecute(IExplorerViewModel vm)
         {
-            var selectedItem = vm.SelectedItem;
-            if (selectedItem != null && selectedItem.IsPhysical)
-            {
-                var data = new DataPackage();
-                data.SetText(vm.SelectedItem.Path);
-                _cilpboardService.Set(data);
-            }
+            var data = new DataPackage();
+            data.SetText(vm.SelectedItem.Path);
+            _cilpboardService.Set(data);
         }
     }
 }

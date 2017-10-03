@@ -14,12 +14,12 @@ namespace kmd.Storage.Impl
             var result = new List<IStorageItem2>();
             foreach (var item in await folder.GetItemsAsync())
             {
-                if (!(item is IStorageItem2)) continue;
-
                 if (token.IsCancellationRequested)
                 {
                     break;
                 }
+
+                if (!(item is IStorageItem2)) continue;
 
                 if (item.IsOfType(StorageItemTypes.File))
                 {

@@ -10,10 +10,9 @@ namespace kmd.Core.Explorer.Commands
     [ExplorerCommand(key: VirtualKey.Enter)]
     public class OpenSelectedItemCommand : ExplorerCommandBase
     {
-        public OpenSelectedItemCommand(IFileLauncher fileLauncher, NavigateCommand navigateCommand)
+        public OpenSelectedItemCommand(IFileLauncher fileLauncher)
         {
             _fileLauncher = fileLauncher ?? throw new ArgumentNullException(nameof(fileLauncher));
-            _navigateCommand = navigateCommand ?? throw new ArgumentNullException(nameof(navigateCommand));
         }
 
         protected readonly IFileLauncher _fileLauncher;

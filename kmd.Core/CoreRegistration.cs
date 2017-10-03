@@ -5,48 +5,51 @@ using kmd.Core.Explorer;
 using kmd.Storage.Contracts;
 using kmd.Storage.Impl;
 using Microsoft.Extensions.DependencyInjection;
-using Autofac;
 using kmd.Core.Explorer.Commands;
+using System;
+using Microsoft.Practices.ServiceLocation;
 
 namespace kmd.Core.DI
 {
     public static class CoreRegistration
     {
-        public static void RegisterCoreServices(this ContainerBuilder builder)
+        public static void AddCoreServices(this IServiceCollection sp)
         {
-            builder.RegisterType<ExplorerViewModel>().AsSelf().OnActivating(ctx =>
-            {
-            });
-
-            builder.RegisterType<ExplorerItemMapper>().As<IExplorerItemMapper>().SingleInstance();
-            builder.RegisterType<CilpboardService>().As<ICilpboardService>().SingleInstance();
-            builder.RegisterType<PathService>().As<IPathService>().SingleInstance();
-            builder.RegisterType<FileLauncher>().As<IFileLauncher>().SingleInstance();
-            builder.RegisterType<FolderPickerService>().As<IFolderPickerService>().SingleInstance();
-            builder.RegisterType<StorageFolderRootsExpander>().As<IStorageFolderRootsExpander>().SingleInstance();
-            builder.RegisterType<StorageFolderExploder>().As<IStorageFolderExploder>().SingleInstance();
-            builder.RegisterType<StorageFolderLister>().As<IStorageFolderLister>().SingleInstance();
-            builder.RegisterType<StorageFolderFilter>().As<IStorageFolderFilter>().SingleInstance();
-
-            builder.RegisterExplorerCommands();
+            sp.AddTransient<ExplorerViewModel>();
+            sp.AddSingleton<IExplorerItemMapper, ExplorerItemMapper>();
+            sp.AddSingleton<ICilpboardService, CilpboardService>();
+            sp.AddSingleton<IPathService, PathService>();
+            sp.AddSingleton<IFileLauncher, FileLauncher>();
+            sp.AddSingleton<IFolderPickerService, FolderPickerService>();
+            sp.AddSingleton<IStorageFolderRootsExpander, StorageFolderRootsExpander>();
+            sp.AddSingleton<IStorageFolderExploder, StorageFolderExploder>();
+            sp.AddSingleton<IStorageFolderLister, StorageFolderLister>();
+            sp.AddSingleton<IStorageFolderFilter, StorageFolderFilter>();
+            sp.AddExplorerDefaultCommands();
         }
 
-        public static void RegisterExplorerCommands(this ContainerBuilder builder)
+        public static void AddExplorerDefaultCommands(this IServiceCollection sp)
         {
-            builder.RegisterType<GoToPathBoxCommand>();
-            builder.RegisterType<CancelOperationsCommand>();
-            builder.RegisterType<CopySelectedItemCommand>();
-            builder.RegisterType<CutSelectedItemCommand>();
-            builder.RegisterType<DeleteSelectedItemCommand>();
-            builder.RegisterType<ExplodeCurrentFolderCommand>();
-            builder.RegisterType<FilterCommand>();
-            builder.RegisterType<ItemPathToClipboardCommand>();
-            builder.RegisterType<NavigateByPathCommand>();
-            builder.RegisterType<NavigateCommand>();
-            builder.RegisterType<NavigateToParrentCommand>();
-            builder.RegisterType<OpenSelectedItemCommand>();
-            builder.RegisterType<PasteToCurrentFolderCommand>();
-            builder.RegisterType<TypingHiglightCommand>();
+            sp.AddSingleton<IExplorerCommandBindingsProvider, ExplorerCommandBindingsProvider>();
+            sp.AddSingleton<GoToPathBoxCommand>();
+            sp.AddSingleton<CancelOperationsCommand>();
+            sp.AddSingleton<CopySelectedItemCommand>();
+            sp.AddSingleton<CutSelectedItemCommand>();
+            sp.AddSingleton<DeleteSelectedItemCommand>();
+            sp.AddSingleton<ExplodeCurrentFolderCommand>();
+            sp.AddSingleton<FilterCommand>();
+            sp.AddSingleton<ItemPathToClipboardCommand>();
+            sp.AddSingleton<NavigateByPathCommand>();
+            sp.AddSingleton<NavigateCommand>();
+            sp.AddSingleton<NavigateToParrentCommand>();
+            sp.AddSingleton<OpenSelectedItemCommand>();
+            sp.AddSingleton<PasteToCurrentFolderCommand>();
+            sp.AddSingleton<TypingHiglightCommand>();
+        }
+
+        public static void RegisterFactoryResolvers(IServiceProvider sp)
+        {
+            ExplorerCommandBindingsProvider.Resolve = (t) => sp.GetService(t);
         }
     }
 }

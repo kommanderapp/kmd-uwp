@@ -1,4 +1,5 @@
-﻿using kmd.Core.Explorer.Commands;
+﻿using kmd.Core.Command;
+using kmd.Core.Explorer.Commands;
 using kmd.Core.Explorer.Controls;
 using kmd.Core.Hotkeys;
 using kmd.Helpers;
@@ -52,6 +53,15 @@ namespace kmd.Core.Explorer
             }
         }
 
+        private void Breadcrumb_ItemSelected(object sender, BreadcrumbEventArgs e)
+        {
+            var folder = e.Item as IStorageFolder;
+            if (folder != null)
+            {
+                ViewModel.CurrentFolder = folder;
+            }
+        }
+
         private void CoreWindow_CharacterRecieved(CoreWindow sender, CharacterReceivedEventArgs args)
         {
             if (StorageItemsControl.IsFocusedEx)
@@ -73,16 +83,12 @@ namespace kmd.Core.Explorer
 
         private void HotKeyPressed(object sender, HotkeyEventArg e)
         {
-            //var command = ViewModel.CommandBindings.OfHotkey(e.Hotkey);
-            //if (command != null)
-            //{
-            //    command.Execute(null);
-            //    e.Handled = true;
-            //}
-        }
-
-        private void PathBox_LostFocus(object sender, RoutedEventArgs e)
-        {
+            var command = ViewModel.CommandBindings.OfHotkey(e.Hotkey);
+            if (command != null)
+            {
+                ViewModel.ExecuteCommand(command.GetType());
+                e.Handled = true;
+            }
         }
 
         private void RegisterHotkeyHandlers()
@@ -99,7 +105,7 @@ namespace kmd.Core.Explorer
 
         private void StorageItems_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         {
-            ViewModel.OpenSelectedItemCommand.Execute(ViewModel);
+            ViewModel.ExecuteCommand(typeof(OpenSelectedItemCommand));
         }
 
         private void StorageItems_SelectionChanged(object sender, SelectionChangedEventArgs e)

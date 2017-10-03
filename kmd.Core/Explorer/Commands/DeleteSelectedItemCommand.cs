@@ -20,28 +20,24 @@ namespace kmd.Core.Explorer.Commands
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
         {
-            return true;
+            return vm.SelectedItem != null && vm.SelectedItem.IsPhysical;
         }
 
         protected override async void OnExecute(IExplorerViewModel vm)
         {
-            var selectedItem = vm.SelectedItem;
-            if (selectedItem != null && selectedItem.IsPhysical)
-            {
-                await _dialogService.ShowMessage("Explorer_DeleteFile_Message".GetLocalized(),
-                    "Explorer_DeleteFile_Title".GetLocalized(),
-                    "Explorer_DeleteFile_ConfirmButtonText".GetLocalized(),
-                    "Explorer_DeleteFile_CancelButtonText".GetLocalized(),
-                    async (accepted) =>
+            await _dialogService.ShowMessage("Explorer_DeleteFile_Message".GetLocalized(),
+                "Explorer_DeleteFile_Title".GetLocalized(),
+                "Explorer_DeleteFile_ConfirmButtonText".GetLocalized(),
+                "Explorer_DeleteFile_CancelButtonText".GetLocalized(),
+                async (accepted) =>
+                {
+                    if (accepted)
                     {
-                        if (accepted)
-                        {
-                            await selectedItem.StorageItem.DeleteAsync();
-                            vm.ExplorerItems.Remove(selectedItem);
-                        }
+                        await vm.SelectedItem.StorageItem.DeleteAsync();
+                        vm.ExplorerItems.Remove(vm.SelectedItem);
                     }
-             );
-            }
+                }
+         );
         }
     }
 }

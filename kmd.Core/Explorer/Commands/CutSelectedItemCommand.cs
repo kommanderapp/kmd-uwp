@@ -24,21 +24,17 @@ namespace kmd.Core.Explorer.Commands
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
         {
-            return true;
+            return vm.SelectedItem != null && vm.SelectedItem.IsPhysical;
         }
 
         protected override void OnExecute(IExplorerViewModel vm)
         {
-            var selectedItem = vm.SelectedItem;
-            if (selectedItem != null && selectedItem.IsPhysical)
+            var dataObject = new DataPackage
             {
-                var dataObject = new DataPackage
-                {
-                    RequestedOperation = DataPackageOperation.Move
-                };
-                dataObject.SetStorageItems(new List<IStorageItem>() { selectedItem.StorageItem });
-                _clipboardService.Set(dataObject);
-            }
+                RequestedOperation = DataPackageOperation.Move
+            };
+            dataObject.SetStorageItems(new List<IStorageItem>() { vm.SelectedItem.StorageItem });
+            _clipboardService.Set(dataObject);
         }
     }
 }

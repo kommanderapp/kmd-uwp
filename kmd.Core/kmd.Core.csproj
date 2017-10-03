@@ -109,14 +109,17 @@
   <ItemGroup>
     <Compile Include="Command\CommandBindings.cs" />
     <Compile Include="Command\CommandInfo.cs" />
+    <Compile Include="Command\IViewModelWithCommandBindings.cs" />
+    <Compile Include="Command\ViewModelWithCommandBindingsExtensions.cs" />
     <Compile Include="Config\IConfigPersistanceService.cs" />
     <Compile Include="Config\IConfigProvider.cs" />
     <Compile Include="Config\JsonConfigPersistanceService.cs" />
     <Compile Include="CoreRegistration.cs" />
     <Compile Include="Command\CommandBase.cs" />
-    <Compile Include="Explorer\Commands\Configuration\CommandBindingsProvider.cs" />
+    <Compile Include="Explorer\Commands\Configuration\ExplorerCommandBindingsProvider.cs" />
     <Compile Include="Explorer\Commands\CancelOperationsCommand.cs" />
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandBase.cs" />
+    <Compile Include="Explorer\Commands\Configuration\IExplorerCommandBindingsProvider.cs" />
     <Compile Include="Explorer\Commands\CopySelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\CutSelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\DeleteSelectedItemCommand.cs" />
@@ -153,7 +156,7 @@
     <Compile Include="Hotkeys\HotkeyEventArg.cs" />
     <Compile Include="Hotkeys\KeyEventsAgregator.cs" />
     <Compile Include="Explorer\Models\ExplorerUpperFolderLinkItem.cs" />
-    <Compile Include="Behaviors\FocusBehavior.cs" />
+    <Compile Include="Extensions\Behaviors\FocusBehavior.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\ResourceExtensions.cs" />
     <Compile Include="Config\SettingsStorageExtensions.cs" />

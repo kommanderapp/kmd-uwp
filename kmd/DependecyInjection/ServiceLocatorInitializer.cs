@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.CommonServiceLocator;
 using GalaSoft.MvvmLight.Views;
 using kmd.Core.DI;
+using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Services.Impl;
 using kmd.Services;
 using kmd.ViewModels;
@@ -27,10 +28,16 @@ namespace kmd.DependecyInjection
             builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<SettingsViewModel>().AsSelf().SingleInstance();
 
-            builder.RegisterCoreServices();
-            var container = builder.Build();
+            sc.AddCoreServices();
+            builder.Populate(sc);
 
-            ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(container));
+            var container = builder.Build();
+            var serviceLocator = new AutofacServiceLocator(container);
+
+            ExplorerCommandBindingsProvider.Resolve = (t) => serviceLocator.GetService(t);
+            //CoreRegistration.RegisterFactoryResolvers(serviceLocator);
+
+            ServiceLocator.SetLocatorProvider(() => serviceLocator);
         }
     }
 }

@@ -18,6 +18,11 @@ namespace kmd.Core.Hotkeys
 
         public ModifierKeys ModifierKey { get; }
 
+        public static Hotkey For(VirtualKey key)
+        {
+            return Hotkey.For(ModifierKeys.None, key);
+        }
+
         public static Hotkey For(ModifierKeys modifierKey, VirtualKey key)
         {
             if (modifierKey == ModifierKeys.None && key == VirtualKey.None)

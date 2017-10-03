@@ -13,35 +13,20 @@ using Windows.Storage;
 using System.Windows.Input;
 using kmd.Core.Explorer.Commands;
 using kmd.Core.Explorer.Commands.Configuration;
+using kmd.Core.Command;
 
 namespace kmd.Core.Explorer
 {
-    public class ExplorerViewModel : ViewModelBase, IExplorerViewModel
+    public class ExplorerViewModel : ViewModelBase, IExplorerViewModel, IViewModelWithCommandBindings
     {
-        public ExplorerViewModel()
+        public ExplorerViewModel(IExplorerCommandBindingsProvider commandBindingsProvider)
         {
+            _commandBindingsProvider = commandBindingsProvider ?? throw new ArgumentNullException(nameof(commandBindingsProvider));
+            CommandBindings = _commandBindingsProvider.GetBindings(this);
         }
 
-        #region commands
-
-        public CancelOperationsCommand CancelOperationsCommand { get; set; }
-        public CopySelectedItemCommand CopySelectedItemCommand { get; set; }
-        public CutSelectedItemCommand CutSelectedItemCommand { get; set; }
-        public DeleteSelectedItemCommand DeleteSelectedItemCommand { get; set; }
-        public ExplodeCurrentFolderCommand ExplodeCurrentFolderCommand { get; set; }
-        public FilterCommand FilterCommand { get; set; }
-        public GoToPathBoxCommand GoToPathBoxCommand { get; set; }
-        public ItemPathToClipboardCommand ItemPathToClipboardCommand { get; set; }
-        public NavigateByPathCommand NavigateByPathCommand { get; set; }
-        public NavigateCommand NavigateCommand { get; set; }
-        public NavigateToParrentCommand NavigateToParrentCommand { get; set; }
-        public OpenSelectedItemCommand OpenSelectedItemCommand { get; set; }
-        public PasteToCurrentFolderCommand PasteToCurrentFolderCommand { get; set; }
-        public TypingHiglightCommand TypingHiglightCommand { get; set; }
-
-        #endregion commands
-
         public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
+        public CommandBindings CommandBindings { get; }
 
         public IStorageFolder CurrentFolder
         {
@@ -152,6 +137,8 @@ namespace kmd.Core.Explorer
 
         public string TypedText { get; set; }
 
+        protected readonly IExplorerCommandBindingsProvider _commandBindingsProvider;
+
         protected async Task AppendAdditionalItems()
         {
             if (ItemsState == ExplorerItemsStates.Default && CurrentFolder != null)
@@ -167,12 +154,12 @@ namespace kmd.Core.Explorer
 
         protected void OnCharTyped()
         {
-            TypingHiglightCommand.Execute(this);
+            this.ExecuteCommand(typeof(TypingHiglightCommand));
         }
 
         protected void OnCurrentFolderUpdate()
         {
-            NavigateCommand.Execute(this);
+            this.ExecuteCommand(typeof(NavigateCommand));
         }
 
         protected async Task OnExplorerItemsUpdateAsync()

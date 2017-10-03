@@ -9,17 +9,11 @@ namespace kmd.Core.Command
     {
         public event EventHandler CanExecuteChanged;
 
-        public virtual Hotkey Hotkey => null;
-        public string ShortcutText { get; set; }
-
         public bool CanExecute(object parameter) => OnCanExecute(parameter);
 
         public async void Execute(object parameter)
         {
-            if (CanExecute(parameter))
-            {
-                OnExecute(parameter);
-            }
+            OnExecute(parameter);
         }
 
         protected abstract bool OnCanExecute(object parameter);
