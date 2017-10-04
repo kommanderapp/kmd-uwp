@@ -11,7 +11,7 @@ using Windows.System;
 namespace kmd.Core.Explorer.Commands
 {
     [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.Right)]
-    public class GoForwardCommand : ExplorerCommandBase
+    public class NavigateForwardCommand : ExplorerCommandBase
     {
         protected override bool OnCanExecute(IExplorerViewModel vm)
         {

@@ -45,8 +45,8 @@ namespace kmd.Core.DI
             sp.AddSingleton<OpenSelectedItemCommand>();
             sp.AddSingleton<PasteToCurrentFolderCommand>();
             sp.AddSingleton<TypingHiglightCommand>();
-            sp.AddSingleton<GoForwardCommand>();
-            sp.AddSingleton<GoBackwardCommand>();
+            sp.AddSingleton<NavigateForwardCommand>();
+            sp.AddSingleton<NavigateBackwardCommand>();
         }
     }
 }

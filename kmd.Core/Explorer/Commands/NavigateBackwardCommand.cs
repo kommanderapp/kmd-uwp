@@ -11,7 +11,7 @@ using kmd.Core.Explorer.Contracts;
 namespace kmd.Core.Explorer.Commands
 {
     [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.Left)]
-    public class GoBackwardCommand : ExplorerCommandBase
+    public class NavigateBackwardCommand : ExplorerCommandBase
     {
         protected override bool OnCanExecute(IExplorerViewModel vm)
         {

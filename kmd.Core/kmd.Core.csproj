@@ -125,8 +125,8 @@
     <Compile Include="Explorer\Commands\DeleteSelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\ExplodeCurrentFolderCommand.cs" />
     <Compile Include="Explorer\Commands\FilterCommand.cs" />
-    <Compile Include="Explorer\Commands\GoBackwardCommand.cs" />
-    <Compile Include="Explorer\Commands\GoForwardCommand.cs" />
+    <Compile Include="Explorer\Commands\NavigateBackwardCommand.cs" />
+    <Compile Include="Explorer\Commands\NavigateForwardCommand.cs" />
     <Compile Include="Explorer\Commands\GoToPathBoxCommand.cs" />
     <Compile Include="Explorer\Commands\ItemPathToClipboardCommand.cs" />
     <Compile Include="Explorer\Commands\NavigateByPathCommand.cs" />
