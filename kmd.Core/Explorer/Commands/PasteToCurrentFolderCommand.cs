@@ -10,7 +10,7 @@ using kmd.Core.Explorer.Contracts;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.Enter)]
+    [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.V)]
     public class PasteToCurrentFolderCommand : ExplorerCommandBase
     {
         public PasteToCurrentFolderCommand(ICilpboardService cilpboardService, NavigateCommand navigateCommand)

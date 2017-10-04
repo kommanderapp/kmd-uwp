@@ -45,11 +45,8 @@ namespace kmd.Core.DI
             sp.AddSingleton<OpenSelectedItemCommand>();
             sp.AddSingleton<PasteToCurrentFolderCommand>();
             sp.AddSingleton<TypingHiglightCommand>();
-        }
-
-        public static void RegisterFactoryResolvers(IServiceProvider sp)
-        {
-            ExplorerCommandBindingsProvider.Resolve = (t) => sp.GetService(t);
+            sp.AddSingleton<GoForwardCommand>();
+            sp.AddSingleton<GoBackwardCommand>();
         }
     }
 }

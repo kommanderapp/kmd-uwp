@@ -23,6 +23,7 @@ namespace kmd.Core.Explorer
         {
             _commandBindingsProvider = commandBindingsProvider ?? throw new ArgumentNullException(nameof(commandBindingsProvider));
             CommandBindings = _commandBindingsProvider.GetBindings(this);
+            NavigationHistory = new ExplorerNavigationHistory();
         }
 
         public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
@@ -109,6 +110,8 @@ namespace kmd.Core.Explorer
 
         public DateTimeOffset LastTypedCharacterDate { get; set; }
 
+        public ExplorerNavigationHistory NavigationHistory { get; set; }
+
         public IExplorerItem SelectedItem
         {
             get
@@ -136,7 +139,6 @@ namespace kmd.Core.Explorer
         }
 
         public string TypedText { get; set; }
-
         protected readonly IExplorerCommandBindingsProvider _commandBindingsProvider;
 
         protected async Task AppendAdditionalItems()
@@ -160,6 +162,7 @@ namespace kmd.Core.Explorer
         protected void OnCurrentFolderUpdate()
         {
             this.ExecuteCommand(typeof(NavigateCommand));
+            NavigationHistory.SetCurrent(CurrentFolder);
         }
 
         protected async Task OnExplorerItemsUpdateAsync()
