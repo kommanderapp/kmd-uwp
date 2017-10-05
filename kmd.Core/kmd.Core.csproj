@@ -108,7 +108,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Command\CommandBindings.cs" />
-    <Compile Include="Command\CommandInfo.cs" />
+    <Compile Include="Command\CommandBinding.cs" />
     <Compile Include="Command\IViewModelWithCommandBindings.cs" />
     <Compile Include="Command\ViewModelWithCommandBindingsExtensions.cs" />
     <Compile Include="Config\IConfigPersistanceService.cs" />

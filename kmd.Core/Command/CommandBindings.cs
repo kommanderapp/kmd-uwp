@@ -8,7 +8,7 @@ namespace kmd.Core.Command
 {
     public class CommandBindings
     {
-        public CommandBindings(IEnumerable<CommandInfo> commands)
+        public CommandBindings(IEnumerable<CommandBinding> commands)
         {
             _underlyingCommands = commands ?? throw new ArgumentNullException(nameof(commands));
         }
@@ -36,6 +36,6 @@ namespace kmd.Core.Command
             return _underlyingCommands.FirstOrDefault(x => x.Command.GetType() == type)?.Command;
         }
 
-        private IEnumerable<CommandInfo> _underlyingCommands;
+        private IEnumerable<CommandBinding> _underlyingCommands;
     }
 }

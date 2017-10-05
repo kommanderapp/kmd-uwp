@@ -39,7 +39,7 @@ namespace kmd.Core.Explorer.Commands.Configuration
 
             if (explorerViewModel == null) throw new Exception(nameof(explorerViewModel));
 
-            var commandInfos = new List<CommandInfo>();
+            var commandBindings = new List<CommandBinding>();
 
             var explorerCommandDescriptors = GetExplorerCommandDescriptors();
 
@@ -53,11 +53,11 @@ namespace kmd.Core.Explorer.Commands.Configuration
 
                 var commandName = commandDescriptor.Attribute.Name ?? commandDescriptor.Type.Name;
                 var commandHotkey = commandDescriptor.Attribute.Hotkey ?? null; // TODO get hotkey from settings
-                var commandInfo = new CommandInfo(commandName, command, commandHotkey);
-                commandInfos.Add(commandInfo);
+                var commandInfo = new CommandBinding(commandName, command, commandHotkey);
+                commandBindings.Add(commandInfo);
             }
 
-            var bindings = new CommandBindings(commandInfos);
+            var bindings = new CommandBindings(commandBindings);
             return bindings;
         }
 
