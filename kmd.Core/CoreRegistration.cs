@@ -31,22 +31,12 @@ namespace kmd.Core.DI
         public static void AddExplorerDefaultCommands(this IServiceCollection sp)
         {
             sp.AddSingleton<IExplorerCommandBindingsProvider, ExplorerCommandBindingsProvider>();
-            sp.AddSingleton<GoToPathBoxCommand>();
-            sp.AddSingleton<CancelOperationsCommand>();
-            sp.AddSingleton<CopySelectedItemCommand>();
-            sp.AddSingleton<CutSelectedItemCommand>();
-            sp.AddSingleton<DeleteSelectedItemCommand>();
-            sp.AddSingleton<ExplodeCurrentFolderCommand>();
-            sp.AddSingleton<FilterCommand>();
-            sp.AddSingleton<ItemPathToClipboardCommand>();
-            sp.AddSingleton<NavigateByPathCommand>();
-            sp.AddSingleton<NavigateCommand>();
-            sp.AddSingleton<NavigateToParrentCommand>();
-            sp.AddSingleton<OpenSelectedItemCommand>();
-            sp.AddSingleton<PasteToCurrentFolderCommand>();
-            sp.AddSingleton<TypingHiglightCommand>();
-            sp.AddSingleton<NavigateForwardCommand>();
-            sp.AddSingleton<NavigateBackwardCommand>();
+
+            var commandDescriptors = ExplorerCommandBindingsProvider.GetExplorerCommandDescriptors();
+            foreach (var commandDescriptor in commandDescriptors)
+            {
+                sp.AddSingleton(commandDescriptor.Type);
+            }
         }
     }
 }

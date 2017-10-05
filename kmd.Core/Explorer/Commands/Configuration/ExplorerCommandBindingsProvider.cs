@@ -13,6 +13,23 @@ namespace kmd.Core.Explorer.Commands.Configuration
     {
         public static Func<Type, object> Resolve { private get; set; }
 
+        public static IEnumerable<ExplorerCommandDescriptor> GetExplorerCommandDescriptors()
+        {
+            var assembly = typeof(CommandBase).GetTypeInfo().Assembly;
+            foreach (Type type in assembly.GetTypes())
+            {
+                if (type.GetTypeInfo().GetCustomAttributes(typeof(ExplorerCommandAttribute), true).Count() > 0)
+                {
+                    if (type.GetTypeInfo()
+                        .GetCustomAttributes(typeof(ExplorerCommandAttribute), true)
+                        .FirstOrDefault() is ExplorerCommandAttribute commandAttr)
+                    {
+                        yield return new ExplorerCommandDescriptor(type, commandAttr);
+                    }
+                }
+            }
+        }
+
         public CommandBindings GetBindings(IExplorerViewModel explorerViewModel)
         {
             if (Resolve == null)
@@ -44,24 +61,7 @@ namespace kmd.Core.Explorer.Commands.Configuration
             return bindings;
         }
 
-        private static IEnumerable<ExplorerCommandDescriptor> GetExplorerCommandDescriptors()
-        {
-            var assembly = typeof(CommandBase).GetTypeInfo().Assembly;
-            foreach (Type type in assembly.GetTypes())
-            {
-                if (type.GetTypeInfo().GetCustomAttributes(typeof(ExplorerCommandAttribute), true).Count() > 0)
-                {
-                    if (type.GetTypeInfo()
-                        .GetCustomAttributes(typeof(ExplorerCommandAttribute), true)
-                        .FirstOrDefault() is ExplorerCommandAttribute commandAttr)
-                    {
-                        yield return new ExplorerCommandDescriptor(type, commandAttr);
-                    }
-                }
-            }
-        }
-
-        private class ExplorerCommandDescriptor
+        public class ExplorerCommandDescriptor
         {
             public ExplorerCommandDescriptor(Type type, ExplorerCommandAttribute attribute)
             {
