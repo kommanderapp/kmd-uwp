@@ -1,9 +1,9 @@
 # kmd-uwp
-kommander is next generation uwp file manager with focus on usability
+kommander is next generation uwp file manager with focus on usability. It will *probably* change the way you work with your files.
 
-It is in active development.
+Project is in active development now.
 
-Release date is: November - 30 - 2017
+Release Date: **11/30/2017**
 
 ## Features Implemented
 
