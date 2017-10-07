@@ -19,3 +19,6 @@ Release Date: **11/30/2017**
 * Explode folder (list all iner items in folder)
 * Cancel long running operations
 * Pathbox with navigation by path
+
+### Giff time
+![giff](https://thumbs.gfycat.com/SnappyIncredibleGermanspitz-size_restricted.gif)
