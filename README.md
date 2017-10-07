@@ -22,7 +22,7 @@ Release Date: **11/30/2017**
 * Pathbox with navigation by path
 
 ### Giff time
-![giff](https://thumbs.gfycat.com/SnappyIncredibleGermanspitz-size_restricted.gif)
+![giff](https://thumbs.gfycat.com/CreativeColossalAnemoneshrimp-size_restricted.gif)
 
 ### Contribution
 
