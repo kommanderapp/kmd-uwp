@@ -1,3 +1,4 @@
+
 # kmd - Kommander
 kommander is next generation uwp file manager with focus on usability. 
 
@@ -22,3 +23,7 @@ Release Date: **11/30/2017**
 
 ### Giff time
 ![giff](https://thumbs.gfycat.com/SnappyIncredibleGermanspitz-size_restricted.gif)
+
+### Contribution
+
+We are welcome to any contribution. Feel free to grab from Issues, or add new Feature-Requests/Bugs there.
