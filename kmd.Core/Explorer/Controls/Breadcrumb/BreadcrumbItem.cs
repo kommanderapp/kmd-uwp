@@ -11,8 +11,15 @@ namespace kmd.Core.Explorer.Controls
         {
             Background = new SolidColorBrush(new Color()); // transparent
             BorderThickness = new Thickness(0);
+            IsTabStop = false;
         }
     }
 
-    internal class BreadcrumbSeperator : ContentControl { }
+    internal class BreadcrumbSeperator : ContentControl
+    {
+        public BreadcrumbSeperator()
+        {
+            IsTabStop = false;
+        }
+    }
 }

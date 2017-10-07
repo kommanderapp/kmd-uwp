@@ -21,10 +21,6 @@ namespace kmd.Core.Explorer
 
             this.Loaded += ExplorerControl_Loaded;
             this.Unloaded += ExplorerControl_Unloaded;
-
-            _keyEventsAgregator = new KeyEventsAgregator();
-
-            RegisterHotkeyHandlers();
         }
 
         public BreadcrumbControl BreadcrumbControl => this.Breadcrumb;
@@ -43,8 +39,6 @@ namespace kmd.Core.Explorer
             get { return RootElement.DataContext as ExplorerViewModel; }
         }
 
-        private KeyEventsAgregator _keyEventsAgregator;
-
         private static void RootFolder_Changed(DependencyObject depObj, DependencyPropertyChangedEventArgs depProp)
         {
             if (depObj is ExplorerControl explorer && depProp.NewValue != null)
@@ -62,23 +56,30 @@ namespace kmd.Core.Explorer
             }
         }
 
-        private void CoreWindow_CharacterRecieved(CoreWindow sender, CharacterReceivedEventArgs args)
+        private void CharacterRecieved(object sender, CharReceivedEventArgs args)
         {
             if (StorageItemsControl.IsFocusedEx)
             {
-                args.Handled = true;
-                ViewModel.LastTypedChar = Unicode.ToString(args.KeyCode);
+                if (!string.IsNullOrEmpty(args.Character))
+                {
+                    ViewModel.LastTypedChar = args.Character;
+                    args.Handled = true;
+                }
             }
         }
 
         private void ExplorerControl_Loaded(object sender, RoutedEventArgs e)
         {
             // TODO ExplorerManager
+            KeyEventsAgregator.HotKey += HotKeyPressed;
+            KeyEventsAgregator.CharacterReceived += CharacterRecieved;
         }
 
         private void ExplorerControl_Unloaded(object sender, RoutedEventArgs e)
         {
             // TODO ExplorerManager
+            KeyEventsAgregator.HotKey -= HotKeyPressed;
+            KeyEventsAgregator.CharacterReceived -= CharacterRecieved;
         }
 
         private void HotKeyPressed(object sender, HotkeyEventArg e)
@@ -89,18 +90,6 @@ namespace kmd.Core.Explorer
                 ViewModel.ExecuteCommand(command.GetType());
                 e.Handled = true;
             }
-        }
-
-        private void RegisterHotkeyHandlers()
-        {
-            if (Window.Current?.CoreWindow != null)
-            {
-                Window.Current.CoreWindow.CharacterReceived += CoreWindow_CharacterRecieved;
-            }
-
-            RootElement.KeyUp += _keyEventsAgregator.KeyUpHandler;
-            RootElement.KeyDown += _keyEventsAgregator.KeyDownHandler;
-            _keyEventsAgregator.HotKey += HotKeyPressed;
         }
 
         private void StorageItems_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)

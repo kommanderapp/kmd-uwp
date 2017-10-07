@@ -116,6 +116,9 @@
     <Compile Include="Config\JsonConfigPersistanceService.cs" />
     <Compile Include="CoreRegistration.cs" />
     <Compile Include="Command\CommandBase.cs" />
+    <Compile Include="ExplorerTabs\ExplorerTabsControl.xaml.cs">
+      <DependentUpon>ExplorerTabsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandBindingsProvider.cs" />
     <Compile Include="Explorer\Commands\CancelOperationsCommand.cs" />
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandBase.cs" />
@@ -155,6 +158,7 @@
     </Compile>
     <Compile Include="Explorer\ExplorerViewModel.cs" />
     <Compile Include="Explorer\Models\ExplorerNavigationHistory.cs" />
+    <Compile Include="Hotkeys\CharReceivedEventArgs.cs" />
     <Compile Include="Hotkeys\Hotkey.cs" />
     <Compile Include="Hotkeys\HotkeyEventArg.cs" />
     <Compile Include="Hotkeys\KeyEventsAgregator.cs" />
@@ -196,6 +200,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ExplorerTabs\ExplorerTabsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Explorer\Controls\Breadcrumb\BreadcrumbControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

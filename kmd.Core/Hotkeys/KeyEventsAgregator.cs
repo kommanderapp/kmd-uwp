@@ -1,16 +1,42 @@
-﻿using System;
+﻿using kmd.Helpers;
+using System;
+using Windows.Foundation;
 using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 
 namespace kmd.Core.Hotkeys
 {
-    public class KeyEventsAgregator
+    public static class KeyEventsAgregator
     {
-        public event EventHandler<HotkeyEventArg> HotKey;
-
-        public void KeyDownHandler(object sender, KeyRoutedEventArgs e)
+        static KeyEventsAgregator()
         {
-            if (e.Key == VirtualKey.Control)
+            var window = Window.Current.CoreWindow;
+            if (window == null) throw new InvalidOperationException("KeyEventsAgregator accessed not in a time, when window is initialized.");
+
+            window.KeyUp += KeyUpHandler;
+            window.KeyDown += KeyDownHandler;
+            window.CharacterReceived += CharacterReceivedHandler;
+        }
+
+        public static event EventHandler<CharReceivedEventArgs> CharacterReceived;
+
+        public static event EventHandler<HotkeyEventArg> HotKey;
+
+        private static bool _isCtrlKeyPressed = false;
+
+        private static void CharacterReceivedHandler(CoreWindow sender, CharacterReceivedEventArgs e)
+        {
+            var uniChar = Unicode.ToString(e.KeyCode);
+            var args = new CharReceivedEventArgs(uniChar);
+            CharacterReceived?.Invoke(sender, args);
+            e.Handled = args.Handled;
+        }
+
+        private static void KeyDownHandler(CoreWindow sender, KeyEventArgs e)
+        {
+            if (e.VirtualKey == VirtualKey.Control)
             {
                 _isCtrlKeyPressed = true;
                 return;
@@ -19,17 +45,15 @@ namespace kmd.Core.Hotkeys
             ModifierKeys modifierKey = ModifierKeys.None;
             if (_isCtrlKeyPressed) modifierKey = ModifierKeys.Control;
 
-            var hotkey = Hotkey.For(modifierKey, e.Key);
-            var hotkeyEvent = new HotkeyEventArg(hotkey);
-            HotKey?.Invoke(this, hotkeyEvent);
-            e.Handled = hotkeyEvent.Handled;
+            var hotkey = Hotkey.For(modifierKey, e.VirtualKey);
+            var args = new HotkeyEventArg(hotkey);
+            HotKey?.Invoke(sender, args);
+            e.Handled = args.Handled;
         }
 
-        public void KeyUpHandler(object sender, KeyRoutedEventArgs e)
+        private static void KeyUpHandler(CoreWindow sender, KeyEventArgs e)
         {
-            if (e.Key == VirtualKey.Control) _isCtrlKeyPressed = false;
+            if (e.VirtualKey == VirtualKey.Control) _isCtrlKeyPressed = false;
         }
-
-        protected bool _isCtrlKeyPressed = false;
     }
 }
