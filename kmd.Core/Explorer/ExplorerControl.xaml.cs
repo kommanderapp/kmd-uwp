@@ -7,31 +7,39 @@ using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 
 namespace kmd.Core.Explorer
 {
     public sealed partial class ExplorerControl : UserControl
     {
-        public static readonly DependencyProperty RootFolderProperty =
-            DependencyProperty.Register("RootFolder", typeof(StorageFolder), typeof(ExplorerControl), new PropertyMetadata(null, RootFolder_Changed));
+        public static readonly DependencyProperty CurrentFolderProperty =
+            DependencyProperty.Register("CurrentFolder", typeof(StorageFolder), typeof(ExplorerControl), new PropertyMetadata(null, CurrentFolder_Changed));
 
         public ExplorerControl()
         {
             this.InitializeComponent();
+
+            this.SetBinding(CurrentFolderProperty, new Binding()
+            {
+                Mode = BindingMode.TwoWay,
+                Path = new PropertyPath("CurrentFolder"),
+                Source = ViewModel
+            });
 
             this.Loaded += ExplorerControl_Loaded;
             this.Unloaded += ExplorerControl_Unloaded;
         }
 
         public BreadcrumbControl BreadcrumbControl => this.Breadcrumb;
-        public PathBox PathBoxControl => this.PathBox;
 
-        public StorageFolder RootFolder
+        public StorageFolder CurrentFolder
         {
-            get { return (StorageFolder)GetValue(RootFolderProperty); }
-            set { SetValue(RootFolderProperty, value); }
+            get { return (StorageFolder)GetValue(CurrentFolderProperty); }
+            set { SetValue(CurrentFolderProperty, value); }
         }
 
+        public PathBox PathBoxControl => this.PathBox;
         public ExplorerListView StorageItemsControl => this.StorageItems as ExplorerListView;
 
         public ExplorerViewModel ViewModel
@@ -39,12 +47,12 @@ namespace kmd.Core.Explorer
             get { return RootElement.DataContext as ExplorerViewModel; }
         }
 
-        private static void RootFolder_Changed(DependencyObject depObj, DependencyPropertyChangedEventArgs depProp)
+        private static void CurrentFolder_Changed(DependencyObject depObj, DependencyPropertyChangedEventArgs depProp)
         {
-            if (depObj is ExplorerControl explorer && depProp.NewValue != null)
-            {
-                explorer.ViewModel.CurrentFolder = (IStorageFolder)depProp.NewValue;
-            }
+            //if (depObj is ExplorerControl explorer && depProp.NewValue != null)
+            //{
+            //    explorer.ViewModel.CurrentFolder = (IStorageFolder)depProp.NewValue;
+            //}
         }
 
         private void Breadcrumb_ItemSelected(object sender, BreadcrumbEventArgs e)

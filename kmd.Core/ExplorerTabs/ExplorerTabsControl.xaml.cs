@@ -46,19 +46,18 @@ namespace kmd.Core.ExplorerTabs
         public void AddTab(StorageFolder storageFolder)
         {
             var explorer = new ExplorerControl();
-            explorer.RootFolder = storageFolder;
+            explorer.CurrentFolder = storageFolder;
 
             var pvItem = new PivotItem()
             {
                 Content = explorer
             };
 
-            // TODO this binding isn't working,
-            // make ExplorerControl RootFolder dependecyProperty set with current folder binding
             pvItem.SetBinding(PivotItem.HeaderProperty, new Binding()
             {
-                Path = new PropertyPath("DisplayName"),
-                Source = explorer.ViewModel.CurrentFolder
+                Path = new PropertyPath("CurrentFolder.DisplayName"),
+                Source = explorer,
+                Mode = BindingMode.OneWay
             });
 
             Items.Add(pvItem);

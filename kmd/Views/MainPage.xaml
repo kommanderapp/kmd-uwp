@@ -22,7 +22,6 @@
 
         <Grid Grid.Row="1"
               Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-            <!--<explorer:ExplorerControl RootFolder="{Binding RootFolder}" />-->
             <explorertabs:ExplorerTabsControl RootFolder="{Binding RootFolder}" />
         </Grid>
 
