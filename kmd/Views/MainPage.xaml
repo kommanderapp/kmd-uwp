@@ -15,15 +15,21 @@
                            Height="48" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="TitlePage"
                    x:Uid="Main_Title"
                    Style="{StaticResource PageTitleStyle}" />
 
-        <Grid Grid.Row="1"
-              Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-            <explorertabs:ExplorerTabsControl RootFolder="{Binding RootFolder}" />
-        </Grid>
+        <explorertabs:ExplorerTabsControl Grid.Row="1"
+                                          Grid.Column="0"
+                                          RootFolder="{Binding RootFolder}" />
+        <explorertabs:ExplorerTabsControl Grid.Row="1"
+                                          Grid.Column="1"
+                                          RootFolder="{Binding RootFolder}" />
 
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>

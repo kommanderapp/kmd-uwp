@@ -35,6 +35,11 @@ namespace kmd.Core.ExplorerTabs
             this.Unloaded += ExplorerTabsControl_Unloaded;
         }
 
+        public bool IsInFocus
+        {
+            get => ((this.ExplorerTabs.SelectedItem as PivotItem).Content as ExplorerControl).IsInFocus;
+        }
+
         public ObservableCollection<object> Items { get; set; } = new ObservableCollection<object>();
 
         public StorageFolder RootFolder
@@ -96,6 +101,8 @@ namespace kmd.Core.ExplorerTabs
 
         private void HotkeyEventAgrigator_HotKey(object sender, Hotkeys.HotkeyEventArg e)
         {
+            if (!IsInFocus) return;
+
             if (e.Hotkey == _addTabHotkey)
             {
                 var selectedItem = (((PivotItem)ExplorerTabs.SelectedItem).Content as ExplorerControl);
