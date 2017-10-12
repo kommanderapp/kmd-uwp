@@ -27,7 +27,7 @@
                 <RowDefinition x:Name="LoadingDots" Height="Auto" />
                 <RowDefinition x:Name="Actions" Height="Auto" />
                 <RowDefinition x:Name="BreadcrumbAndPath" Height="Auto" />
-                <RowDefinition x:Name="Storage" Height="*" />
+                <RowDefinition x:Name="ExplorerItems" Height="*" />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
@@ -47,7 +47,6 @@
                         VerticalContentAlignment="Stretch"
                         EscFallbackValue="{Binding CurrentFolder.Path}"
                         FocusFallbackControl="{Binding ElementName=StorageItems}"
-                        IsTabStop="False"
                         Opacity="{Binding ElementName=PathBox, Path=FocusState, Converter={StaticResource FocusStateToOpacityReverseConverter}}"
                         Text="{Binding CurrentFolder.Path}">
                         <i:Interaction.Behaviors>
@@ -56,7 +55,8 @@
                     </controls1:PathBox>
                     <controls1:BreadcrumbControl
                         x:Name="Breadcrumb"
-                        IsTabStop="False"
+                        Grid.Row="0"
+                        Grid.Column="0"
                         ItemSelected="Breadcrumb_ItemSelected"
                         ItemsSource="{Binding CurrentFolderExpandedRoots}"
                         Opacity="{Binding ElementName=PathBox, Path=FocusState, Converter={StaticResource FocusStateToOpacityConverter}}"
@@ -73,12 +73,17 @@
             <Grid Grid.Row="3">
                 <controls1:ExplorerListView
                     x:Name="StorageItems"
+                    AllowDrop="True"
+                    CanDragItems="True"
                     DoubleTapped="StorageItems_DoubleTapped"
                     ItemsSource="{Binding ExplorerItems}"
                     ScrollViewer.VerticalScrollBarVisibility="Visible"
                     SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                     SelectionChanged="StorageItems_SelectionChanged"
-                    SelectionMode="Extended">
+                    SelectionMode="Extended"
+                    DragItemsStarting="StorageItems_DragItemsStarting"
+                    DragOver="StorageItems_DragOver"
+                    Drop="StorageItems_Drop">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />

@@ -7,6 +7,8 @@ using Windows.Storage;
 using Windows.System;
 using kmd.Core.Command;
 using kmd.Core.Explorer.Contracts;
+using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace kmd.Core.Explorer.Commands
 {
@@ -24,7 +26,12 @@ namespace kmd.Core.Explorer.Commands
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
         {
-            return true;
+            var pastedItem = _clipboardService.Get();
+            if (pastedItem.Contains(StandardDataFormats.StorageItems))
+            {
+                return true;
+            }
+            return false;
         }
 
         protected override async void OnExecute(IExplorerViewModel vm)
