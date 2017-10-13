@@ -113,7 +113,9 @@ namespace kmd.Core.Explorer
 
         private void StorageItems_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-            var storageItems = e.Items.Cast<IExplorerItem>().Select(x => x.StorageItem);
+            var storageItems = e.Items.Cast<IExplorerItem>()
+                .Where(x => x.IsPhysical)
+                .Select(x => x.StorageItem);
             if (storageItems.Any())
             {
                 e.Data.SetStorageItems(storageItems);

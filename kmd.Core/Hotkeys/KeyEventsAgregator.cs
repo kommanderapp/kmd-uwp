@@ -24,7 +24,7 @@ namespace kmd.Core.Hotkeys
 
         public static event EventHandler<HotkeyEventArg> HotKey;
 
-        private static bool _isCtrlKeyPressed = false;
+        public static bool IsCtrlKeyPressed { get; private set; } = false;
 
         private static void CharacterReceivedHandler(CoreWindow sender, CharacterReceivedEventArgs e)
         {
@@ -38,12 +38,12 @@ namespace kmd.Core.Hotkeys
         {
             if (e.VirtualKey == VirtualKey.Control)
             {
-                _isCtrlKeyPressed = true;
+                IsCtrlKeyPressed = true;
                 return;
             }
 
             ModifierKeys modifierKey = ModifierKeys.None;
-            if (_isCtrlKeyPressed) modifierKey = ModifierKeys.Control;
+            if (IsCtrlKeyPressed) modifierKey = ModifierKeys.Control;
 
             var hotkey = Hotkey.For(modifierKey, e.VirtualKey);
             var args = new HotkeyEventArg(hotkey);
@@ -53,7 +53,7 @@ namespace kmd.Core.Hotkeys
 
         private static void KeyUpHandler(CoreWindow sender, KeyEventArgs e)
         {
-            if (e.VirtualKey == VirtualKey.Control) _isCtrlKeyPressed = false;
+            if (e.VirtualKey == VirtualKey.Control) IsCtrlKeyPressed = false;
         }
     }
 }
