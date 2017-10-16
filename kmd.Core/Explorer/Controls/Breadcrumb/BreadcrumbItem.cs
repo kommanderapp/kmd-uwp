@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace kmd.Core.Explorer.Controls
+namespace kmd.Core.Explorer.Controls.Breadcrumb
 {
     internal class BreadcrumbItem : Button
     {
@@ -11,7 +11,7 @@ namespace kmd.Core.Explorer.Controls
         {
             Background = new SolidColorBrush(new Color()); // transparent
             BorderThickness = new Thickness(0);
-            IsTabStop = false;
+            AllowDrop = true;
         }
     }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace kmd.Core.Explorer.Controls
+namespace kmd.Core.Explorer.Controls.Breadcrumb
 {
     public class BreadcrumbEventArgs : EventArgs
     {

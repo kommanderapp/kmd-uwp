@@ -147,6 +147,7 @@
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbControl.xaml.cs">
       <DependentUpon>BreadcrumbControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbDragEventArgs.cs" />
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbEventArgs.cs" />
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbItem.cs" />
     <Compile Include="Explorer\Controls\ExplorerListView.cs" />

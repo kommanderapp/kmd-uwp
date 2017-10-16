@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using System;
 using kmd.Storage.Extensions;
+using kmd.Core.Explorer.Controls.Breadcrumb;
 
 namespace kmd.Core.Explorer
 {
@@ -59,6 +60,46 @@ namespace kmd.Core.Explorer
             get { return RootElement.DataContext as ExplorerViewModel; }
         }
 
+        private void Breadcrumb_ItemDragOver(object sender, BreadcrumbDragEventArgs e)
+        {
+            e.DragArgs.AcceptedOperation = (e.DragArgs.DataView.Contains(StandardDataFormats.StorageItems))
+                ? DataPackageOperation.Copy : DataPackageOperation.None;
+        }
+
+        private async void Breadcrumb_ItemDrop(object sender, BreadcrumbDragEventArgs e)
+        {
+            var droppedTarget = e.Item as IStorageFolder;
+            if (droppedTarget == null) return;
+
+            if (e.DragArgs.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                var def = e.DragArgs.GetDeferral();
+                var storageItems = await e.DragArgs.DataView.GetStorageItemsAsync();
+                var changesMade = false;
+                foreach (var item in storageItems)
+                {
+                    if (item is IStorageFolder)
+                    {
+                        await (item as IStorageFolder).CopyContentsRecursiveAsync(droppedTarget, ViewModel.CancellationTokenSource.Token);
+                        changesMade = true;
+                    }
+                    else if (item is IStorageFile)
+                    {
+                        await (item as IStorageFile).CopyAsync(droppedTarget, item.Name, NameCollisionOption.GenerateUniqueName);
+                        changesMade = true;
+                    }
+                }
+
+                if (changesMade)
+                {
+                    this.ViewModel.CurrentFolder = droppedTarget;
+                }
+
+                e.DragArgs.AcceptedOperation = DataPackageOperation.Copy;
+                def.Complete();
+            }
+        }
+
         private void Breadcrumb_ItemSelected(object sender, BreadcrumbEventArgs e)
         {
             var folder = e.Item as IStorageFolder;
@@ -70,13 +111,11 @@ namespace kmd.Core.Explorer
 
         private void CharacterRecieved(object sender, CharReceivedEventArgs args)
         {
-            if (IsInFocus)
+            if (!IsInFocus) return;
+            if (!string.IsNullOrEmpty(args.Character))
             {
-                if (!string.IsNullOrEmpty(args.Character))
-                {
-                    ViewModel.LastTypedChar = args.Character;
-                    args.Handled = true;
-                }
+                ViewModel.LastTypedChar = args.Character;
+                args.Handled = true;
             }
         }
 

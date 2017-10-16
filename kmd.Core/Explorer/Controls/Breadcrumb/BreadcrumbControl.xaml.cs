@@ -1,4 +1,5 @@
-﻿using System;
+﻿using kmd.Core.Explorer.Controls.Breadcrumb;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,6 +46,10 @@ namespace kmd.Core.Explorer.Controls
         {
             this.InitializeComponent();
         }
+
+        public event EventHandler<BreadcrumbDragEventArgs> ItemDragOver;
+
+        public event EventHandler<BreadcrumbDragEventArgs> ItemDrop;
 
         public event EventHandler<BreadcrumbEventArgs> ItemSelected;
 
@@ -141,6 +146,16 @@ namespace kmd.Core.Explorer.Controls
 
                 this.UpdateLayout();
             }
+        }
+
+        protected virtual void OnItemDragOver(BreadcrumbDragEventArgs e)
+        {
+            ItemDragOver?.Invoke(this, e);
+        }
+
+        protected virtual void OnItemDrop(BreadcrumbDragEventArgs e)
+        {
+            ItemDrop?.Invoke(this, e);
         }
 
         protected virtual void OnItemSelected(BreadcrumbEventArgs e)
@@ -260,6 +275,8 @@ namespace kmd.Core.Explorer.Controls
             }
 
             content.Click += (sender, args) => OnItemSelected(new BreadcrumbEventArgs(item, items.IndexOf(item)));
+            content.DragOver += (sender, args) => OnItemDragOver(new BreadcrumbDragEventArgs(item, args));
+            content.Drop += (sender, args) => OnItemDrop(new BreadcrumbDragEventArgs(item, args));
             collection.Add(content);
         }
 
