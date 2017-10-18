@@ -20,9 +20,8 @@ Release Date: **11/30/2017**
 * Explode folder (list all iner items in folder)
 * Cancel long running operations
 * Pathbox with navigation by path
-
-### Giff time
-![giff](https://thumbs.gfycat.com/CreativeColossalAnemoneshrimp-size_restricted.gif)
+* Drag-drop beetwin kommander explorers and native explorer
+* Drag folder/file to breadcrumb folder to move items to it
 
 ### Contribution
 
