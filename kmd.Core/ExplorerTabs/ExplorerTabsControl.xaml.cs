@@ -37,7 +37,7 @@ namespace kmd.Core.ExplorerTabs
 
         public bool IsInFocus
         {
-            get => ((this.ExplorerTabs.SelectedItem as PivotItem).Content as ExplorerControl).IsInFocus;
+            get => ((this.ExplorerTabs.SelectedItem as PivotItem).Content as ExplorerControl).ItemsInFocus;
         }
 
         public ObservableCollection<object> Items { get; set; } = new ObservableCollection<object>();
@@ -66,6 +66,8 @@ namespace kmd.Core.ExplorerTabs
             });
 
             Items.Add(pvItem);
+            ExplorerTabs.SelectedIndex = Items.Count - 1;
+            ForceFocusSelectedExplorer();
         }
 
         public void RemoveTab(int index)
@@ -73,6 +75,8 @@ namespace kmd.Core.ExplorerTabs
             if (Items.Count > 1)
             {
                 Items.RemoveAt(index);
+                ExplorerTabs.SelectedIndex = index != 0 ? index - 1 : index + 1;
+                ForceFocusSelectedExplorer();
             }
         }
 
@@ -99,13 +103,28 @@ namespace kmd.Core.ExplorerTabs
             KeyEventsAgregator.HotKey -= HotkeyEventAgrigator_HotKey;
         }
 
+        private void ForceFocusSelectedExplorer()
+        {
+            var explorer = GetSelectedExplorerControl();
+            if (explorer != null)
+            {
+                explorer.StorageItemsControl.Focus(FocusState.Programmatic);
+            }
+        }
+
+        private ExplorerControl GetSelectedExplorerControl()
+        {
+            var selectedItem = (((PivotItem)ExplorerTabs.SelectedItem)?.Content as ExplorerControl);
+            return selectedItem;
+        }
+
         private void HotkeyEventAgrigator_HotKey(object sender, Hotkeys.HotkeyEventArg e)
         {
             if (!IsInFocus) return;
 
             if (e.Hotkey == _addTabHotkey)
             {
-                var selectedItem = (((PivotItem)ExplorerTabs.SelectedItem).Content as ExplorerControl);
+                var selectedItem = GetSelectedExplorerControl();
                 if (selectedItem != null)
                 {
                     var currentFolder = selectedItem.ViewModel.CurrentFolder;

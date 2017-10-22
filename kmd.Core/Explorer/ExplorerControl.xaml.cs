@@ -47,12 +47,13 @@ namespace kmd.Core.Explorer
 
         public int ExplorerId { get; set; }
 
-        public bool IsInFocus
+        public bool ItemsInFocus
         {
             get => StorageItems.IsFocusedEx;
         }
 
         public PathBox PathBoxControl => this.PathBox;
+
         public ExplorerListView StorageItemsControl => this.StorageItems as ExplorerListView;
 
         public ExplorerViewModel ViewModel
@@ -111,7 +112,7 @@ namespace kmd.Core.Explorer
 
         private void CharacterRecieved(object sender, CharReceivedEventArgs args)
         {
-            if (!IsInFocus) return;
+            if (!ItemsInFocus) return;
             if (!string.IsNullOrEmpty(args.Character))
             {
                 ViewModel.LastTypedChar = args.Character;
@@ -135,7 +136,7 @@ namespace kmd.Core.Explorer
 
         private void HotKeyPressed(object sender, HotkeyEventArg e)
         {
-            if (!IsInFocus) return;
+            if (!ItemsInFocus) return;
 
             var command = ViewModel.CommandBindings.OfHotkey(e.Hotkey);
             if (command != null)

@@ -41,12 +41,12 @@ namespace kmd.Core.Explorer.Controls
             {
                 this.Text = EscFallbackValue;
                 e.Handled = true;
-                FocusFallbackControl?.Focus(FocusState.Keyboard);
+                FocusFallbackControl?.Focus(FocusState.Programmatic);
             }
             if (e.Key == VirtualKey.Enter)
             {
                 e.Handled = true;
-                FocusFallbackControl?.Focus(FocusState.Keyboard);
+                FocusFallbackControl?.Focus(FocusState.Programmatic);
             }
         }
     }

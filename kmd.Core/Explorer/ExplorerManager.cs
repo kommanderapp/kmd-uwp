@@ -12,7 +12,7 @@ namespace kmd.Core.Explorer
     public static class ExplorerManager
     {
         public static ExplorerControl Current => _explorers
-            .FirstOrDefault(x => x.Value.IsInFocus).Value;
+            .FirstOrDefault(x => x.Value.ItemsInFocus).Value;
 
         public static void Register(ExplorerControl explorerControl)
         {
