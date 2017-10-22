@@ -67,6 +67,10 @@
                     <TextBlock x:Uid="Settings_AboutDescription"
                                Margin="{StaticResource EightTopMargin}" />
 
+                    <HyperlinkButton x:Uid="Settings_FeedbackLink"
+                                     Margin="{StaticResource EightTopMargin}"
+                                     Click="feedback_Click" />
+
                     <HyperlinkButton x:Uid="Settings_PrivacyTermsLink"
                                      Margin="{StaticResource EightTopMargin}" />
                 </StackPanel>

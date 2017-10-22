@@ -189,4 +189,7 @@
   <data name="Explorer_DeleteFile_Title" xml:space="preserve">
     <value />
   </data>
+  <data name="Settings_FeedbackLink.Content" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
 </root>

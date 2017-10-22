@@ -21,5 +21,11 @@ namespace kmd.Views
         {
             get { return DataContext as SettingsViewModel; }
         }
+
+        private async void feedback_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
+            launcher.LaunchAsync();
+        }
     }
 }
