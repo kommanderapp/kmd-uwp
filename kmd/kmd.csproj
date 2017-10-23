@@ -135,9 +135,6 @@
     <Compile Include="Helpers\Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\Converters\FocusStateToOpacityConverter.cs" />
     <Compile Include="Helpers\Converters\FocusStateToOpacityReverseConverter.cs" />
-    <Compile Include="Helpers\Json.cs" />
-    <Compile Include="Helpers\SettingsStorageExtensions.cs" />
-    <Compile Include="Helpers\Unicode.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
     <Compile Include="Services\NavigationServiceEx.cs" />
@@ -202,10 +199,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Helpers\ResourceExtensions.cs" />
-    <Compile Include="Helpers\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">

@@ -1,9 +1,9 @@
-﻿using kmd.Helpers;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using kmd.Core.Helpers;
 
 namespace kmd.Services
 {

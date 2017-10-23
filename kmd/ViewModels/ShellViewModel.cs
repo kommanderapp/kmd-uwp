@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using kmd.Helpers;
+using kmd.Core.Helpers;
 using kmd.Services;
 using System.Collections.ObjectModel;
 using System.Linq;

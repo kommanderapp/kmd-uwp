@@ -1,4 +1,5 @@
-﻿using kmd.ViewModels;
+﻿using System;
+using kmd.ViewModels;
 
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -17,15 +18,12 @@ namespace kmd.Views
             ViewModel.Initialize();
         }
 
-        private SettingsViewModel ViewModel
-        {
-            get { return DataContext as SettingsViewModel; }
-        }
+        private SettingsViewModel ViewModel => DataContext as SettingsViewModel;
 
         private async void Feedback_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
-            launcher.LaunchAsync();
+            await launcher.LaunchAsync();
         }
     }
 }

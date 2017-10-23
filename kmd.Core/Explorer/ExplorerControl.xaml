@@ -19,19 +19,33 @@
     <UserControl.Resources>
         <explorer:ExplorerViewModelLocator x:Key="ExplorerViewModelLocator" />
     </UserControl.Resources>
-    <Grid x:Name="RootElement" DataContext="{Binding ExplorerViewModel, Source={StaticResource ExplorerViewModelLocator}}">
+    <Grid
+        x:Name="RootElement"
+        DataContext="{Binding ExplorerViewModel, Source={StaticResource ExplorerViewModelLocator}}">
 
-        <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid
+            x:Name="ContentArea"
+            Margin="{StaticResource MediumLeftRightMargin}">
 
             <Grid.RowDefinitions>
-                <RowDefinition x:Name="LoadingDots" Height="Auto" />
-                <RowDefinition x:Name="Actions" Height="Auto" />
-                <RowDefinition x:Name="BreadcrumbAndPath" Height="Auto" />
-                <RowDefinition x:Name="ExplorerItems" Height="*" />
+                <RowDefinition
+                    x:Name="LoadingDots"
+                    Height="Auto" />
+                <RowDefinition
+                    x:Name="Actions"
+                    Height="Auto" />
+                <RowDefinition
+                    x:Name="BreadcrumbAndPath"
+                    Height="Auto" />
+                <RowDefinition
+                    x:Name="ExplorerItems"
+                    Height="*" />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
-                <ProgressBar IsIndeterminate="True" Opacity="{Binding IsBusy, Converter={StaticResource BooleanToOpacityConverter}}" />
+                <ProgressBar
+                    IsIndeterminate="True"
+                    Opacity="{Binding IsBusy, Converter={StaticResource BooleanToOpacityConverter}}" />
             </Grid>
 
             <Grid Grid.Row="1" />
@@ -82,7 +96,7 @@
                     DragOver="StorageItems_DragOver"
                     Drop="StorageItems_Drop"
                     ItemsSource="{Binding ExplorerItems}"
-                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
                     SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                     SelectionChanged="StorageItems_SelectionChanged"
                     SelectionMode="Extended">
@@ -92,7 +106,9 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.Header>
-                        <controls:ScrollHeader Mode="Sticky" TargetListViewBase="{x:Bind StorageItems}">
+                        <controls:ScrollHeader
+                            Mode="Sticky"
+                            TargetListViewBase="{x:Bind StorageItems}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
@@ -125,7 +141,9 @@
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="2*" />
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" Orientation="Vertical">
+                                <StackPanel
+                                    Grid.Column="0"
+                                    Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="{x:Bind Icon}" />
                                         <TextBlock Text="{x:Bind Name}" />

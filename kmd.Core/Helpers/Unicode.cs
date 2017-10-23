@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace kmd.Helpers
+namespace kmd.Core.Helpers
 {
     public static class Unicode
     {
