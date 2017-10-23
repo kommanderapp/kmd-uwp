@@ -116,6 +116,9 @@
     <Compile Include="Config\JsonConfigPersistanceService.cs" />
     <Compile Include="CoreRegistration.cs" />
     <Compile Include="Command\CommandBase.cs" />
+    <Compile Include="ExplorerTabs\ExplorerTabHeader.xaml.cs">
+      <DependentUpon>ExplorerTabHeader.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExplorerTabs\ExplorerTabsControl.xaml.cs">
       <DependentUpon>ExplorerTabsControl.xaml</DependentUpon>
     </Compile>
@@ -202,6 +205,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ExplorerTabs\ExplorerTabHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExplorerTabs\ExplorerTabsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

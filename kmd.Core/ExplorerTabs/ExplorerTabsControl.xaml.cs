@@ -1,24 +1,13 @@
 ﻿using kmd.Core.Explorer;
 using kmd.Core.Hotkeys;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace kmd.Core.ExplorerTabs
 {
@@ -53,21 +42,34 @@ namespace kmd.Core.ExplorerTabs
             var explorer = new ExplorerControl();
             explorer.CurrentFolder = storageFolder;
 
+            var pvItem = ConfigurePivotItem(explorer);
+
+            Items.Add(pvItem);
+            ExplorerTabs.SelectedIndex = Items.Count - 1;
+            ForceFocusSelectedExplorer();
+        }
+
+        private PivotItem ConfigurePivotItem(ExplorerControl explorer)
+        {
             var pvItem = new PivotItem()
             {
                 Content = explorer
             };
 
-            pvItem.SetBinding(PivotItem.HeaderProperty, new Binding()
+            var pvHeader = new ExplorerTabHeader();
+
+            pvHeader.AllowDrop = true;
+            pvHeader.Drop += PivotHeaderItem_OnDrop;
+            pvHeader.DragOver += PivotHeaderItem_OnDragOver;
+            pvItem.Header = pvHeader;
+
+            pvHeader.SetBinding(ExplorerTabHeader.LabelTextProperty, new Binding()
             {
                 Path = new PropertyPath("CurrentFolder.DisplayName"),
                 Source = explorer,
                 Mode = BindingMode.OneWay
             });
-
-            Items.Add(pvItem);
-            ExplorerTabs.SelectedIndex = Items.Count - 1;
-            ForceFocusSelectedExplorer();
+            return pvItem;
         }
 
         public void RemoveTab(int index)
@@ -139,5 +141,32 @@ namespace kmd.Core.ExplorerTabs
                 e.Handled = true;
             }
         }
+
+        private void PivotHeaderItem_OnDragOver(object sender, DragEventArgs e)
+        {
+            if (sender is ExplorerTabHeader explorerTabHeader && e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                e.AcceptedOperation = DataPackageOperation.Copy;
+                var selectedItem = Items.Cast<PivotItem>().Where(x => x.Header == explorerTabHeader).FirstOrDefault();
+                ExplorerTabs.SelectedItem = selectedItem;
+            }
+            else
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+            }
+        }
+
+        private async void PivotHeaderItem_OnDrop(object sender, DragEventArgs e)
+        {
+            if (sender is ExplorerTabHeader explorerTabHeader)
+            {
+                var selectedItem = Items.Cast<PivotItem>().Where(x => x.Header == explorerTabHeader).FirstOrDefault();
+                if (selectedItem.Content is ExplorerControl explorer)
+                {
+                    await explorer.AcceptDropAsync(e);
+                }
+            }
+        }
+
     }
 }

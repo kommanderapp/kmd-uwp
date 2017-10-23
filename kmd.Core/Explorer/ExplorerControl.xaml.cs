@@ -2,18 +2,17 @@
 using kmd.Core.Explorer.Commands;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Controls;
+using kmd.Core.Explorer.Controls.Breadcrumb;
 using kmd.Core.Hotkeys;
-using kmd.Helpers;
+using kmd.Storage.Extensions;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
-using System;
-using kmd.Storage.Extensions;
-using kmd.Core.Explorer.Controls.Breadcrumb;
 
 namespace kmd.Core.Explorer
 {
@@ -169,6 +168,11 @@ namespace kmd.Core.Explorer
         }
 
         private async void StorageItems_Drop(object sender, DragEventArgs e)
+        {
+            await AcceptDropAsync(e);
+        }
+
+        public async Task AcceptDropAsync(DragEventArgs e)
         {
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
