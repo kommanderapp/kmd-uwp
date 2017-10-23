@@ -60,6 +60,37 @@ namespace kmd.Core.Explorer
             get { return RootElement.DataContext as ExplorerViewModel; }
         }
 
+        public async Task AcceptDropAsync(DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                var def = e.GetDeferral();
+                var storageItems = await e.DataView.GetStorageItemsAsync();
+                var changesMade = false;
+                foreach (var item in storageItems)
+                {
+                    if (item is IStorageFolder)
+                    {
+                        await (item as IStorageFolder).CopyContentsRecursiveAsync(CurrentFolder, ViewModel.CancellationTokenSource.Token);
+                        changesMade = true;
+                    }
+                    else if (item is IStorageFile)
+                    {
+                        await (item as IStorageFile).CopyAsync(CurrentFolder, item.Name, NameCollisionOption.GenerateUniqueName);
+                        changesMade = true;
+                    }
+                }
+
+                if (changesMade)
+                {
+                    this.ViewModel.ExecuteCommand(typeof(NavigateCommand));
+                }
+
+                e.AcceptedOperation = DataPackageOperation.Copy;
+                def.Complete();
+            }
+        }
+
         private void Breadcrumb_ItemDragOver(object sender, BreadcrumbDragEventArgs e)
         {
             e.DragArgs.AcceptedOperation = (e.DragArgs.DataView.Contains(StandardDataFormats.StorageItems))
@@ -102,8 +133,7 @@ namespace kmd.Core.Explorer
 
         private void Breadcrumb_ItemSelected(object sender, BreadcrumbEventArgs e)
         {
-            var folder = e.Item as IStorageFolder;
-            if (folder != null)
+            if (e.Item is IStorageFolder folder)
             {
                 ViewModel.CurrentFolder = folder;
             }
@@ -170,37 +200,6 @@ namespace kmd.Core.Explorer
         private async void StorageItems_Drop(object sender, DragEventArgs e)
         {
             await AcceptDropAsync(e);
-        }
-
-        public async Task AcceptDropAsync(DragEventArgs e)
-        {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
-            {
-                var def = e.GetDeferral();
-                var storageItems = await e.DataView.GetStorageItemsAsync();
-                var changesMade = false;
-                foreach (var item in storageItems)
-                {
-                    if (item is IStorageFolder)
-                    {
-                        await (item as IStorageFolder).CopyContentsRecursiveAsync(CurrentFolder, ViewModel.CancellationTokenSource.Token);
-                        changesMade = true;
-                    }
-                    else if (item is IStorageFile)
-                    {
-                        await (item as IStorageFile).CopyAsync(CurrentFolder, item.Name, NameCollisionOption.GenerateUniqueName);
-                        changesMade = true;
-                    }
-                }
-
-                if (changesMade)
-                {
-                    this.ViewModel.ExecuteCommand(typeof(NavigateCommand));
-                }
-
-                e.AcceptedOperation = DataPackageOperation.Copy;
-                def.Complete();
-            }
         }
 
         private void StorageItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
