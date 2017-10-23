@@ -69,7 +69,7 @@
 
                     <HyperlinkButton x:Uid="Settings_FeedbackLink"
                                      Margin="{StaticResource EightTopMargin}"
-                                     Click="feedback_Click" />
+                                     Click="Feedback_Click" />
 
                     <HyperlinkButton x:Uid="Settings_PrivacyTermsLink"
                                      Margin="{StaticResource EightTopMargin}" />

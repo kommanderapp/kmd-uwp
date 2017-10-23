@@ -11,8 +11,10 @@ namespace kmd.Storage.Impl
     {
         public async Task<IEnumerable<IStorageFolder>> ExpandParents(IStorageFolder folder)
         {
-            var parents = new List<IStorageFolder>();
-            parents.Add(folder);
+            var parents = new List<IStorageFolder>
+            {
+                folder
+            };
             var parent = await ((IStorageItem2)folder).GetParentAsync();
             while (parent != null)
             {
