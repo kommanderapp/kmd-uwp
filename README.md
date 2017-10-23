@@ -6,7 +6,7 @@ It will *probably* change the way you work with your files.
 
 Project is in active development **now**.
 
-Release Date: **11/30/2017**
+Release Date: **11/15/2017**
 
 ## Features Implemented
 
