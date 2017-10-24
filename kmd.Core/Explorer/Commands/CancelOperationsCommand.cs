@@ -16,7 +16,7 @@ namespace kmd.Core.Explorer.Commands
             return true;
         }
 
-        protected override void OnExecute(IExplorerViewModel vm)
+        protected override void OnExecuteAsync(IExplorerViewModel vm)
         {
             vm.CancellationTokenSource.Cancel();
             vm.CancellationTokenSource.Dispose();

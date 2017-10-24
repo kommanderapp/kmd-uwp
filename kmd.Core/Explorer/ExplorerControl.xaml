@@ -89,6 +89,15 @@
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="ContextFlyout">
+                                <Setter.Value>
+                                    <MenuFlyout x:Name="ExplorerListViewItemContextMenu">
+                                        <MenuFlyout.Items>
+                                            <MenuFlyoutItem Name="AddNewFolder" Text="Add new folder" Click="AddNewFolder_Click"/>
+                                        </MenuFlyout.Items>
+                                    </MenuFlyout>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.Header>

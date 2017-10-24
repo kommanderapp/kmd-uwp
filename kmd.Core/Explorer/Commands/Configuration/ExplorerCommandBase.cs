@@ -24,9 +24,9 @@ namespace kmd.Core.Explorer.Commands.Configuration
         protected override void OnExecute(object parameter)
         {
             var vm = (IExplorerViewModel)parameter;
-            OnExecute(vm);
+            OnExecuteAsync(vm);
         }
 
-        protected abstract void OnExecute(IExplorerViewModel vm);
+        protected abstract void OnExecuteAsync(IExplorerViewModel vm);
     }
 }

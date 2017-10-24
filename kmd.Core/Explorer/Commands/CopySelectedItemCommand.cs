@@ -27,7 +27,7 @@ namespace kmd.Core.Explorer.Commands
             return vm.SelectedItem != null && vm.SelectedItem.IsPhysical;
         }
 
-        protected override void OnExecute(IExplorerViewModel vm)
+        protected override void OnExecuteAsync(IExplorerViewModel vm)
         {
             var dataObject = new DataPackage
             {

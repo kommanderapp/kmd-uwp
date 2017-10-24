@@ -4,6 +4,7 @@ using Autofac.Extras.CommonServiceLocator;
 using GalaSoft.MvvmLight.Views;
 using kmd.Core.DI;
 using kmd.Core.Explorer.Commands.Configuration;
+using kmd.Core.Services.Contracts;
 using kmd.Core.Services.Impl;
 using kmd.Services;
 using kmd.ViewModels;
@@ -21,6 +22,7 @@ namespace kmd.DependecyInjection
 
             builder.RegisterType<NavigationServiceEx>().AsSelf().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>();
+            builder.RegisterType<PromptService>().As<IPromptService>();
             builder.RegisterType<LocationAccessService>().AsSelf().SingleInstance();
 
             // ViewModels
