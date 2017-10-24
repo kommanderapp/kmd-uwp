@@ -1,5 +1,4 @@
-﻿using kmd.Activation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,20 +8,27 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using kmd.Core.Helpers;
+using kmd.Services;
+using kmd.ViewModels;
 
-namespace kmd.Services
+namespace kmd.Activation
 {
     // For more information on application activation see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/activation.md
     internal class ActivationService
     {
+        private readonly App _app;
+        private readonly Type _defaultNavItem;
+        private readonly UIElement _shell;
+
+        private NavigationServiceEx NavigationService => Locator.NavigationService;
+        private ViewModelLocator Locator => Application.Current.Resources["Locator"] as ViewModelLocator;
+
         public ActivationService(App app, Type defaultNavItem, UIElement shell = null)
         {
             _app = app;
             _shell = shell ?? new Frame();
             _defaultNavItem = defaultNavItem;
         }
-
-        private NavigationServiceEx NavigationService => Locator.NavigationService;
 
         public async Task ActivateAsync(object activationArgs)
         {
@@ -37,20 +43,11 @@ namespace kmd.Services
                 {
                     // Create a Frame to act as the navigation context and navigate to the first page
                     Window.Current.Content = _shell;
-                    NavigationService.NavigationFailed += (sender, e) =>
-                    {
-                        throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-                    };
-                    NavigationService.Navigated += Frame_Navigated;
-                    if (SystemNavigationManager.GetForCurrentView() != null)
-                    {
-                        SystemNavigationManager.GetForCurrentView().BackRequested += ActivationService_BackRequested;
-                    }
+                    WireNavigationHandler();
                 }
             }
 
-            var activationHandler = GetActivationHandlers()
-                                                .FirstOrDefault(h => h.CanHandle(activationArgs));
+            var activationHandler = GetActivationHandlers().FirstOrDefault(h => h.CanHandle(activationArgs));
 
             if (activationHandler != null)
             {
@@ -73,10 +70,16 @@ namespace kmd.Services
             }
         }
 
-        private readonly App _app;
-        private readonly Type _defaultNavItem;
-        private readonly UIElement _shell;
-        private ViewModels.ViewModelLocator Locator => Application.Current.Resources["Locator"] as ViewModels.ViewModelLocator;
+        private void WireNavigationHandler()
+        {
+            NavigationService.NavigationFailed +=
+                (sender, e) => throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            NavigationService.Navigated += Frame_Navigated;
+            if (SystemNavigationManager.GetForCurrentView() != null)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested += ActivationService_BackRequested;
+            }
+        }
 
         private void ActivationService_BackRequested(object sender, BackRequestedEventArgs e)
         {

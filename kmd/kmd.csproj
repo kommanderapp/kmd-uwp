@@ -135,7 +135,7 @@
     <Compile Include="Helpers\Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\Converters\FocusStateToOpacityConverter.cs" />
     <Compile Include="Helpers\Converters\FocusStateToOpacityReverseConverter.cs" />
-    <Compile Include="Services\ActivationService.cs" />
+    <Compile Include="Activation\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
     <Compile Include="Services\NavigationServiceEx.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />

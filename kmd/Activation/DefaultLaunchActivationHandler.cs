@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Microsoft.Practices.ServiceLocation;
 
 namespace kmd.Activation
 {
@@ -30,12 +31,6 @@ namespace kmd.Activation
 
         private readonly string _navElement;
 
-        private NavigationServiceEx NavigationService
-        {
-            get
-            {
-                return Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<NavigationServiceEx>();
-            }
-        }
+        private NavigationServiceEx NavigationService => ServiceLocator.Current.GetInstance<NavigationServiceEx>();
     }
 }

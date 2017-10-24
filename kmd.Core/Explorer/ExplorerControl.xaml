@@ -93,6 +93,7 @@
                     CanDragItems="True"
                     DoubleTapped="StorageItems_DoubleTapped"
                     DragItemsStarting="StorageItems_DragItemsStarting"
+                    DragItemsCompleted="StorageItems_DragItemsCompleted"
                     DragOver="StorageItems_DragOver"
                     Drop="StorageItems_Drop"
                     ItemsSource="{Binding ExplorerItems}"
