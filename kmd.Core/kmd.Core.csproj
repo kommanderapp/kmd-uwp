@@ -111,9 +111,6 @@
     <Compile Include="Command\CommandBinding.cs" />
     <Compile Include="Command\IViewModelWithCommandBindings.cs" />
     <Compile Include="Command\ViewModelWithCommandBindingsExtensions.cs" />
-    <Compile Include="Config\IConfigPersistanceService.cs" />
-    <Compile Include="Config\IConfigProvider.cs" />
-    <Compile Include="Config\JsonConfigPersistanceService.cs" />
     <Compile Include="CoreRegistration.cs" />
     <Compile Include="Command\CommandBase.cs" />
     <Compile Include="ExplorerTabs\ExplorerTabHeader.xaml.cs">
@@ -167,6 +164,9 @@
     </Compile>
     <Compile Include="Explorer\ExplorerViewModel.cs" />
     <Compile Include="Explorer\Models\ExplorerNavigationHistory.cs" />
+    <Compile Include="Helpers\DependencyObjectExtensions.cs" />
+    <Compile Include="Helpers\SettingsStorageExtensions.cs" />
+    <Compile Include="Helpers\Singleton.cs" />
     <Compile Include="Hotkeys\CharReceivedEventArgs.cs" />
     <Compile Include="Hotkeys\Hotkey.cs" />
     <Compile Include="Hotkeys\HotkeyEventArg.cs" />
@@ -175,7 +175,6 @@
     <Compile Include="Extensions\Behaviors\FocusBehavior.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\ResourceExtensions.cs" />
-    <Compile Include="Config\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
     <Compile Include="Helpers\Unicode.cs" />
     <Compile Include="Services\Contracts\ICilpboardService.cs" />
@@ -238,9 +237,7 @@
       <Name>kmd.Storage</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Config\Settings\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

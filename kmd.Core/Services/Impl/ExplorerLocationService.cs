@@ -1,5 +1,4 @@
-﻿using kmd.Core.Config;
-using kmd.Core.Helpers;
+﻿using kmd.Core.Helpers;
 using kmd.Storage.Contracts;
 using System;
 using System.Collections.Generic;

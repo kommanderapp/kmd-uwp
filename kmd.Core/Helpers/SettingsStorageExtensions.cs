@@ -1,15 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace kmd.Helpers
+namespace kmd.Core.Helpers
 {
-    // Use these extension methods to store and retrieve local and roaming app data
-    // For more info regarding storing and retrieving app data see documentation at
-    // https://docs.microsoft.com/windows/uwp/app-settings/store-and-retrieve-app-data
     public static class SettingsStorageExtensions
     {
         public static bool IsRoamingStorageAvailable(this ApplicationData appData)
@@ -32,9 +28,7 @@ namespace kmd.Helpers
 
         public static async Task<T> ReadAsync<T>(this ApplicationDataContainer settings, string key)
         {
-            object obj = null;
-
-            if (settings.Values.TryGetValue(key, out obj))
+            if (settings.Values.TryGetValue(key, out object obj))
             {
                 return await Json.ToObjectAsync<T>((string)obj);
             }
@@ -65,10 +59,10 @@ namespace kmd.Helpers
         {
             var item = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
 
-            if ((item != null) && item.IsOfType(StorageItemTypes.File))
+            if (item != null && item.IsOfType(StorageItemTypes.File))
             {
                 var storageFile = await folder.GetFileAsync(fileName);
-                byte[] content = await storageFile.ReadBytesAsync();
+                var content = await storageFile.ReadBytesAsync();
                 return content;
             }
 
@@ -92,12 +86,12 @@ namespace kmd.Helpers
         {
             if (content == null)
             {
-                throw new ArgumentNullException("content");
+                throw new ArgumentNullException(nameof(content));
             }
 
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new ArgumentException("File name is null or empty. Specify a valid file name", "fileName");
+                throw new ArgumentException("File name is null or empty. Specify a valid file name", nameof(fileName));
             }
 
             var storageFile = await folder.CreateFileAsync(fileName, options);

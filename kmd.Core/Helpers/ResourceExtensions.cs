@@ -2,7 +2,7 @@
 
 namespace kmd.Core.Helpers
 {
-    internal static class ResourceExtensions
+    public static class ResourceExtensions
     {
         public static string GetLocalized(this string resourceKey)
         {

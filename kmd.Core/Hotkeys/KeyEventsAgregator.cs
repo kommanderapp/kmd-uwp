@@ -1,10 +1,10 @@
-﻿using kmd.Helpers;
-using System;
+﻿using System;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
+using kmd.Core.Helpers;
 
 namespace kmd.Core.Hotkeys
 {

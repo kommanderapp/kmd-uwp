@@ -3,6 +3,7 @@ using kmd.Core.Explorer.Commands;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Controls;
 using kmd.Core.Explorer.Controls.Breadcrumb;
+using kmd.Core.Helpers;
 using kmd.Core.Hotkeys;
 using kmd.Storage.Extensions;
 using System;
@@ -16,49 +17,43 @@ using Windows.UI.Xaml.Data;
 
 namespace kmd.Core.Explorer
 {
-    public sealed partial class ExplorerControl : UserControl
+    public sealed partial class ExplorerControl
     {
         public static readonly DependencyProperty CurrentFolderProperty =
             DependencyProperty.Register("CurrentFolder", typeof(StorageFolder), typeof(ExplorerControl), new PropertyMetadata(null));
 
         public ExplorerControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.SetBinding(CurrentFolderProperty, new Binding()
+            SetBinding(CurrentFolderProperty, new Binding()
             {
                 Mode = BindingMode.TwoWay,
                 Path = new PropertyPath("CurrentFolder"),
                 Source = ViewModel
             });
 
-            this.Loaded += ExplorerControl_Loaded;
-            this.Unloaded += ExplorerControl_Unloaded;
+            Loaded += ExplorerControl_Loaded;
+            Unloaded += ExplorerControl_Unloaded;
         }
 
-        public BreadcrumbControl BreadcrumbControl => this.Breadcrumb;
+        public BreadcrumbControl BreadcrumbControl => Breadcrumb;
 
         public StorageFolder CurrentFolder
         {
-            get { return (StorageFolder)GetValue(CurrentFolderProperty); }
-            set { SetValue(CurrentFolderProperty, value); }
+            get => (StorageFolder)GetValue(CurrentFolderProperty);
+            set => SetValue(CurrentFolderProperty, value);
         }
 
         public int ExplorerId { get; set; }
 
-        public bool ItemsInFocus
-        {
-            get => StorageItems.IsFocusedEx;
-        }
+        public bool ItemsInFocus => StorageItems.IsFocusedEx;
 
-        public PathBox PathBoxControl => this.PathBox;
+        public PathBox PathBoxControl => PathBox;
 
-        public ExplorerListView StorageItemsControl => this.StorageItems as ExplorerListView;
+        public ExplorerListView StorageItemsControl => StorageItems;
 
-        public ExplorerViewModel ViewModel
-        {
-            get { return RootElement.DataContext as ExplorerViewModel; }
-        }
+        public ExplorerViewModel ViewModel => RootElement.DataContext as ExplorerViewModel;
 
         public async Task AcceptDropAsync(DragEventArgs e)
         {
@@ -83,7 +78,7 @@ namespace kmd.Core.Explorer
 
                 if (changesMade)
                 {
-                    this.ViewModel.ExecuteCommand(typeof(NavigateCommand));
+                    ViewModel.ExecuteCommand(typeof(NavigateCommand));
                 }
 
                 e.AcceptedOperation = DataPackageOperation.Copy;
@@ -123,7 +118,7 @@ namespace kmd.Core.Explorer
 
                 if (changesMade)
                 {
-                    this.ViewModel.CurrentFolder = droppedTarget;
+                    ViewModel.CurrentFolder = droppedTarget;
                 }
 
                 e.DragArgs.AcceptedOperation = DataPackageOperation.Copy;
@@ -180,21 +175,41 @@ namespace kmd.Core.Explorer
             ViewModel.ExecuteCommand(typeof(OpenSelectedItemCommand));
         }
 
+        private bool _isDragSource;
+
         private void StorageItems_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
             var storageItems = e.Items.Cast<IExplorerItem>()
                 .Where(x => x.IsPhysical)
-                .Select(x => x.StorageItem);
+                .Select(x => x.StorageItem).ToList();
             if (storageItems.Any())
             {
+                _isDragSource = true;
                 e.Data.SetStorageItems(storageItems);
                 e.Data.RequestedOperation = DataPackageOperation.Copy;
             }
         }
 
+        private void StorageItems_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
+        {
+            _isDragSource = false;
+        }
+
         private void StorageItems_DragOver(object sender, DragEventArgs e)
         {
-            e.AcceptedOperation = (e.DataView.Contains(StandardDataFormats.StorageItems)) ? DataPackageOperation.Copy : DataPackageOperation.None;
+            var acceptedOperation = DataPackageOperation.None;
+
+            if (e.DataView.Contains(StandardDataFormats.StorageItems) && !IsInsideTheSameExplorer())
+            {
+                acceptedOperation = DataPackageOperation.Copy;
+            }
+
+            bool IsInsideTheSameExplorer()
+            {
+                return e.OriginalSource is DependencyObject dp && dp.FindParent<ExplorerControl>()._isDragSource;
+            }
+
+            e.AcceptedOperation = acceptedOperation;
         }
 
         private async void StorageItems_Drop(object sender, DragEventArgs e)
@@ -205,7 +220,7 @@ namespace kmd.Core.Explorer
         private void StorageItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var listView = sender as ListView;
-            if (listView.SelectedItem != null)
+            if (listView?.SelectedItem != null)
             {
                 StorageItemsControl.ForceFocusSelectedItem();
                 listView.ScrollIntoView(listView.SelectedItem);
