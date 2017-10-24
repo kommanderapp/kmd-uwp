@@ -55,41 +55,10 @@ namespace kmd.Core.Explorer
 
         public ExplorerViewModel ViewModel => RootElement.DataContext as ExplorerViewModel;
 
-        public async Task AcceptDropAsync(DragEventArgs e)
-        {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
-            {
-                var def = e.GetDeferral();
-                var storageItems = await e.DataView.GetStorageItemsAsync();
-                var changesMade = false;
-                foreach (var item in storageItems)
-                {
-                    if (item is IStorageFolder)
-                    {
-                        await (item as IStorageFolder).CopyContentsRecursiveAsync(CurrentFolder, ViewModel.CancellationTokenSource.Token);
-                        changesMade = true;
-                    }
-                    else if (item is IStorageFile)
-                    {
-                        await (item as IStorageFile).CopyAsync(CurrentFolder, item.Name, NameCollisionOption.GenerateUniqueName);
-                        changesMade = true;
-                    }
-                }
-
-                if (changesMade)
-                {
-                    ViewModel.ExecuteCommand(typeof(NavigateCommand));
-                }
-
-                e.AcceptedOperation = DataPackageOperation.Copy;
-                def.Complete();
-            }
-        }
-
         private void Breadcrumb_ItemDragOver(object sender, BreadcrumbDragEventArgs e)
         {
             e.DragArgs.AcceptedOperation = (e.DragArgs.DataView.Contains(StandardDataFormats.StorageItems))
-                ? DataPackageOperation.Copy : DataPackageOperation.None;
+                ? DragOperations.UserRequestedDragOperation : DataPackageOperation.None;
         }
 
         private async void Breadcrumb_ItemDrop(object sender, BreadcrumbDragEventArgs e)
@@ -106,12 +75,27 @@ namespace kmd.Core.Explorer
                 {
                     if (item is IStorageFolder)
                     {
-                        await (item as IStorageFolder).CopyContentsRecursiveAsync(droppedTarget, ViewModel.CancellationTokenSource.Token);
+                        if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Copy)
+                        {
+                            await (item as IStorageFolder).CopyContentsRecursiveAsync(droppedTarget, ViewModel.CancellationTokenSource.Token);
+                        }
+                        else if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Move)
+                        {
+                            await (item as IStorageFolder).MoveContentsRecursiveAsync(droppedTarget, ViewModel.CancellationTokenSource.Token);
+                        }
                         changesMade = true;
                     }
-                    else if (item is IStorageFile)
+                    else if (item is IStorageFile storageFile)
                     {
-                        await (item as IStorageFile).CopyAsync(droppedTarget, item.Name, NameCollisionOption.GenerateUniqueName);
+                        if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Copy)
+                        {
+                            await storageFile.CopyAsync(droppedTarget, item.Name, NameCollisionOption.GenerateUniqueName);
+                        }
+                        else if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Move)
+                        {
+                            await e.DragArgs.DataView.RequestAccessAsync();
+                            await storageFile.MoveAsync(droppedTarget, item.Name, NameCollisionOption.GenerateUniqueName);
+                        }
                         changesMade = true;
                     }
                 }
@@ -121,7 +105,7 @@ namespace kmd.Core.Explorer
                     ViewModel.CurrentFolder = droppedTarget;
                 }
 
-                e.DragArgs.AcceptedOperation = DataPackageOperation.Copy;
+                e.DragArgs.AcceptedOperation = DragOperations.UserRequestedDragOperation;
                 def.Complete();
             }
         }
@@ -185,8 +169,8 @@ namespace kmd.Core.Explorer
             if (storageItems.Any())
             {
                 _isDragSource = true;
+                e.Data.RequestedOperation = DataPackageOperation.Move;
                 e.Data.SetStorageItems(storageItems);
-                e.Data.RequestedOperation = DataPackageOperation.Copy;
             }
         }
 
@@ -201,7 +185,7 @@ namespace kmd.Core.Explorer
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !IsInsideTheSameExplorer())
             {
-                acceptedOperation = DataPackageOperation.Copy;
+                acceptedOperation = DragOperations.UserRequestedDragOperation;
             }
 
             bool IsInsideTheSameExplorer()
@@ -215,6 +199,51 @@ namespace kmd.Core.Explorer
         private async void StorageItems_Drop(object sender, DragEventArgs e)
         {
             await AcceptDropAsync(e);
+        }
+
+        public async Task AcceptDropAsync(DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                var def = e.GetDeferral();
+                var storageItems = await e.DataView.GetStorageItemsAsync();
+                var changesMade = false;
+                foreach (var item in storageItems)
+                {
+                    if (item is IStorageFolder)
+                    {
+                        if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Copy)
+                        {
+                            await (item as IStorageFolder).CopyContentsRecursiveAsync(CurrentFolder, ViewModel.CancellationTokenSource.Token);
+                        }
+                        else if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Move)
+                        {
+                            await (item as IStorageFolder).MoveContentsRecursiveAsync(CurrentFolder, ViewModel.CancellationTokenSource.Token);
+                        }
+                        changesMade = true;
+                    }
+                    else if (item is IStorageFile)
+                    {
+                        if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Copy)
+                        {
+                            await (item as IStorageFile).CopyAsync(CurrentFolder, item.Name, NameCollisionOption.GenerateUniqueName);
+                        }
+                        else if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Move)
+                        {
+                            await (item as IStorageFile).MoveAsync(CurrentFolder, item.Name, NameCollisionOption.GenerateUniqueName);
+                        }
+                        changesMade = true;
+                    }
+                }
+
+                if (changesMade)
+                {
+                    ViewModel.ExecuteCommand(typeof(NavigateCommand));
+                }
+
+                e.AcceptedOperation = DragOperations.UserRequestedDragOperation;
+                def.Complete();
+            }
         }
 
         private void StorageItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
