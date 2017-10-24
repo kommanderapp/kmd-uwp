@@ -169,7 +169,7 @@ namespace kmd.Core.Explorer
             if (storageItems.Any())
             {
                 _isDragSource = true;
-                e.Data.RequestedOperation = DataPackageOperation.Move;
+                e.Data.RequestedOperation = DragOperations.AvailableDragOperations;
                 e.Data.SetStorageItems(storageItems);
             }
         }
