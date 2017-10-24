@@ -1,0 +1,10 @@
+﻿<c:ContentDialog
+    x:Class="kmd.Core.Explorer.Controls.ContentDialogs.TextInputDialog"
+    x:Name="ContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:Windows.UI.Xaml.Controls">
+    <Grid>
+        <TextBox Text="{Binding ElementName=ContentDialog, Path=Text, Mode=TwoWay}" VerticalAlignment="Center" FontSize="20"/>
+    </Grid>
+    </c:ContentDialog>

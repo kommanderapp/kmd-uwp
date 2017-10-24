@@ -23,7 +23,7 @@ namespace kmd.Core.Explorer.Commands
             return vm.SelectedItem != null && vm.SelectedItem.IsPhysical;
         }
 
-        protected override async void OnExecute(IExplorerViewModel vm)
+        protected override async void OnExecuteAsync(IExplorerViewModel vm)
         {
             await _dialogService.ShowMessage("Explorer_DeleteFile_Message".GetLocalized(),
                 "Explorer_DeleteFile_Title".GetLocalized(),

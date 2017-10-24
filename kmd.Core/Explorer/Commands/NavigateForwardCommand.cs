@@ -18,7 +18,7 @@ namespace kmd.Core.Explorer.Commands
             return vm.NavigationHistory.CanGoForward;
         }
 
-        protected override void OnExecute(IExplorerViewModel vm)
+        protected override void OnExecuteAsync(IExplorerViewModel vm)
         {
             var forwardFolder = vm.NavigationHistory.NavigateForward();
             if (forwardFolder != null)

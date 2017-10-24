@@ -34,7 +34,7 @@ namespace kmd.Core.Explorer.Commands
             return true;
         }
 
-        protected override async void OnExecute(IExplorerViewModel vm)
+        protected override async void OnExecuteAsync(IExplorerViewModel vm)
         {
             vm.IsBusy = true;
 

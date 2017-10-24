@@ -18,7 +18,7 @@ namespace kmd.Core.Explorer.Commands
             return vm.NavigationHistory.CanGoBackward;
         }
 
-        protected override void OnExecute(IExplorerViewModel vm)
+        protected override void OnExecuteAsync(IExplorerViewModel vm)
         {
             var backFolder = vm.NavigationHistory.NavigateBackward();
             if (backFolder != null)

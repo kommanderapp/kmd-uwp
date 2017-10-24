@@ -255,5 +255,10 @@ namespace kmd.Core.Explorer
                 listView.ScrollIntoView(listView.SelectedItem);
             }
         }
+
+        private void AddNewFolder_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(AddNewFolderCommand));
+        }
     }
 }

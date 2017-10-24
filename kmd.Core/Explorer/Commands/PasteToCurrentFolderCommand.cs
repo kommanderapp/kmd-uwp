@@ -34,7 +34,7 @@ namespace kmd.Core.Explorer.Commands
             return false;
         }
 
-        protected override async void OnExecute(IExplorerViewModel vm)
+        protected override async void OnExecuteAsync(IExplorerViewModel vm)
         {
             var pastedItem = _clipboardService.Get();
             var storageItems = await pastedItem.GetStorageItemsAsync();
