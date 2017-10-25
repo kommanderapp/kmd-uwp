@@ -9,6 +9,8 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:explorer="using:kmd.Core.Explorer"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -159,12 +161,17 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="contracts:IExplorerItem">
-                            <Grid>
-                                <Grid.Style>
+                            <Grid Name="ItemTemplateGrid">
+                                <interactivity:Interaction.Behaviors>
+                                    <core:DataTriggerBehavior Binding="{Binding IsPhysical}" Value="true">
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=ItemTemplateGrid}" PropertyName="ContextFlyout" Value="{StaticResource ExplorerItemMenuFlyout}"/>
+                                    </core:DataTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
+                                <!--<Grid.Style>
                                     <Style TargetType="Grid">
                                         <Setter Property="ContextFlyout" Value="{StaticResource ExplorerItemMenuFlyout}"/>
                                     </Style>
-                                </Grid.Style>
+                                </Grid.Style>-->
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="2*" />

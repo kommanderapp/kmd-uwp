@@ -43,7 +43,8 @@ namespace kmd.Core.Explorer.Commands
             {
                 if (item is IStorageFolder)
                 {
-                    await (item as IStorageFolder).CopyContentsRecursiveAsync(vm.CurrentFolder, vm.CancellationTokenSource.Token);
+                    var folder = await vm.CurrentFolder.CreateFolderAsync((item as IStorageFolder).Name);
+                    await (item as IStorageFolder).CopyContentsRecursiveAsync(folder, vm.CancellationTokenSource.Token);
                     changesMade = true;
                 }
                 else if (item is IStorageFile)

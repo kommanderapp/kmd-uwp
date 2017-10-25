@@ -24,7 +24,7 @@ namespace kmd.Core.Explorer.Commands
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
         {
-            return vm.SelectedItem.IsFile && vm.SelectedItems.Count == 1;
+            return vm.SelectedItem.IsFile && vm.SelectedItems.Count == 1 && vm.SelectedItem.IsPhysical;
         }
 
         protected async override void OnExecuteAsync(IExplorerViewModel vm)
