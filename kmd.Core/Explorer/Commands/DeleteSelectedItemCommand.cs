@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Views;
-using kmd.Core.Command;
 using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Helpers;
@@ -33,8 +32,12 @@ namespace kmd.Core.Explorer.Commands
                 {
                     if (accepted)
                     {
-                        await vm.SelectedItem.StorageItem.DeleteAsync();
-                        vm.ExplorerItems.Remove(vm.SelectedItem);
+                        var count = vm.SelectedItems.Count;
+                        for (int i = 0; i < count; i++)
+                        {
+                            await vm.SelectedItems[0].StorageItem.DeleteAsync();
+                            vm.ExplorerItems.Remove(vm.SelectedItems[0]);
+                        }
                     }
                 }
          );

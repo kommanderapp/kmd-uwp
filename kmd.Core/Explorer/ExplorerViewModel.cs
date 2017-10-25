@@ -24,6 +24,7 @@ namespace kmd.Core.Explorer
             _commandBindingsProvider = commandBindingsProvider ?? throw new ArgumentNullException(nameof(commandBindingsProvider));
             CommandBindings = _commandBindingsProvider.GetBindings(this);
             NavigationHistory = new ExplorerNavigationHistory();
+            SelectedItems = new ObservableCollection<IExplorerItem>();
         }
 
         public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();

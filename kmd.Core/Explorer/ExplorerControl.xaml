@@ -6,6 +6,7 @@
     xmlns:contracts="using:kmd.Core.Explorer.Contracts"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls1="using:kmd.Core.Explorer.Controls"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:explorer="using:kmd.Core.Explorer"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -18,12 +19,13 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <explorer:ExplorerViewModelLocator x:Key="ExplorerViewModelLocator" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <MenuFlyout x:Key="ExplorerItemMenuFlyout">
             <MenuFlyout.Items>
                 <MenuFlyoutItem Text="Cut" Click="Cut_Click"/>
                 <MenuFlyoutItem Text="Copy" Click="Copy_Click"/>
                 <MenuFlyoutItem Text="Delete" Click="Delete_Click"/>
-                <MenuFlyoutItem Text="Change extension" Click="ChangeExtension_Click"/>
+                <MenuFlyoutItem Text="Change extension" Click="ChangeExtension_Click" Visibility="{Binding IsFile, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <MenuFlyoutItem Text="Paste here" Click="Paste_Click"/>
                 <MenuFlyoutItem Text="Add new folder" Click="AddNewFolder_Click"/>
             </MenuFlyout.Items>

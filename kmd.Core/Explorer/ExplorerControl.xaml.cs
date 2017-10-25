@@ -254,6 +254,16 @@ namespace kmd.Core.Explorer
                 StorageItemsControl.ForceFocusSelectedItem();
                 listView.ScrollIntoView(listView.SelectedItem);
             }
+
+            foreach (var item in e.AddedItems)
+            {
+                ViewModel.SelectedItems.Add(item as IExplorerItem);
+            }
+
+            foreach (var item in e.RemovedItems)
+            {
+                ViewModel.SelectedItems.Remove(item as IExplorerItem);
+            }
         }
         
         private void AddNewFolder_Click(object sender, RoutedEventArgs e)
@@ -262,24 +272,20 @@ namespace kmd.Core.Explorer
         }
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
             ViewModel.ExecuteCommand(typeof(CopySelectedItemCommand));
         }
         private void Cut_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
             ViewModel.ExecuteCommand(typeof(CutSelectedItemCommand));
         }
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
             ViewModel.ExecuteCommand(typeof(DeleteSelectedItemCommand));
         }
         private void Paste_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(PasteToCurrentFolderCommand));
         }
-
         private void ChangeExtension_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
