@@ -165,6 +165,7 @@
     <Compile Include="Explorer\ExplorerViewModel.cs" />
     <Compile Include="Explorer\Models\ExplorerNavigationHistory.cs" />
     <Compile Include="Helpers\DependencyObjectExtensions.cs" />
+    <Compile Include="Helpers\DragOperations.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\Singleton.cs" />
     <Compile Include="Hotkeys\CharReceivedEventArgs.cs" />

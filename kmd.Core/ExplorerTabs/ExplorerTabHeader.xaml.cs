@@ -7,13 +7,12 @@ namespace kmd.Core.ExplorerTabs
     {
         public string LabelText
         {
-            get { return (string)GetValue(LabelTextProperty); }
-            set { SetValue(LabelTextProperty, value); }
+            get => (string)GetValue(LabelTextProperty);
+            set => SetValue(LabelTextProperty, value);
         }
 
         public static readonly DependencyProperty LabelTextProperty =
             DependencyProperty.Register("LabelText", typeof(string), typeof(ExplorerTabHeader), new PropertyMetadata(string.Empty));
-
 
         public ExplorerTabHeader()
         {

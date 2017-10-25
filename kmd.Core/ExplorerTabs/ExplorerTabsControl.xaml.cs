@@ -8,39 +8,47 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using kmd.Core.Helpers;
 
 namespace kmd.Core.ExplorerTabs
 {
-    public sealed partial class ExplorerTabsControl : UserControl
+    public sealed partial class ExplorerTabsControl
     {
         public static readonly DependencyProperty RootFolderProperty =
                     DependencyProperty.Register("RootFolder", typeof(StorageFolder), typeof(ExplorerTabsControl), new PropertyMetadata(null, RootFolder_Changed));
 
         public ExplorerTabsControl()
         {
-            this.InitializeComponent();
-            this.ExplorerTabs.ItemsSource = Items;
-            this.Loaded += ExplorerTabsControl_Loaded;
-            this.Unloaded += ExplorerTabsControl_Unloaded;
+            InitializeComponent();
+            ExplorerTabs.ItemsSource = Items;
+            Loaded += ExplorerTabsControl_Loaded;
+            Unloaded += ExplorerTabsControl_Unloaded;
         }
 
         public bool IsInFocus
         {
-            get => ((this.ExplorerTabs.SelectedItem as PivotItem).Content as ExplorerControl).ItemsInFocus;
+            get
+            {
+                if (ExplorerTabs.SelectedItem is PivotItem pivotItem)
+                {
+                    var explorerControl = pivotItem.Content as ExplorerControl;
+                    return explorerControl != null && (explorerControl.ItemsInFocus);
+                }
+                return false;
+            }
         }
 
         public ObservableCollection<object> Items { get; set; } = new ObservableCollection<object>();
 
         public StorageFolder RootFolder
         {
-            get { return (StorageFolder)GetValue(RootFolderProperty); }
-            set { SetValue(RootFolderProperty, value); }
+            get => (StorageFolder)GetValue(RootFolderProperty);
+            set => SetValue(RootFolderProperty, value);
         }
 
         public void AddTab(StorageFolder storageFolder)
         {
-            var explorer = new ExplorerControl();
-            explorer.CurrentFolder = storageFolder;
+            var explorer = new ExplorerControl { CurrentFolder = storageFolder };
 
             var pvItem = ConfigurePivotItem(explorer);
 
@@ -82,14 +90,13 @@ namespace kmd.Core.ExplorerTabs
             }
         }
 
-        private Hotkey _addTabHotkey = Hotkey.For(ModifierKeys.Control, VirtualKey.T);
+        private readonly Hotkey _addTabHotkey = Hotkey.For(ModifierKeys.Control, VirtualKey.T);
 
-        private Hotkey _removeTabHotkey = Hotkey.For(ModifierKeys.Control, VirtualKey.W);
+        private readonly Hotkey _removeTabHotkey = Hotkey.For(ModifierKeys.Control, VirtualKey.W);
 
         private static void RootFolder_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as ExplorerTabsControl;
-            if (control.Items.Count == 0)
+            if (d is ExplorerTabsControl control && control.Items.Count == 0)
             {
                 control.AddTab((StorageFolder)e.NewValue);
             }
@@ -108,10 +115,7 @@ namespace kmd.Core.ExplorerTabs
         private void ForceFocusSelectedExplorer()
         {
             var explorer = GetSelectedExplorerControl();
-            if (explorer != null)
-            {
-                explorer.StorageItemsControl.Focus(FocusState.Programmatic);
-            }
+            explorer?.StorageItemsControl.Focus(FocusState.Programmatic);
         }
 
         private ExplorerControl GetSelectedExplorerControl()
@@ -120,7 +124,7 @@ namespace kmd.Core.ExplorerTabs
             return selectedItem;
         }
 
-        private void HotkeyEventAgrigator_HotKey(object sender, Hotkeys.HotkeyEventArg e)
+        private void HotkeyEventAgrigator_HotKey(object sender, HotkeyEventArg e)
         {
             if (!IsInFocus) return;
 
@@ -146,8 +150,8 @@ namespace kmd.Core.ExplorerTabs
         {
             if (sender is ExplorerTabHeader explorerTabHeader && e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                e.AcceptedOperation = DataPackageOperation.Copy;
-                var selectedItem = Items.Cast<PivotItem>().Where(x => x.Header == explorerTabHeader).FirstOrDefault();
+                e.AcceptedOperation = DragOperations.UserRequestedDragOperation;
+                var selectedItem = Items.Cast<PivotItem>().FirstOrDefault(x => x.Header == explorerTabHeader);
                 ExplorerTabs.SelectedItem = selectedItem;
             }
             else
@@ -160,13 +164,12 @@ namespace kmd.Core.ExplorerTabs
         {
             if (sender is ExplorerTabHeader explorerTabHeader)
             {
-                var selectedItem = Items.Cast<PivotItem>().Where(x => x.Header == explorerTabHeader).FirstOrDefault();
-                if (selectedItem.Content is ExplorerControl explorer)
+                var selectedItem = Items.Cast<PivotItem>().FirstOrDefault(x => x.Header == explorerTabHeader);
+                if (selectedItem?.Content is ExplorerControl explorer)
                 {
                     await explorer.AcceptDropAsync(e);
                 }
             }
         }
-
     }
 }
