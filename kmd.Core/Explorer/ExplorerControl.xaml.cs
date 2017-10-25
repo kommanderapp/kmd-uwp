@@ -226,10 +226,29 @@ namespace kmd.Core.Explorer
                 listView.ScrollIntoView(listView.SelectedItem);
             }
         }
-
+        
         private void AddNewFolder_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(AddNewFolderCommand));
+        }
+        private void Copy_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
+            ViewModel.ExecuteCommand(typeof(CopySelectedItemCommand));
+        }
+        private void Cut_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
+            ViewModel.ExecuteCommand(typeof(CutSelectedItemCommand));
+        }
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
+            ViewModel.ExecuteCommand(typeof(DeleteSelectedItemCommand));
+        }
+        private void Paste_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(PasteToCurrentFolderCommand));
         }
     }
 }

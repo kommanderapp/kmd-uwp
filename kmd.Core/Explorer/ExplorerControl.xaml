@@ -18,6 +18,21 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <explorer:ExplorerViewModelLocator x:Key="ExplorerViewModelLocator" />
+        <MenuFlyout x:Key="ExplorerItemMenuFlyout">
+            <MenuFlyout.Items>
+                <MenuFlyoutItem Text="Cut" Click="Cut_Click"/>
+                <MenuFlyoutItem Text="Copy" Click="Copy_Click"/>
+                <MenuFlyoutItem Text="Delete" Click="Delete_Click"/>
+                <MenuFlyoutItem Text="Paste here" Click="Paste_Click"/>
+                <MenuFlyoutItem Text="Add new folder" Click="AddNewFolder_Click"/>
+            </MenuFlyout.Items>
+        </MenuFlyout>
+        <MenuFlyout x:Key="ExplorerMenuFlyout">
+            <MenuFlyout.Items>
+                <MenuFlyoutItem Text="Paste here" Click="Paste_Click"/>
+                <MenuFlyoutItem Text="Add new folder" Click="AddNewFolder_Click"/>
+            </MenuFlyout.Items>
+        </MenuFlyout>
     </UserControl.Resources>
     <Grid
         x:Name="RootElement"
@@ -101,18 +116,14 @@
                     SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                     SelectionChanged="StorageItems_SelectionChanged"
                     SelectionMode="Extended">
+                    <controls1:ExplorerListView.Style>
+                        <Style TargetType="controls1:ExplorerListView">
+                            <Setter Property="ContextFlyout" Value="{StaticResource ExplorerMenuFlyout}"/>
+                        </Style>
+                    </controls1:ExplorerListView.Style>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="ContextFlyout">
-                                <Setter.Value>
-                                    <MenuFlyout x:Name="ExplorerListViewItemContextMenu">
-                                        <MenuFlyout.Items>
-                                            <MenuFlyoutItem Name="AddNewFolder" Text="Add new folder" Click="AddNewFolder_Click"/>
-                                        </MenuFlyout.Items>
-                                    </MenuFlyout>
-                                </Setter.Value>
-                            </Setter>
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.Header>
@@ -146,6 +157,11 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="contracts:IExplorerItem">
                             <Grid>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="ContextFlyout" Value="{StaticResource ExplorerItemMenuFlyout}"/>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="2*" />
