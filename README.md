@@ -23,6 +23,8 @@ Release Date: **11/15/2017**
 * Drag folder/file to breadcrumb folder to move items to it
 * Drag folder/file to tab header to move items to it
 * Quick extension rename
+* Group extension rename
+* Group files in folder
 
 ### Contribution
 
