@@ -23,6 +23,7 @@
                 <MenuFlyoutItem Text="Cut" Click="Cut_Click"/>
                 <MenuFlyoutItem Text="Copy" Click="Copy_Click"/>
                 <MenuFlyoutItem Text="Delete" Click="Delete_Click"/>
+                <MenuFlyoutItem Text="Change extension" Click="ChangeExtension_Click"/>
                 <MenuFlyoutItem Text="Paste here" Click="Paste_Click"/>
                 <MenuFlyoutItem Text="Add new folder" Click="AddNewFolder_Click"/>
             </MenuFlyout.Items>

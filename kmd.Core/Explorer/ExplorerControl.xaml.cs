@@ -279,5 +279,11 @@ namespace kmd.Core.Explorer
         {
             ViewModel.ExecuteCommand(typeof(PasteToCurrentFolderCommand));
         }
+
+        private void ChangeExtension_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
+            ViewModel.ExecuteCommand(typeof(ChangeExtensionCommand));
+        }
     }
 }

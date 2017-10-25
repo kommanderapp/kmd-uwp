@@ -120,6 +120,7 @@
       <DependentUpon>ExplorerTabsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Explorer\Commands\AddNewFolderCommand.cs" />
+    <Compile Include="Explorer\Commands\ChangeExtensionCommand.cs" />
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandBindingsProvider.cs" />
     <Compile Include="Explorer\Commands\CancelOperationsCommand.cs" />
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandBase.cs" />
