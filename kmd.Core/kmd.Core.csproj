@@ -130,6 +130,7 @@
     <Compile Include="Explorer\Commands\DeleteSelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\ExplodeCurrentFolderCommand.cs" />
     <Compile Include="Explorer\Commands\FilterCommand.cs" />
+    <Compile Include="Explorer\Commands\GroupItemsCommand.cs" />
     <Compile Include="Explorer\Commands\GroupRenameCommand.cs" />
     <Compile Include="Explorer\Commands\NavigateBackwardCommand.cs" />
     <Compile Include="Explorer\Commands\NavigateForwardCommand.cs" />

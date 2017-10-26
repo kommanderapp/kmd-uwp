@@ -295,5 +295,9 @@ namespace kmd.Core.Explorer
         {
             ViewModel.ExecuteCommand(typeof(GroupRenameCommand));
         }
+        private void GroupItems_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(GroupItemsCommand));
+        }
     }
 }

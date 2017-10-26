@@ -28,6 +28,7 @@
                 <MenuFlyoutItem Text="Cut" Click="Cut_Click"/>
                 <MenuFlyoutItem Text="Copy" Click="Copy_Click"/>
                 <MenuFlyoutItem Text="Delete" Click="Delete_Click"/>
+                <MenuFlyoutItem Text="Group items" Click="GroupItems_Click"/>
                 <MenuFlyoutItem Text="Group rename" Click="GroupRename_Click"/>
                 <MenuFlyoutItem Text="Change extension" Click="ChangeExtension_Click" Visibility="{Binding IsFile, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <MenuFlyoutItem Text="Paste here" Click="Paste_Click"/>
