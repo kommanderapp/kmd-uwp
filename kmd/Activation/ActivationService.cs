@@ -104,6 +104,7 @@ namespace kmd.Activation
         private async Task InitializeAsync()
         {
             await ThemeSelectorService.InitializeAsync();
+            await HotkeyPersistenceService.InitializeAsync();
             await Task.CompletedTask;
         }
 

@@ -137,6 +137,7 @@
     <Compile Include="Helpers\Converters\FocusStateToOpacityReverseConverter.cs" />
     <Compile Include="Activation\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
+    <Compile Include="Services\HotkeyPersistenceService.cs" />
     <Compile Include="Services\NavigationServiceEx.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="Services\ToastNotificationsService.cs" />

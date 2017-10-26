@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
+using kmd.Core.Hotkeys;
 
 namespace kmd.Core.Explorer.Commands.Configuration
 {
@@ -16,9 +17,9 @@ namespace kmd.Core.Explorer.Commands.Configuration
         public static IEnumerable<ExplorerCommandDescriptor> GetExplorerCommandDescriptors()
         {
             var assembly = typeof(CommandBase).GetTypeInfo().Assembly;
-            foreach (Type type in assembly.GetTypes())
+            foreach (var type in assembly.GetTypes())
             {
-                if (type.GetTypeInfo().GetCustomAttributes(typeof(ExplorerCommandAttribute), true).Count() > 0)
+                if (type.GetTypeInfo().GetCustomAttributes(typeof(ExplorerCommandAttribute), true).Any())
                 {
                     if (type.GetTypeInfo()
                         .GetCustomAttributes(typeof(ExplorerCommandAttribute), true)
@@ -52,25 +53,13 @@ namespace kmd.Core.Explorer.Commands.Configuration
                 }
 
                 var commandName = commandDescriptor.Attribute.Name ?? commandDescriptor.Type.Name;
-                var commandHotkey = commandDescriptor.Attribute.Hotkey ?? null; // TODO get hotkey from settings
-                var commandInfo = new CommandBinding(commandName, command, commandHotkey);
+                var commandPreferredHotkey = commandDescriptor.PreferredHotkey ?? null;
+                var commandInfo = new CommandBinding(commandName, command, commandPreferredHotkey);
                 commandBindings.Add(commandInfo);
             }
 
             var bindings = new CommandBindings(commandBindings);
             return bindings;
-        }
-
-        public class ExplorerCommandDescriptor
-        {
-            public ExplorerCommandDescriptor(Type type, ExplorerCommandAttribute attribute)
-            {
-                Type = type ?? throw new ArgumentNullException(nameof(type));
-                Attribute = attribute ?? throw new ArgumentNullException(nameof(attribute));
-            }
-
-            public ExplorerCommandAttribute Attribute { get; }
-            public Type Type { get; }
         }
     }
 }

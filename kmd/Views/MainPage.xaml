@@ -12,7 +12,7 @@
           Margin="{StaticResource MediumLeftRightMargin}">
         <Grid.RowDefinitions>
             <RowDefinition x:Name="TitleRow"
-                           Height="48" />
+                           Height="70" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>

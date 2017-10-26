@@ -12,7 +12,7 @@ using kmd.Core.Explorer.Contracts;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.C)]
+    [ExplorerCommand("CopySelectedItem", "CopySelectedItem", ModifierKeys.Control, VirtualKey.C)]
     public class CopySelectedItemCommand : ExplorerCommandBase
     {
         public CopySelectedItemCommand(ICilpboardService cilpboardService)

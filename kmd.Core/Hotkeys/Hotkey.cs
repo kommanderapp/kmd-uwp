@@ -72,7 +72,7 @@ namespace kmd.Core.Hotkeys
             return ModifierKey.GetHashCode() * 13 + Key.GetHashCode() * 13;
         }
 
-        private Hotkey(ModifierKeys modifierKey, VirtualKey key)
+        public Hotkey(ModifierKeys modifierKey, VirtualKey key)
         {
             ModifierKey = modifierKey;
             Key = key;

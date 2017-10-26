@@ -9,7 +9,7 @@ using kmd.Core.Command;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.B)]
+    [ExplorerCommand("ExplodeCurrentFolder", "ExplodeCurrentFolder", ModifierKeys.Control, VirtualKey.B)]
     public class ExplodeCurrentFolderCommand : ExplorerCommandBase
     {
         public ExplodeCurrentFolderCommand(IStorageFolderExploder storageFolderExploder,

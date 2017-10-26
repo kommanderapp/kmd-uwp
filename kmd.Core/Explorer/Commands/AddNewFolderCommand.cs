@@ -9,7 +9,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand(key: VirtualKey.F, modifierKey: ModifierKeys.Control)]
+    [ExplorerCommand("AddNewFolder", "AddNewFolder", key: VirtualKey.F, modifierKey: ModifierKeys.Control)]
     public class AddNewFolderCommand : ExplorerCommandBase
     {
         public AddNewFolderCommand(IPromptService cusomDialogService, IDialogService dialogService)
@@ -26,7 +26,7 @@ namespace kmd.Core.Explorer.Commands
             return true;
         }
 
-        protected async override void OnExecuteAsync(IExplorerViewModel vm)
+        protected override async void OnExecuteAsync(IExplorerViewModel vm)
         {
             var folderName = await _promptService.Prompt("Enter folder name", "Create", "New folder");
 

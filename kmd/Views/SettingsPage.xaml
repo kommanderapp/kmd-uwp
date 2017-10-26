@@ -11,70 +11,83 @@
         <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter"
                                            EnumType="ElementTheme" />
     </Page.Resources>
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="RootGrid"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid Margin="{StaticResource MediumLeftRightMargin}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="48" />
+                <RowDefinition Height="70" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock x:Name="TitlePage"
                        x:Uid="Settings_Title"
                        Grid.Row="0"
                        Style="{StaticResource PageTitleStyle}" />
+            <Pivot Grid.Row="1">
+                <PivotItem>
+                    <PivotItem.Header>
+                        <TextBlock x:Uid="Settings_Personalization"
+                                   Style="{StaticResource SubtitleTextBlockStyle}" />
+                    </PivotItem.Header>
+                    <StackPanel>
+                        <TextBlock x:Uid="Settings_Theme"
+                                   Style="{StaticResource BodyTextStyle}" />
 
-            <StackPanel Grid.Row="1">
-                <TextBlock x:Uid="Settings_Personalization"
-                           Style="{StaticResource SubtitleTextBlockStyle}" />
-
-                <StackPanel Margin="{StaticResource SettingsSubheaderMargin}">
-                    <TextBlock x:Uid="Settings_Theme"
-                               Style="{StaticResource BodyTextStyle}" />
-
-                    <StackPanel Margin="{StaticResource EightTopMargin}">
-                        <RadioButton x:Uid="Settings_Theme_Light"
-                                     Command="{Binding SwitchThemeCommand}"
-                                     GroupName="AppTheme"
-                                     IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=TwoWay}">
-                            <RadioButton.CommandParameter>
-                                <xaml:ElementTheme>Light</xaml:ElementTheme>
-                            </RadioButton.CommandParameter>
-                        </RadioButton>
-                        <RadioButton x:Uid="Settings_Theme_Dark"
-                                     Command="{Binding SwitchThemeCommand}"
-                                     GroupName="AppTheme"
-                                     IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=TwoWay}">
-                            <RadioButton.CommandParameter>
-                                <xaml:ElementTheme>Dark</xaml:ElementTheme>
-                            </RadioButton.CommandParameter>
-                        </RadioButton>
-                        <RadioButton x:Uid="Settings_Theme_Default"
-                                     Command="{Binding SwitchThemeCommand}"
-                                     GroupName="AppTheme"
-                                     IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=TwoWay}">
-                            <RadioButton.CommandParameter>
-                                <xaml:ElementTheme>Default</xaml:ElementTheme>
-                            </RadioButton.CommandParameter>
-                        </RadioButton>
+                        <StackPanel Margin="{StaticResource EightTopMargin}">
+                            <RadioButton x:Uid="Settings_Theme_Light"
+                                         Command="{Binding SwitchThemeCommand}"
+                                         GroupName="AppTheme"
+                                         IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=TwoWay}">
+                                <RadioButton.CommandParameter>
+                                    <xaml:ElementTheme>Light</xaml:ElementTheme>
+                                </RadioButton.CommandParameter>
+                            </RadioButton>
+                            <RadioButton x:Uid="Settings_Theme_Dark"
+                                         Command="{Binding SwitchThemeCommand}"
+                                         GroupName="AppTheme"
+                                         IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=TwoWay}">
+                                <RadioButton.CommandParameter>
+                                    <xaml:ElementTheme>Dark</xaml:ElementTheme>
+                                </RadioButton.CommandParameter>
+                            </RadioButton>
+                            <RadioButton x:Uid="Settings_Theme_Default"
+                                         Command="{Binding SwitchThemeCommand}"
+                                         GroupName="AppTheme"
+                                         IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=TwoWay}">
+                                <RadioButton.CommandParameter>
+                                    <xaml:ElementTheme>Default</xaml:ElementTheme>
+                                </RadioButton.CommandParameter>
+                            </RadioButton>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
+                </PivotItem>
+                <PivotItem>
+                    <PivotItem.Header>
+                        <TextBlock x:Uid="Settings_About"
+                                   Style="{StaticResource SubtitleTextBlockStyle}" />
+                    </PivotItem.Header>
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
+                        <TextBlock x:Uid="Settings_AboutDescription"
+                                   Margin="{StaticResource EightTopMargin}" />
 
-                <TextBlock x:Uid="Settings_About"
-                           Style="{StaticResource SubtitleTextBlockStyle}" />
+                        <HyperlinkButton x:Uid="Settings_FeedbackLink"
+                                         Margin="{StaticResource EightTopMargin}"
+                                         Click="Feedback_Click" />
 
-                <StackPanel Margin="{StaticResource EightTopMargin}">
-                    <TextBlock Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
-                    <TextBlock x:Uid="Settings_AboutDescription"
-                               Margin="{StaticResource EightTopMargin}" />
-
-                    <HyperlinkButton x:Uid="Settings_FeedbackLink"
-                                     Margin="{StaticResource EightTopMargin}"
-                                     Click="Feedback_Click" />
-
-                    <HyperlinkButton x:Uid="Settings_PrivacyTermsLink"
-                                     Margin="{StaticResource EightTopMargin}" />
-                </StackPanel>
-            </StackPanel>
+                        <HyperlinkButton x:Uid="Settings_PrivacyTermsLink"
+                                         Margin="{StaticResource EightTopMargin}" />
+                    </StackPanel>
+                </PivotItem>
+                <PivotItem>
+                    <PivotItem.Header>
+                        <TextBlock x:Uid="Settings_Hotkeys"
+                                   Style="{StaticResource SubtitleTextBlockStyle}" />
+                    </PivotItem.Header>
+                    <StackPanel>
+                        <ListView></ListView>
+                    </StackPanel>
+                </PivotItem>
+            </Pivot>
         </Grid>
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>

@@ -1,6 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Services;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml;
@@ -9,7 +12,19 @@ namespace kmd.ViewModels
 {
     public class SettingsViewModel : ViewModelBase
     {
-        // TODO WTS: Add other settings as necessary. For help see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/pages/settings.md
+        private ObservableCollection<ExplorerCommandDescriptor> _explorerCommandDescriptors;
+        public ObservableCollection<ExplorerCommandDescriptor> ExplorerCommandDescriptors
+        {
+            get => _explorerCommandDescriptors;
+            set
+            {
+                if(value != _explorerCommandDescriptors)
+                {
+
+                }
+            }
+        }
+
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
 
         public ElementTheme ElementTheme
@@ -63,6 +78,20 @@ namespace kmd.ViewModels
             var version = packageId.Version;
 
             return $"{package.DisplayName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+        }
+
+        private bool _hasInstanceBeenInitialized = false;
+
+        public async Task EnsureInstanceInitializedAsync()
+        {
+            if (!_hasInstanceBeenInitialized)
+            {
+              
+
+                Initialize();
+
+                _hasInstanceBeenInitialized = true;
+            }
         }
     }
 }

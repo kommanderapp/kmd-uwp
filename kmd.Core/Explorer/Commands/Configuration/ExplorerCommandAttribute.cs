@@ -13,11 +13,11 @@ namespace kmd.Core.Explorer.Commands.Configuration
             ShortcutText = shortcutText;
             if (modifierKey != ModifierKeys.None || key != VirtualKey.None)
             {
-                Hotkey = Hotkey.For(modifierKey, key);
+                DefaultHotkey = Hotkey.For(modifierKey, key);
             }
         }
 
-        public Hotkey Hotkey { get; }
+        public Hotkey DefaultHotkey { get; }
         public string Name { get; }
         public string ShortcutText { get; set; }
     }

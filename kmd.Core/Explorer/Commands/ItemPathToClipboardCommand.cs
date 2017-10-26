@@ -10,7 +10,7 @@ using kmd.Core.Explorer.Contracts;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.Enter)]
+    [ExplorerCommand("ItemPathToClipboard", "ItemPathToClipboard", ModifierKeys.Control, VirtualKey.Enter)]
     public class ItemPathToClipboardCommand : ExplorerCommandBase
     {
         public ItemPathToClipboardCommand(ICilpboardService cilpboardService)

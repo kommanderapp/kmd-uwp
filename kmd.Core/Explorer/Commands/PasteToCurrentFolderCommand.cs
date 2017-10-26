@@ -12,7 +12,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand(modifierKey: ModifierKeys.Control, key: VirtualKey.V)]
+    [ExplorerCommand("PasteToCurrentFolder", "PasteToCurrentFolder", ModifierKeys.Control, VirtualKey.V)]
     public class PasteToCurrentFolderCommand : ExplorerCommandBase
     {
         public PasteToCurrentFolderCommand(ICilpboardService cilpboardService, NavigateCommand navigateCommand)
