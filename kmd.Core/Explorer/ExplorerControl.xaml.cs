@@ -53,7 +53,7 @@ namespace kmd.Core.Explorer
 
         public ExplorerListView StorageItemsControl => StorageItems;
 
-        public ExplorerViewModel ViewModel => RootElement.DataContext as ExplorerViewModel;
+        public ExplorerViewModel ViewModel => RootElement.DataContext as ExplorerViewModel;       
 
         private void Breadcrumb_ItemDragOver(object sender, BreadcrumbDragEventArgs e)
         {
@@ -290,6 +290,10 @@ namespace kmd.Core.Explorer
         {
             ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
             ViewModel.ExecuteCommand(typeof(ChangeExtensionCommand));
+        }
+        private void GroupRename_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(GroupRenameCommand));
         }
     }
 }

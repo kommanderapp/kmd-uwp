@@ -1,8 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
-using kmd.Core.Helpers;
-using kmd.Core.Services.Contracts;
+using kmd.Core.Command;
+using kmd.Core.Explorer.Commands;
+using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Models;
+using kmd.Core.Helpers;
 using kmd.Storage.Contracts;
 using System;
 using System.Collections.ObjectModel;
@@ -10,10 +12,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using System.Windows.Input;
-using kmd.Core.Explorer.Commands;
-using kmd.Core.Explorer.Commands.Configuration;
-using kmd.Core.Command;
 
 namespace kmd.Core.Explorer
 {
@@ -81,6 +79,8 @@ namespace kmd.Core.Explorer
                 Set(ref _isBusy, value);
             }
         }
+
+        public bool CanGroup => SelectedItems.Count > 1 && SelectedItems.All(i => i.IsPhysical);
 
         public bool IsPathBoxFocused
         {

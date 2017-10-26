@@ -12,6 +12,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:e="using:kmd.Core.Extensions"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:storage="using:kmd.Storage.Contracts"
@@ -27,6 +28,7 @@
                 <MenuFlyoutItem Text="Cut" Click="Cut_Click"/>
                 <MenuFlyoutItem Text="Copy" Click="Copy_Click"/>
                 <MenuFlyoutItem Text="Delete" Click="Delete_Click"/>
+                <MenuFlyoutItem Text="Group rename" Click="GroupRename_Click"/>
                 <MenuFlyoutItem Text="Change extension" Click="ChangeExtension_Click" Visibility="{Binding IsFile, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <MenuFlyoutItem Text="Paste here" Click="Paste_Click"/>
                 <MenuFlyoutItem Text="Add new folder" Click="AddNewFolder_Click"/>
