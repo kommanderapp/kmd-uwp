@@ -1,6 +1,4 @@
-﻿using kmd.Core.Explorer.Contracts;
-using kmd.Core.Hotkeys;
-using System;
+﻿using System;
 using System.Windows.Input;
 
 namespace kmd.Core.Command

@@ -1,5 +1,4 @@
 ﻿using kmd.DependecyInjection;
-using kmd.Services;
 using System;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;

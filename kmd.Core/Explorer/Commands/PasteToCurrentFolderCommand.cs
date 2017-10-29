@@ -5,10 +5,9 @@ using kmd.Storage.Extensions;
 using System;
 using Windows.Storage;
 using Windows.System;
-using kmd.Core.Command;
 using kmd.Core.Explorer.Contracts;
-using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
+using kmd.Core.Explorer.Models;
 
 namespace kmd.Core.Explorer.Commands
 {
@@ -38,26 +37,22 @@ namespace kmd.Core.Explorer.Commands
         {
             var pastedItem = _clipboardService.Get();
             var storageItems = await pastedItem.GetStorageItemsAsync();
-            var changesMade = false;
+
             foreach (var item in storageItems)
             {
                 if (item is IStorageFolder)
                 {
                     var folder = await vm.CurrentFolder.CreateFolderAsync((item as IStorageFolder).Name);
                     await (item as IStorageFolder).CopyContentsRecursiveAsync(folder, vm.CancellationTokenSource.Token);
-                    changesMade = true;
+                    var explorerItem = await ExplorerItem.CreateAsync(folder);
+                    vm.ExplorerItems.Add(explorerItem);
                 }
                 else if (item is IStorageFile)
                 {
-                    await (item as IStorageFile).CopyAsync(vm.CurrentFolder, item.Name, NameCollisionOption.GenerateUniqueName);
-                    changesMade = true;
+                    var file = await (item as IStorageFile).CopyAsync(vm.CurrentFolder, item.Name, NameCollisionOption.GenerateUniqueName);
+                    var explorerItem = await ExplorerItem.CreateAsync(file);
+                    vm.ExplorerItems.Add(explorerItem);
                 }
-            }
-
-            if (changesMade)
-            {
-                // if changes made refresh view
-                vm.CurrentFolder = vm.CurrentFolder;
             }
         }
     }
