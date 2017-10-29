@@ -37,7 +37,6 @@ namespace kmd.DependecyInjection
             var serviceLocator = new AutofacServiceLocator(container);
 
             ExplorerCommandBindingsProvider.Resolve = (t) => serviceLocator.GetService(t);
-            //CoreRegistration.RegisterFactoryResolvers(serviceLocator);
 
             ServiceLocator.SetLocatorProvider(() => serviceLocator);
         }

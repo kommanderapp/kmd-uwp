@@ -194,9 +194,6 @@
     <EmbeddedResource Include="Properties\kmd.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac">
-      <Version>4.6.1</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
       <Version>1.0.0</Version>
     </PackageReference>
