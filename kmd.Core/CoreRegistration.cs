@@ -32,7 +32,7 @@ namespace kmd.Core.DI
         {
             sp.AddSingleton<IExplorerCommandBindingsProvider, ExplorerCommandBindingsProvider>();
 
-            var commandDescriptors = ExplorerCommandBindingsProvider.GetExplorerCommandDescriptors();
+            var commandDescriptors = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors;
             foreach (var commandDescriptor in commandDescriptors)
             {
                 sp.AddSingleton(commandDescriptor.Type);

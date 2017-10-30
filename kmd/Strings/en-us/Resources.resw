@@ -192,7 +192,7 @@
   <data name="Settings_FeedbackLink.Content" xml:space="preserve">
     <value>Feedback</value>
   </data>
-  <data name="Settings_Hotkeys" xml:space="preserve">
+  <data name="Settings_Hotkeys.Text" xml:space="preserve">
     <value>Hotkeys</value>
   </data>
 </root>

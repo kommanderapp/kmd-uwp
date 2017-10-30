@@ -165,6 +165,9 @@
     </Compile>
     <Compile Include="Explorer\ExplorerViewModel.cs" />
     <Compile Include="Explorer\Models\ExplorerNavigationHistory.cs" />
+    <Compile Include="FluentKeyboard.xaml.cs">
+      <DependentUpon>FluentKeyboard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\DependencyObjectExtensions.cs" />
     <Compile Include="Helpers\DragOperations.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
@@ -172,6 +175,7 @@
     <Compile Include="Hotkeys\CharReceivedEventArgs.cs" />
     <Compile Include="Hotkeys\Hotkey.cs" />
     <Compile Include="Hotkeys\HotkeyEventArg.cs" />
+    <Compile Include="Hotkeys\HotkeyPersistenceService.cs" />
     <Compile Include="Hotkeys\KeyEventsAgregator.cs" />
     <Compile Include="Explorer\Models\ExplorerUpperFolderLinkItem.cs" />
     <Compile Include="Extensions\Behaviors\FocusBehavior.cs" />
@@ -231,6 +235,10 @@
     <Page Include="Explorer\ExplorerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FluentKeyboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

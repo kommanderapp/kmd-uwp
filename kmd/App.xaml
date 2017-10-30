@@ -10,6 +10,8 @@
             <helperConverters:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
             <helperConverters:FocusStateToOpacityConverter x:Key="FocusStateToOpacityConverter" />
             <helperConverters:FocusStateToOpacityReverseConverter x:Key="FocusStateToOpacityReverseConverter" />
+            <helperConverters:ModifierKeyToCheckedConverter x:Key="ModifierKeyToCheckedConverter" />
+            <helperConverters:VirtualKeyToCheckedConverter x:Key="VirtualKeyToCheckedConverter" />
             <vms:ViewModelLocator x:Key="Locator" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/TextBlock.xaml" />
