@@ -12,7 +12,7 @@
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="NavigationMenuItemDataTemplate" x:DataType="vm:ShellNavigationItem">
-            <Grid Width="320" Height="40" Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+            <Grid Width="320" Height="40" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
@@ -102,7 +102,7 @@
             ItemsSource="{x:Bind ViewModel.PrimaryItems}"
             OptionsItemTemplate="{StaticResource NavigationMenuItemDataTemplate}"
             OptionsItemsSource="{x:Bind ViewModel.SecondaryItems}"
-            PaneBackground="{ThemeResource SystemControlBackgroundAltHighBrush}"
+            PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}"
             PaneForeground="{ThemeResource SystemControlForegroundBaseHighBrush}">
         <i:Interaction.Behaviors>
             <ic:EventTriggerBehavior EventName="ItemClick">
@@ -112,7 +112,7 @@
                 <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemSelectedCommand}" />
             </ic:EventTriggerBehavior>
         </i:Interaction.Behaviors>
-        <Grid Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Frame x:Name="shellFrame" />
         </Grid>
         <VisualStateManager.VisualStateGroups>

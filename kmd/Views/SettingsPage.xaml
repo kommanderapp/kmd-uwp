@@ -96,9 +96,10 @@
                                                     <Style TargetType="FlyoutPresenter">
                                                         <Setter Property="Width" Value="700"/>
                                                         <Setter Property="MinWidth" Value="700"/>
-                                                        <Setter Property="BorderThickness" Value="2"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
                                                         <Setter Property="MaxWidth" Value="700"/>
-                                                        <Setter Property="Background" Value="{StaticResource SystemControlChromeMediumLowAcrylicElementMediumBrush}"/>
+                                                        <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush }"/>
+                                                        
                                                     </Style>
                                                 </Flyout.FlyoutPresenterStyle>
                                                 <core:FluentKeyboard HorizontalAlignment="Center" VerticalAlignment="Center" Key="{x:Bind Key, Mode=TwoWay}" ModifierKey="{x:Bind ModifierKey, Mode=TwoWay}"/>
@@ -107,7 +108,7 @@
                                         <StackPanel>
                                             <TextBlock HorizontalAlignment="Center" Text="{x:Bind Description}"/>
                                             <TextBlock VerticalAlignment="Center" FontSize="40" HorizontalAlignment="Center" Text="&#xE00B;" FontFamily="Segoe MDL2 Assets"/>
-                                            <Button HorizontalAlignment="Center" Content="{x:Bind (Enum.GetName(ModifierKey))}"/>
+                                            <Button HorizontalAlignment="Center" Content="{x:Bind ModifierKey}"/>
                                             <Button HorizontalAlignment="Center" Content="{x:Bind Key}"/>
                                         </StackPanel>
                                     </Button>

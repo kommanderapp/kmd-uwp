@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:system="using:Windows.System"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="640"
@@ -16,7 +17,8 @@
             <Setter Property="Margin" Value="2"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        </Style>       
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>            
+        </Style>
     </UserControl.Resources>
     
     <Grid >

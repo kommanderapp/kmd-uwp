@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using kmd.Core.Helpers;
 using kmd.Core.Services.Impl;
 using System;
 using System.Threading.Tasks;
@@ -34,9 +35,22 @@ namespace kmd.ViewModels
                 drive = await _driveAccessService.PickDriveAsync();
             }
             RootFolder = drive as StorageFolder;
+
+            LoadSecondExplorerTabs = await ApplicationData.Current.LocalSettings.ReadAsync<bool>(nameof(LoadSecondExplorerTabs));
         }
 
         private LocationAccessService _driveAccessService;
         private StorageFolder _rootFolder;
+
+        private bool _loadSecondExplorerTabs;
+        public bool LoadSecondExplorerTabs
+        {
+            get => _loadSecondExplorerTabs;
+            set
+            {
+                Set(ref _loadSecondExplorerTabs, value);
+                ApplicationData.Current.LocalSettings.SaveAsync<bool>(nameof(LoadSecondExplorerTabs), value).FireAndForget();
+            }
+        }
     }
 }

@@ -77,7 +77,7 @@ namespace kmd.ViewModels
             {
                 if (_stateChangedCommand == null)
                 {
-                    _stateChangedCommand = new RelayCommand<Windows.UI.Xaml.VisualStateChangedEventArgs>(args => GoToState(args.NewState.Name));
+                    _stateChangedCommand = new RelayCommand<VisualStateChangedEventArgs>(args => GoToState(args.NewState.Name));
                 }
 
                 return _stateChangedCommand;
