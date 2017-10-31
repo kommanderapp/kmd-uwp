@@ -22,7 +22,7 @@ namespace kmd.DependecyInjection
 
             builder.RegisterType<NavigationServiceEx>().AsSelf().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>();
-            builder.RegisterType<PromptService>().As<IPromptService>();
+            builder.RegisterType<CustomDialogService>().As<ICustomDialogService>();
             builder.RegisterType<LocationAccessService>().AsSelf().SingleInstance();
 
             // ViewModels

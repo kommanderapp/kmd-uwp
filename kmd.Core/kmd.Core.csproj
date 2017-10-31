@@ -154,6 +154,9 @@
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbDragEventArgs.cs" />
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbEventArgs.cs" />
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbItem.cs" />
+    <Compile Include="Explorer\Controls\ContentDialogs\NameCollisionDialog.xaml.cs">
+      <DependentUpon>NameCollisionDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Explorer\Controls\ContentDialogs\TextInputDialog.xaml.cs">
       <DependentUpon>TextInputDialog.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,7 @@
     <Compile Include="Explorer\Models\ExplorerNavigationHistory.cs" />
     <Compile Include="Helpers\DependencyObjectExtensions.cs" />
     <Compile Include="Helpers\DragOperations.cs" />
+    <Compile Include="Helpers\NameCollision.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\Singleton.cs" />
     <Compile Include="Hotkeys\CharReceivedEventArgs.cs" />
@@ -182,13 +186,13 @@
     <Compile Include="Helpers\TaskExtensions.cs" />
     <Compile Include="Helpers\Unicode.cs" />
     <Compile Include="Services\Contracts\ICilpboardService.cs" />
-    <Compile Include="Services\Contracts\IPromptService.cs" />
+    <Compile Include="Services\Contracts\ICustomDialogService.cs" />
     <Compile Include="Services\Contracts\IDriveAccessService.cs" />
     <Compile Include="Services\Contracts\IExplorerInitialLocationService.cs" />
     <Compile Include="Services\Contracts\IExplorerItemMapper.cs" />
     <Compile Include="Services\Impl\CilpboardService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Impl\PromptService.cs" />
+    <Compile Include="Services\Impl\CustomDialogService.cs" />
     <Compile Include="Services\Impl\ExplorerItemMapper.cs" />
     <Compile Include="Services\Impl\ExplorerLocationService.cs" />
     <EmbeddedResource Include="Properties\kmd.Core.rd.xml" />
@@ -225,6 +229,10 @@
     <Page Include="Explorer\Controls\Breadcrumb\BreadcrumbControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Explorer\Controls\ContentDialogs\NameCollisionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Explorer\Controls\ContentDialogs\TextInputDialog.xaml">
       <SubType>Designer</SubType>

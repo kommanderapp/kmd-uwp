@@ -1,9 +1,12 @@
 ﻿using GalaSoft.MvvmLight.Views;
 using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
+using kmd.Core.Explorer.Models;
+using kmd.Core.Helpers;
 using kmd.Core.Hotkeys;
 using kmd.Core.Services.Contracts;
 using System;
+using System.Linq;
 using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
@@ -11,13 +14,13 @@ namespace kmd.Core.Explorer.Commands
     [ExplorerCommand(key: VirtualKey.R, modifierKey: ModifierKeys.Control)]
     public class GroupRenameCommand : ExplorerCommandBase
     {
-        public GroupRenameCommand(IPromptService cusomDialogService, IDialogService dialogService)
+        public GroupRenameCommand(ICustomDialogService customDialogService, IDialogService dialogService)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-            _promptService = cusomDialogService ?? throw new ArgumentNullException(nameof(cusomDialogService));
+            _customDialogService = customDialogService ?? throw new ArgumentNullException(nameof(customDialogService));
         }
 
-        protected readonly IPromptService _promptService;
+        protected readonly ICustomDialogService _customDialogService;
         protected readonly IDialogService _dialogService;
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
@@ -27,25 +30,50 @@ namespace kmd.Core.Explorer.Commands
 
         protected async override void OnExecuteAsync(IExplorerViewModel vm)
         {
-            var name = await _promptService.Prompt("Enter name", "Continue", "group name");
+            var name = await _customDialogService.Prompt("Enter name", "group name");
 
             if (name == null) return;
 
-            try
-            {
-                var itemIndex = 1;
 
-                foreach (var item in vm.SelectedItems)
+            var itemIndex = 1;
+            var count = vm.SelectedItems.Count;
+
+            for (int i = 0; i < count; i++)
+            {
+                var item = vm.SelectedItems[0];
+                try
                 {
                     await item.StorageItem.RenameAsync($"{name} ({itemIndex}){item.FileType}");
-                    itemIndex++;
+                    vm.ExplorerItems.Remove(item);
+                    vm.ExplorerItems.Add(await ExplorerItem.CreateAsync(item.StorageItem));
+                }
+                catch
+                {
+                    var currentName = $"{name} ({itemIndex})";
+
+                    var result = await _customDialogService.NameCollisionDialog(currentName);
+
+                    if (result == Controls.ContentDialogs.NameCollisionDialogResult.Replace)
+                    {
+                        var existingItem = vm.ExplorerItems.First(it => it.Name == currentName + item.FileType);
+                        await existingItem.StorageItem.DeleteAsync(Windows.Storage.StorageDeleteOption.Default);
+                        vm.ExplorerItems.Remove(existingItem);
+
+                        await item.StorageItem.RenameAsync(currentName + item.FileType);
+                        vm.ExplorerItems.Add(await ExplorerItem.CreateAsync(item.StorageItem));
+                    }
+                    else if (result == Controls.ContentDialogs.NameCollisionDialogResult.Rename)
+                    {
+                        var items = await vm.CurrentFolder.GetItemsAsync();
+                        currentName = NameCollision.GetUniqueNameForFile(currentName, item.FileType, items);
+
+                        vm.ExplorerItems.Remove(item);
+                        await item.StorageItem.RenameAsync(currentName);
+                        vm.ExplorerItems.Add(await ExplorerItem.CreateAsync(item.StorageItem));
+                    }
                 }
 
-                vm.CurrentFolder = vm.CurrentFolder;
-            }
-            catch (Exception e)
-            {
-                await _dialogService.ShowError(e, "Invalid operation", "Ok", null);
+                itemIndex++;
             }
         }
     }

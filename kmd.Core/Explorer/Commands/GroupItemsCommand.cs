@@ -14,13 +14,13 @@ namespace kmd.Core.Explorer.Commands
     [ExplorerCommand(key: VirtualKey.Q, modifierKey: ModifierKeys.Control)]
     public class GroupItemsCommand : ExplorerCommandBase
     {
-        public GroupItemsCommand(IPromptService cusomDialogService, IDialogService dialogService)
+        public GroupItemsCommand(ICustomDialogService cusomDialogService, IDialogService dialogService)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-            _promptService = cusomDialogService ?? throw new ArgumentNullException(nameof(cusomDialogService));
+            _customDialogService = cusomDialogService ?? throw new ArgumentNullException(nameof(cusomDialogService));
         }
 
-        protected readonly IPromptService _promptService;
+        protected readonly ICustomDialogService _customDialogService;
         protected readonly IDialogService _dialogService;
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
@@ -30,7 +30,7 @@ namespace kmd.Core.Explorer.Commands
 
         protected async override void OnExecuteAsync(IExplorerViewModel vm)
         {
-            var name = await _promptService.Prompt("Enter folder name", "Group", "Group folder");
+            var name = await _customDialogService.Prompt("Enter folder name", "Group folder");
 
             if (name == null) return;
 

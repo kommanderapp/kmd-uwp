@@ -13,13 +13,13 @@ namespace kmd.Core.Explorer.Commands
     [ExplorerCommand(key: VirtualKey.E, modifierKey: ModifierKeys.Control)]
     public class ChangeExtensionCommand : ExplorerCommandBase
     {
-        public ChangeExtensionCommand(IPromptService cusomDialogService, IDialogService dialogService)
+        public ChangeExtensionCommand(ICustomDialogService cusomDialogService, IDialogService dialogService)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-            _promptService = cusomDialogService ?? throw new ArgumentNullException(nameof(cusomDialogService));
+            _cusomDialogService = cusomDialogService ?? throw new ArgumentNullException(nameof(cusomDialogService));
         }
 
-        protected readonly IPromptService _promptService;
+        protected readonly ICustomDialogService _cusomDialogService;
         protected readonly IDialogService _dialogService;
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
@@ -29,17 +29,24 @@ namespace kmd.Core.Explorer.Commands
 
         protected async override void OnExecuteAsync(IExplorerViewModel vm)
         {
-            var result = await _promptService.Prompt("Change file extension", "Change", vm.SelectedItem.FileType);
+            var result = await _cusomDialogService.Prompt("Change file extension", vm.SelectedItem.FileType);
 
             if (result == null) return;
 
-            await vm.SelectedItem.StorageItem.RenameAsync(vm.SelectedItem.Name.Split('.').First() + result);
-            var storageItem = vm.SelectedItem.StorageItem;
-            var newItem = await ExplorerItem.CreateAsync(storageItem);
-            
-            vm.ExplorerItems.Remove(vm.SelectedItem);
-            vm.ExplorerItems.Add(newItem);
-            vm.SelectedItem = newItem;
+            try
+            {
+                await vm.SelectedItem.StorageItem.RenameAsync(vm.SelectedItem.Name.Split('.').First() + result);
+                var storageItem = vm.SelectedItem.StorageItem;
+                var newItem = await ExplorerItem.CreateAsync(storageItem);
+
+                vm.ExplorerItems.Remove(vm.SelectedItem);
+                vm.ExplorerItems.Add(newItem);
+                vm.SelectedItem = newItem;
+            }
+            catch (Exception ex)
+            {
+                await _dialogService.ShowError(ex.Message, "Invalid operation", "Ok", null);
+            }
         }
     }
 }
