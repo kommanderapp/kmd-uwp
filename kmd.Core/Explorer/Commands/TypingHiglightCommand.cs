@@ -1,9 +1,7 @@
-﻿using kmd.Core.Command;
-using kmd.Core.Explorer.Commands.Configuration;
+﻿using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace kmd.Core.Explorer.Commands
 {

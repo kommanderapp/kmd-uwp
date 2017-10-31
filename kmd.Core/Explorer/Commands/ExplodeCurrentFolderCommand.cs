@@ -5,7 +5,6 @@ using kmd.Core.Hotkeys;
 using kmd.Storage.Contracts;
 using System;
 using Windows.System;
-using kmd.Core.Command;
 
 namespace kmd.Core.Explorer.Commands
 {

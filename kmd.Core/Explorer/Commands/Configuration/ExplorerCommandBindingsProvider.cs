@@ -1,6 +1,5 @@
 ﻿using kmd.Core.Command;
 using kmd.Core.Explorer.Contracts;
-using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
