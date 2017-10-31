@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using CommonServiceLocator;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using kmd.Core.Helpers;
 using kmd.Services;
@@ -42,7 +43,7 @@ namespace kmd.ViewModels
         {
             get
             {
-                return Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<NavigationServiceEx>();
+                return ServiceLocator.Current.GetInstance<NavigationServiceEx>();
             }
         }
 

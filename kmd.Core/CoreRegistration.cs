@@ -5,9 +5,6 @@ using kmd.Core.Explorer;
 using kmd.Storage.Contracts;
 using kmd.Storage.Impl;
 using Microsoft.Extensions.DependencyInjection;
-using kmd.Core.Explorer.Commands;
-using System;
-using Microsoft.Practices.ServiceLocation;
 
 namespace kmd.Core.DI
 {

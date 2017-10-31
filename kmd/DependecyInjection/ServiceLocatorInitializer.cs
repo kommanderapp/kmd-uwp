@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.CommonServiceLocator;
+using CommonServiceLocator;
 using GalaSoft.MvvmLight.Views;
 using kmd.Core.DI;
 using kmd.Core.Explorer.Commands.Configuration;
@@ -9,7 +10,6 @@ using kmd.Core.Services.Impl;
 using kmd.Services;
 using kmd.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Practices.ServiceLocation;
 
 namespace kmd.DependecyInjection
 {

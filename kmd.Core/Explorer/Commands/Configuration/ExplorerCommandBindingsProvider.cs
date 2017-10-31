@@ -1,6 +1,5 @@
 ﻿using kmd.Core.Command;
 using kmd.Core.Explorer.Contracts;
-using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +40,7 @@ namespace kmd.Core.Explorer.Commands.Configuration
                         .FirstOrDefault() is ExplorerCommandAttribute commandAttr)
                     {
                         //TODO find a better solution
-                        var prefferedHotkey = HotkeyPersistenceService.GetPrefferedHotkeyAsync(commandAttr).Result;
+                        var prefferedHotkey = HotkeyPersistenceService.GetPrefferedHotkeyAsync(commandAttr);
                         descriptors.Add(new ExplorerCommandDescriptor(type, commandAttr, prefferedHotkey));
                     }
                 }

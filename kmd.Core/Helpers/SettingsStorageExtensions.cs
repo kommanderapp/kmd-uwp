@@ -36,6 +36,16 @@ namespace kmd.Core.Helpers
             return default(T);
         }
 
+        public static T Read<T>(this ApplicationDataContainer settings, string key)
+        {
+            if (settings.Values.TryGetValue(key, out object obj))
+            {
+                return Json.ToObject<T>((string)obj);
+            }
+
+            return default(T);
+        }
+
         public static async Task<byte[]> ReadBytesAsync(this StorageFile file)
         {
             if (file != null)
@@ -80,6 +90,11 @@ namespace kmd.Core.Helpers
         public static async Task SaveAsync<T>(this ApplicationDataContainer settings, string key, T value)
         {
             settings.Values[key] = await Json.StringifyAsync(value);
+        }
+
+        public static void Save<T>(this ApplicationDataContainer settings, string key, T value)
+        {
+            settings.Values[key] = Json.Stringify(value);
         }
 
         public static async Task<StorageFile> SaveFileAsync(this StorageFolder folder, byte[] content, string fileName, CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)

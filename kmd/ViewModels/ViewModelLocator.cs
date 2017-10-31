@@ -1,7 +1,6 @@
-﻿using kmd.Services;
+﻿using CommonServiceLocator;
+using kmd.Services;
 using kmd.Views;
-
-using Microsoft.Practices.ServiceLocation;
 
 namespace kmd.ViewModels
 {
