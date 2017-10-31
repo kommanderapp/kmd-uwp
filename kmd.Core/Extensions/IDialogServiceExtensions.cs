@@ -1,13 +1,13 @@
-﻿using kmd.Core.Explorer.Controls.ContentDialogs;
-using kmd.Core.Services.Contracts;
+﻿using GalaSoft.MvvmLight.Views;
+using kmd.Core.Explorer.Controls.ContentDialogs;
 using System;
 using System.Threading.Tasks;
 
-namespace kmd.Core.Services.Impl
+namespace kmd.Core.Extensions
 {
-    public class CustomDialogService : ICustomDialogService
+    public static class IDialogServiceExtensions
     {
-        public async Task<NameCollisionDialogResult> NameCollisionDialog(string filename, bool isForSingleFile = true)
+        public static async Task<NameCollisionDialogResult> NameCollisionDialog(this IDialogService dialogService, string filename, bool isForSingleFile = true)
         {
             var dialog = new NameCollisionDialog(filename, isForSingleFile)
             {
@@ -18,7 +18,7 @@ namespace kmd.Core.Services.Impl
             return dialog.Result;
         }
 
-        public async Task<string> Prompt(string title, string initialValue = null)
+        public static async Task<string> Prompt(this IDialogService dialogService, string title, string initialValue = null)
         {
             var dialog = new TextInputDialog { Text = initialValue, Title = title, PrimaryButtonText = "Ok" };
             var result = await dialog.ShowAsync();

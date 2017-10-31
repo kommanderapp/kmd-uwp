@@ -2,8 +2,8 @@
 using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Models;
+using kmd.Core.Extensions;
 using kmd.Core.Hotkeys;
-using kmd.Core.Services.Contracts;
 using System;
 using System.Linq;
 using Windows.System;
@@ -13,13 +13,11 @@ namespace kmd.Core.Explorer.Commands
     [ExplorerCommand(key: VirtualKey.E, modifierKey: ModifierKeys.Control)]
     public class ChangeExtensionCommand : ExplorerCommandBase
     {
-        public ChangeExtensionCommand(ICustomDialogService cusomDialogService, IDialogService dialogService)
+        public ChangeExtensionCommand(IDialogService dialogService)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-            _cusomDialogService = cusomDialogService ?? throw new ArgumentNullException(nameof(cusomDialogService));
         }
-
-        protected readonly ICustomDialogService _cusomDialogService;
+        
         protected readonly IDialogService _dialogService;
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
@@ -29,7 +27,7 @@ namespace kmd.Core.Explorer.Commands
 
         protected async override void OnExecuteAsync(IExplorerViewModel vm)
         {
-            var result = await _cusomDialogService.Prompt("Change file extension", vm.SelectedItem.FileType);
+            var result = await _dialogService.Prompt("Change file extension", vm.SelectedItem.FileType);
 
             if (result == null) return;
 

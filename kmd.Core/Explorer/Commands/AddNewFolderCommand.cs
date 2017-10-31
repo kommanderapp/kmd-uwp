@@ -2,9 +2,9 @@
 using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Models;
+using kmd.Core.Extensions;
 using kmd.Core.Helpers;
 using kmd.Core.Hotkeys;
-using kmd.Core.Services.Contracts;
 using System;
 using System.Linq;
 using Windows.System;
@@ -14,13 +14,11 @@ namespace kmd.Core.Explorer.Commands
     [ExplorerCommand(key: VirtualKey.F, modifierKey: ModifierKeys.Control)]
     public class AddNewFolderCommand : ExplorerCommandBase
     {
-        public AddNewFolderCommand(ICustomDialogService customDialogService, IDialogService dialogService)
+        public AddNewFolderCommand(IDialogService dialogService)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-            _customDialogService = customDialogService ?? throw new ArgumentNullException(nameof(customDialogService));
         }
-
-        protected readonly ICustomDialogService _customDialogService;
+        
         protected readonly IDialogService _dialogService;
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
@@ -30,7 +28,7 @@ namespace kmd.Core.Explorer.Commands
 
         protected async override void OnExecuteAsync(IExplorerViewModel vm)
         {
-            var folderName = await _customDialogService.Prompt("Enter folder name", "New folder");
+            var folderName = await _dialogService.Prompt("Enter folder name", "New folder");
 
             if (folderName == null) return;
 
@@ -43,7 +41,7 @@ namespace kmd.Core.Explorer.Commands
             }
             catch
             {
-                var result = await _customDialogService.NameCollisionDialog(folderName);
+                var result = await _dialogService.NameCollisionDialog(folderName);
 
                 if (result == Controls.ContentDialogs.NameCollisionDialogResult.Replace)
                 {
@@ -61,7 +59,7 @@ namespace kmd.Core.Explorer.Commands
                     var items = await vm.CurrentFolder.GetItemsAsync();
                     var unqiueName = NameCollision.GetUniqueNameForFolder(folderName, items);
 
-                    var folder = await vm.CurrentFolder.CreateFolderAsync(folderName);
+                    var folder = await vm.CurrentFolder.CreateFolderAsync(unqiueName);
                     var newItem = await ExplorerItem.CreateAsync(folder);
                     vm.ExplorerItems.Add(newItem);
                     vm.SelectedItem = newItem;

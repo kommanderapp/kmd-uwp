@@ -2,9 +2,9 @@
 using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Models;
+using kmd.Core.Extensions;
 using kmd.Core.Helpers;
 using kmd.Core.Hotkeys;
-using kmd.Core.Services.Contracts;
 using System;
 using System.Linq;
 using Windows.System;
@@ -14,13 +14,11 @@ namespace kmd.Core.Explorer.Commands
     [ExplorerCommand(key: VirtualKey.R, modifierKey: ModifierKeys.Control)]
     public class GroupRenameCommand : ExplorerCommandBase
     {
-        public GroupRenameCommand(ICustomDialogService customDialogService, IDialogService dialogService)
+        public GroupRenameCommand(IDialogService dialogService)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-            _customDialogService = customDialogService ?? throw new ArgumentNullException(nameof(customDialogService));
         }
-
-        protected readonly ICustomDialogService _customDialogService;
+        
         protected readonly IDialogService _dialogService;
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
@@ -30,7 +28,7 @@ namespace kmd.Core.Explorer.Commands
 
         protected async override void OnExecuteAsync(IExplorerViewModel vm)
         {
-            var name = await _customDialogService.Prompt("Enter name", "group name");
+            var name = await _dialogService.Prompt("Enter name", "group name");
 
             if (name == null) return;
 
@@ -51,7 +49,7 @@ namespace kmd.Core.Explorer.Commands
                 {
                     var currentName = $"{name} ({itemIndex})";
 
-                    var result = await _customDialogService.NameCollisionDialog(currentName);
+                    var result = await _dialogService.NameCollisionDialog(currentName);
 
                     if (result == Controls.ContentDialogs.NameCollisionDialogResult.Replace)
                     {
