@@ -40,7 +40,11 @@ namespace kmd.Core.ExplorerTabs
         public void AddTab(StorageFolder storageFolder)
         {
             var explorer = new ExplorerControl();
-            explorer.Loaded += (s, e) => { (s as ExplorerControl).CurrentFolder = storageFolder; };
+            if (storageFolder != null)
+            {
+                explorer.Loaded += (s, e) => { (s as ExplorerControl).CurrentFolder = storageFolder; };
+            }
+
             var pvItem = ConfigurePivotItem(explorer);
 
             Items.Add(pvItem);
@@ -55,9 +59,10 @@ namespace kmd.Core.ExplorerTabs
                 Content = explorer
             };
 
-            var pvHeader = new ExplorerTabHeader();
-
-            pvHeader.AllowDrop = true;
+            var pvHeader = new ExplorerTabHeader
+            {
+                AllowDrop = true
+            };
             pvHeader.Drop += PivotHeaderItem_OnDrop;
             pvHeader.DragOver += PivotHeaderItem_OnDragOver;
             pvItem.Header = pvHeader;

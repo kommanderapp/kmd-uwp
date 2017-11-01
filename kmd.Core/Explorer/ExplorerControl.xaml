@@ -1,18 +1,18 @@
 ﻿<UserControl
     x:Class="kmd.Core.Explorer.ExplorerControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:explorer="using:kmd.Core.Explorer"
-    xmlns:contracts="using:kmd.Core.Explorer.Contracts"
-    xmlns:controls1="using:kmd.Core.Explorer.Controls"
     xmlns:bh="using:kmd.Core.Extensions.Behaviors"
+    xmlns:contracts="using:kmd.Core.Explorer.Contracts"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls1="using:kmd.Core.Explorer.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:explorer="using:kmd.Core.Explorer"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:storage1="using:Windows.Storage"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -22,62 +22,58 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <MenuFlyout x:Key="ExplorerItemMenuFlyout">
             <MenuFlyout.Items>
-                <MenuFlyoutItem Text="Cut" Click="Cut_Click"/>
-                <MenuFlyoutItem Text="Copy" Click="Copy_Click"/>
-                <MenuFlyoutItem Text="Delete" Click="Delete_Click"/>
-                <MenuFlyoutItem Text="Group items" Click="GroupItems_Click"/>
-                <MenuFlyoutItem Text="Group rename" Click="GroupRename_Click"/>
-                <MenuFlyoutItem Text="Change extension" Click="ChangeExtension_Click" Visibility="{Binding IsFile, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                <MenuFlyoutItem Text="Paste here" Click="Paste_Click"/>
-                <MenuFlyoutItem Text="Add new folder" Click="AddNewFolder_Click"/>
+                <MenuFlyoutItem Click="Cut_Click" Text="Cut" />
+                <MenuFlyoutItem Click="Copy_Click" Text="Copy" />
+                <MenuFlyoutItem Click="Delete_Click" Text="Delete" />
+                <MenuFlyoutItem Click="GroupItems_Click" Text="Group items" />
+                <MenuFlyoutItem Click="GroupRename_Click" Text="Group rename" />
+                <MenuFlyoutItem
+                    Click="ChangeExtension_Click"
+                    Text="Change extension"
+                    Visibility="{Binding IsFile, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <MenuFlyoutItem Click="Paste_Click" Text="Paste here" />
+                <MenuFlyoutItem Click="AddNewFolder_Click" Text="Add new folder" />
             </MenuFlyout.Items>
         </MenuFlyout>
         <MenuFlyout x:Key="ExplorerMenuFlyout">
             <MenuFlyout.Items>
-                <MenuFlyoutItem Text="Paste here" Click="Paste_Click"/>
-                <MenuFlyoutItem Text="Add new folder" Click="AddNewFolder_Click"/>
+                <MenuFlyoutItem Click="Paste_Click" Text="Paste here" />
+                <MenuFlyoutItem Click="AddNewFolder_Click" Text="Add new folder" />
             </MenuFlyout.Items>
         </MenuFlyout>
     </UserControl.Resources>
-    <Grid
-        x:Name="RootElement"
-        DataContext="{Binding ExplorerViewModel, Source={StaticResource ExplorerViewModelLocator}}">
+    <Grid x:Name="RootElement" DataContext="{Binding ExplorerViewModel, Source={StaticResource ExplorerViewModelLocator}}">
 
-        <Grid
-            x:Name="ContentArea"
-            Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
 
             <Grid.RowDefinitions>
-                <RowDefinition
-                    x:Name="LoadingDots"
-                    Height="Auto" />
-                <RowDefinition
-                    x:Name="Actions"
-                    Height="Auto" />
-                <RowDefinition
-                    x:Name="BreadcrumbAndPath"
-                    Height="Auto" />
-                <RowDefinition
-                    x:Name="AppBar"
-                    Height="Auto" />
-                <RowDefinition
-                    x:Name="ExplorerItems"
-                    Height="*" />
+                <RowDefinition x:Name="LoadingDots" Height="Auto" />
+                <RowDefinition x:Name="Actions" Height="Auto" />
+                <RowDefinition x:Name="BreadcrumbAndPath" Height="Auto" />
+                <RowDefinition x:Name="AppBar" Height="Auto" />
+                <RowDefinition x:Name="ExplorerItems" Height="*" />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
-                <ProgressBar
-                    IsIndeterminate="True"
-                    Opacity="{Binding IsBusy, Converter={StaticResource BooleanToOpacityConverter}}" />
+                <ProgressBar IsIndeterminate="True" Opacity="{Binding IsBusy, Converter={StaticResource BooleanToOpacityConverter}}" />
             </Grid>
 
             <Grid Grid.Row="1" />
             <Grid Grid.Row="2">
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox
+                        Grid.Column="0"
+                        DisplayMemberPath="Name"
+                        ItemsSource="{Binding Locations}"
+                        SelectionChanged="Locations_SelectionChanged" />
                     <controls1:PathBox
                         x:Name="PathBox"
                         Grid.Row="0"
-                        Grid.Column="0"
+                        Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
                         HorizontalContentAlignment="Stretch"
@@ -86,14 +82,14 @@
                         FocusFallbackControl="{Binding ElementName=StorageItems}"
                         Opacity="{Binding ElementName=PathBox, Path=FocusState, Converter={StaticResource FocusStateToOpacityReverseConverter}}"
                         Text="{Binding CurrentFolder.Path}">
-                        <i:Interaction.Behaviors>
+                        <interactivity:Interaction.Behaviors>
                             <bh:FocusBehavior IsFocused="{Binding IsPathBoxFocused, Mode=TwoWay}" />
-                        </i:Interaction.Behaviors>
+                        </interactivity:Interaction.Behaviors>
                     </controls1:PathBox>
                     <controls1:BreadcrumbControl
                         x:Name="Breadcrumb"
                         Grid.Row="0"
-                        Grid.Column="0"
+                        Grid.Column="1"
                         ItemDragOver="Breadcrumb_ItemDragOver"
                         ItemDrop="Breadcrumb_ItemDrop"
                         ItemSelected="Breadcrumb_ItemSelected"
@@ -110,18 +106,35 @@
             </Grid>
 
             <AppBar Grid.Row="3">
-                <StackPanel Orientation="Horizontal" Background="Black">
+                <StackPanel Background="Black" Orientation="Horizontal">
                     <AppBarButton Label="Sort">
                         <AppBarButton.Icon>
-                            <SymbolIcon Symbol="Sort"/>
+                            <SymbolIcon Symbol="Sort" />
                         </AppBarButton.Icon>
                         <AppBarButton.Flyout>
                             <Flyout Placement="Right">
                                 <StackPanel Orientation="Vertical">
-                                    <RadioButton x:Name="ByDateAsc" Content="By Date ( newest to old )" GroupName="SortOptions" IsChecked="True" Checked="SortMethod_Changed"/>
-                                    <RadioButton x:Name="ByDateDesc" Content="By Date ( old to newest )" GroupName="SortOptions" Checked="SortMethod_Changed"/>
-                                    <RadioButton x:Name="ByNameAsc" Content="By Name ( from a - z )" GroupName="SortOptions" Checked="SortMethod_Changed"/>
-                                    <RadioButton x:Name="ByNameDesc" Content="By Name ( from z - a )" GroupName="SortOptions" Checked="SortMethod_Changed"/>
+                                    <RadioButton
+                                        x:Name="ByDateAsc"
+                                        Checked="SortMethod_Changed"
+                                        Content="By Date ( newest to old )"
+                                        GroupName="SortOptions"
+                                        IsChecked="True" />
+                                    <RadioButton
+                                        x:Name="ByDateDesc"
+                                        Checked="SortMethod_Changed"
+                                        Content="By Date ( old to newest )"
+                                        GroupName="SortOptions" />
+                                    <RadioButton
+                                        x:Name="ByNameAsc"
+                                        Checked="SortMethod_Changed"
+                                        Content="By Name ( from a - z )"
+                                        GroupName="SortOptions" />
+                                    <RadioButton
+                                        x:Name="ByNameDesc"
+                                        Checked="SortMethod_Changed"
+                                        Content="By Name ( from z - a )"
+                                        GroupName="SortOptions" />
                                 </StackPanel>
                             </Flyout>
                         </AppBarButton.Flyout>
@@ -135,8 +148,8 @@
                     AllowDrop="True"
                     CanDragItems="True"
                     DoubleTapped="StorageItems_DoubleTapped"
-                    DragItemsStarting="StorageItems_DragItemsStarting"
                     DragItemsCompleted="StorageItems_DragItemsCompleted"
+                    DragItemsStarting="StorageItems_DragItemsStarting"
                     DragOver="StorageItems_DragOver"
                     Drop="StorageItems_Drop"
                     ItemsSource="{Binding ExplorerItems}"
@@ -146,7 +159,7 @@
                     SelectionMode="Extended">
                     <controls1:ExplorerListView.Style>
                         <Style TargetType="controls1:ExplorerListView">
-                            <Setter Property="ContextFlyout" Value="{StaticResource ExplorerMenuFlyout}"/>
+                            <Setter Property="ContextFlyout" Value="{StaticResource ExplorerMenuFlyout}" />
                         </Style>
                     </controls1:ExplorerListView.Style>
                     <ListView.ItemContainerStyle>
@@ -155,30 +168,13 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.Header>
-                        <controls:ScrollHeader
-                            Mode="Sticky"
-                            TargetListViewBase="{x:Bind StorageItems}">
+                        <controls:ScrollHeader Mode="Sticky" TargetListViewBase="{x:Bind StorageItems}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="2*" />
                                 </Grid.ColumnDefinitions>
-                                <!--<StackPanel Grid.Column="0">
-                                    <Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                                        <TextBlock Text="Name" />
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Grid.Column="1">
-                                    <Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                                        <TextBlock Text="DateCreated" />
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Grid.Column="2">
-                                    <Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                                        <TextBlock Text="Attr" />
-                                    </Border>
-                                </StackPanel>-->
                             </Grid>
                         </controls:ScrollHeader>
                     </ListView.Header>
@@ -187,22 +183,18 @@
                             <Grid Name="ItemTemplateGrid">
                                 <interactivity:Interaction.Behaviors>
                                     <core:DataTriggerBehavior Binding="{Binding IsPhysical}" Value="true">
-                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=ItemTemplateGrid}" PropertyName="ContextFlyout" Value="{StaticResource ExplorerItemMenuFlyout}"/>
+                                        <core:ChangePropertyAction
+                                            PropertyName="ContextFlyout"
+                                            TargetObject="{Binding ElementName=ItemTemplateGrid}"
+                                            Value="{StaticResource ExplorerItemMenuFlyout}" />
                                     </core:DataTriggerBehavior>
                                 </interactivity:Interaction.Behaviors>
-                                <!--<Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="ContextFlyout" Value="{StaticResource ExplorerItemMenuFlyout}"/>
-                                    </Style>
-                                </Grid.Style>-->
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="2*" />
                                 </Grid.ColumnDefinitions>
-                                <StackPanel
-                                    Grid.Column="0"
-                                    Orientation="Vertical">
+                                <StackPanel Grid.Column="0" Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="{x:Bind Icon}" />
                                         <TextBlock Text="{x:Bind Name}" />

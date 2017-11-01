@@ -8,15 +8,14 @@ namespace kmd.Services
     {
         public static async Task CheckShowRateReminder()
         {
-            RatePopup.ResetLaunchCount();
-            RatePopup.LaunchLimit = 1;
+            RatePopup.LaunchLimit = 10;
             RatePopup.ResetCountOnNewVersion = true;
             RatePopup.RateButtonText = "RatePopup_RateButtonText".GetLocalized();
             RatePopup.CancelButtonText = "RatePopup_CancelButtonText".GetLocalized();
             RatePopup.Title = "RatePopup_Title".GetLocalized();
             RatePopup.Content = "RatePopup_Content".GetLocalized();
             var result = await RatePopup.CheckRateReminderAsync();
-            if(result == RateReminderResult.Dismissed)
+            if (result == RateReminderResult.Dismissed)
             {
                 FeedbackPopup.ContactEmail = "aram.koch@gmail.com";
                 FeedbackPopup.EmailSubject = "FeedbackPopup_EmailSubject".GetLocalized();

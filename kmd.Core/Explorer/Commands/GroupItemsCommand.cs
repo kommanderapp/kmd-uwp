@@ -11,14 +11,14 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand(key: VirtualKey.Q, modifierKey: ModifierKeys.Control)]
+    [ExplorerCommand("GroupItemsCommand", "GroupItemsCommand", key: VirtualKey.Q, modifierKey: ModifierKeys.Control)]
     public class GroupItemsCommand : ExplorerCommandBase
     {
         public GroupItemsCommand(IDialogService dialogService)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         }
-        
+
         protected readonly IDialogService _dialogService;
 
         protected override bool OnCanExecute(IExplorerViewModel vm)

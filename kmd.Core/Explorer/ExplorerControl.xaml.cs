@@ -133,7 +133,7 @@ namespace kmd.Core.Explorer
             ExplorerManager.Register(this);
             KeyEventsAgregator.HotKey += HotKeyPressed;
             KeyEventsAgregator.CharacterReceived += CharacterRecieved;
-            await ViewModel.IntializeAsync();
+            await ViewModel.InitializeAsync();
         }
 
         private void ExplorerControl_Unloaded(object sender, RoutedEventArgs e)

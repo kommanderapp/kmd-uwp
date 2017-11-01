@@ -11,14 +11,14 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand(key: VirtualKey.R, modifierKey: ModifierKeys.Control)]
+    [ExplorerCommand("GroupRenameCommand", "GroupRenameCommand", key: VirtualKey.R, modifierKey: ModifierKeys.Control)]
     public class GroupRenameCommand : ExplorerCommandBase
     {
         public GroupRenameCommand(IDialogService dialogService)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         }
-        
+
         protected readonly IDialogService _dialogService;
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
@@ -31,7 +31,6 @@ namespace kmd.Core.Explorer.Commands
             var name = await _dialogService.Prompt("Enter name", "group name");
 
             if (name == null) return;
-
 
             var itemIndex = 1;
             var count = vm.SelectedItems.Count;

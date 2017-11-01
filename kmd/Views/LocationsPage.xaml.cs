@@ -37,5 +37,10 @@ namespace kmd.Views
         {
             await ViewModel.InitializeAsync();
         }
+
+        private async void NewLocation_Click(object sender, RoutedEventArgs e)
+        {
+            await ViewModel.PickLocationAsync();
+        }
     }
 }

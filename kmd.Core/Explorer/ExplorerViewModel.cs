@@ -33,23 +33,18 @@ namespace kmd.Core.Explorer
             _locationService = locationService ?? throw new ArgumentNullException(nameof(locationService));
         }
 
-        public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
-        public CommandBindings CommandBindings { get; private set; }
-
-        public async Task IntializeAsync()
+        public async Task InitializeAsync()
         {
             CommandBindings = _commandBindingsProvider.GetBindings(this);
             NavigationHistory = new ExplorerNavigationHistory();
             SelectedItems = new ObservableCollection<IExplorerItem>();
-
             var locations = await _locationService.GetLocationsAsync();
             Locations = new ObservableCollection<IStorageFolder>(locations);
-
-            if (CurrentFolder == null)
-            {
-                CurrentFolder = Locations.FirstOrDefault();
-            }
+            CurrentFolder = Locations.First();
         }
+
+        public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
+        public CommandBindings CommandBindings { get; private set; }
 
         public IStorageFolder CurrentFolder
         {
@@ -231,14 +226,17 @@ namespace kmd.Core.Explorer
             switch (sortMethod)
             {
                 case SortMethod.ByDateAsc:
-                    ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x=> x.IsPhysical).OrderBy(i => i.DateCreated));
+                    ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x => x.IsPhysical).OrderBy(i => i.DateCreated));
                     break;
+
                 case SortMethod.ByDateDesc:
                     ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x => x.IsPhysical).OrderByDescending(i => i.DateCreated));
                     break;
+
                 case SortMethod.ByNameAsc:
                     ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x => x.IsPhysical).OrderBy(i => i.Name));
                     break;
+
                 case SortMethod.ByNameDesc:
                     ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x => x.IsPhysical).OrderByDescending(i => i.Name));
                     break;

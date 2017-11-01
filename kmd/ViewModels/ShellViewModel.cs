@@ -198,8 +198,7 @@ namespace kmd.ViewModels
 
         private void Navigate(object item)
         {
-            var navigationItem = item as ShellNavigationItem;
-            if (navigationItem != null)
+            if (item is ShellNavigationItem navigationItem)
             {
                 NavigationService.Navigate(navigationItem.ViewModelName);
             }

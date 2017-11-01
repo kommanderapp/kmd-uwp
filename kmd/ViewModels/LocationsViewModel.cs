@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Storage;
 
 namespace kmd.ViewModels
@@ -37,6 +38,15 @@ namespace kmd.ViewModels
         {
             var locations = await _locationService.GetLocationsAsync();
             Locations = new ObservableCollection<IStorageFolder>(locations);
+        }
+
+        public async Task PickLocationAsync()
+        {
+            var location = await _locationService.PickLocationAsync();
+            if (location != null)
+            {
+                Locations.Add(location);
+            }
         }
     }
 }

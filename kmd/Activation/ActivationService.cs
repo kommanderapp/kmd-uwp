@@ -105,6 +105,7 @@ namespace kmd.Activation
         {
             await ThemeSelectorService.InitializeAsync();
             await RateAndFeedbackService.CheckShowRateReminder();
+
             await Task.CompletedTask;
         }
 

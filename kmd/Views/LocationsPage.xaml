@@ -24,6 +24,10 @@
                            Style="{StaticResource SubtitleTextBlockStyle}" />
                 <ListView DisplayMemberPath="Name"
                           ItemsSource="{Binding Locations}" />
+                <Button x:Name="NewLocation"
+                        Click="NewLocation_Click"
+                        Content="Add Location"
+                        Style="{StaticResource ButtonRevealStyle}" />
             </StackPanel>
         </Grid>
     </Grid>

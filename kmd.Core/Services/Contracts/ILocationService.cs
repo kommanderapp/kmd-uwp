@@ -9,6 +9,8 @@ namespace kmd.Core.Services.Contracts
     {
         Task<IEnumerable<IStorageFolder>> GetLocationsAsync();
 
+        Task AddLocationAsync(IStorageFolder folder);
+
         Task<IStorageFolder> PickLocationAsync();
 
         Task RemoveLocationAsync(IStorageFolder folder);

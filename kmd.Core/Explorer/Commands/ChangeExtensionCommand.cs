@@ -10,14 +10,14 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand(key: VirtualKey.E, modifierKey: ModifierKeys.Control)]
+    [ExplorerCommand("GroupRenameCommand", "GroupRenameCommand", key: VirtualKey.E, modifierKey: ModifierKeys.Control)]
     public class ChangeExtensionCommand : ExplorerCommandBase
     {
         public ChangeExtensionCommand(IDialogService dialogService)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         }
-        
+
         protected readonly IDialogService _dialogService;
 
         protected override bool OnCanExecute(IExplorerViewModel vm)

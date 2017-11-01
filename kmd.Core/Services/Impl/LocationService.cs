@@ -33,19 +33,36 @@ namespace kmd.Core.Services.Impl
                     locations.Add(location);
                 }
             }
+
+            // TODO fix this shit
+            if (!locations.Any())
+            {
+                var music = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+                await AddLocationAsync(music.SaveFolder);
+                var pictures = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+                await AddLocationAsync(pictures.SaveFolder);
+                var videos = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Videos);
+                await AddLocationAsync(videos.SaveFolder);
+            }
+
             return locations;
         }
 
         public async Task<IStorageFolder> PickLocationAsync()
         {
             var folder = await _folderPickerService.PickSingleAsync();
+            await AddLocationAsync(folder);
+
+            return folder;
+        }
+
+        public async Task AddLocationAsync(IStorageFolder folder)
+        {
             if (folder != null)
             {
                 var token = await AddFolderToFALAsync(folder);
                 await AddLocationTokenToSettings(folder.Path, token);
             }
-
-            return folder;
         }
 
         public async Task RemoveLocationAsync(IStorageFolder folder)
