@@ -5,6 +5,7 @@ using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Models;
 using kmd.Core.Helpers;
+using kmd.Core.Services.Contracts;
 using kmd.Storage.Contracts;
 using System;
 using System.Collections.ObjectModel;
@@ -17,16 +18,30 @@ namespace kmd.Core.Explorer
 {
     public class ExplorerViewModel : ViewModelBase, IExplorerViewModel, IViewModelWithCommandBindings
     {
-        public ExplorerViewModel(IExplorerCommandBindingsProvider commandBindingsProvider)
+        public ExplorerViewModel(IExplorerCommandBindingsProvider commandBindingsProvider,
+            ILocationService locationService)
         {
             _commandBindingsProvider = commandBindingsProvider ?? throw new ArgumentNullException(nameof(commandBindingsProvider));
-            CommandBindings = _commandBindingsProvider.GetBindings(this);
-            NavigationHistory = new ExplorerNavigationHistory();
-            SelectedItems = new ObservableCollection<IExplorerItem>();
+            _locationService = locationService ?? throw new ArgumentNullException(nameof(locationService));
         }
 
         public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
-        public CommandBindings CommandBindings { get; }
+        public CommandBindings CommandBindings { get; private set; }
+
+        public async Task IntializeAsync()
+        {
+            CommandBindings = _commandBindingsProvider.GetBindings(this);
+            NavigationHistory = new ExplorerNavigationHistory();
+            SelectedItems = new ObservableCollection<IExplorerItem>();
+
+            var locations = await _locationService.GetLocationsAsync();
+            Locations = new ObservableCollection<IStorageFolder>(locations);
+
+            if (CurrentFolder == null)
+            {
+                CurrentFolder = Locations.FirstOrDefault();
+            }
+        }
 
         public IStorageFolder CurrentFolder
         {
@@ -38,6 +53,18 @@ namespace kmd.Core.Explorer
             {
                 Set(ref _currentFolder, value);
                 OnCurrentFolderUpdate();
+            }
+        }
+
+        public ObservableCollection<IStorageFolder> Locations
+        {
+            get
+            {
+                return _locations;
+            }
+            set
+            {
+                Set(ref _locations, value);
             }
         }
 
@@ -141,6 +168,7 @@ namespace kmd.Core.Explorer
 
         public string TypedText { get; set; }
         protected readonly IExplorerCommandBindingsProvider _commandBindingsProvider;
+        protected readonly ILocationService _locationService;
 
         protected async Task AppendAdditionalItems()
         {
@@ -192,6 +220,7 @@ namespace kmd.Core.Explorer
 
         private IStorageFolder _currentFolder = null;
 
+        private ObservableCollection<IStorageFolder> _locations;
         private ObservableCollection<IStorageFolder> _currentFolderExpandedRoots;
 
         private ObservableCollection<IExplorerItem> _explorerItems;

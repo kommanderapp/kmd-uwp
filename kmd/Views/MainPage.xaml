@@ -25,11 +25,9 @@
                    Style="{StaticResource PageTitleStyle}" />
 
         <explorertabs:ExplorerTabsControl Grid.Row="1"
-                                          Grid.Column="0"
-                                          RootFolder="{Binding RootFolder}" />
+                                          Grid.Column="0" />
         <explorertabs:ExplorerTabsControl Grid.Row="1"
-                                          Grid.Column="1"
-                                          RootFolder="{Binding RootFolder}" />
+                                          Grid.Column="1" />
 
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>

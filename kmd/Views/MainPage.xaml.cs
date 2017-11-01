@@ -12,11 +12,6 @@ namespace kmd.Views
             InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            await ViewModel.InitializeAsync();
-        }
-
         private MainViewModel ViewModel
         {
             get { return DataContext as MainViewModel; }

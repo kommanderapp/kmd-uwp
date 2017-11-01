@@ -53,7 +53,7 @@ namespace kmd.Core.Explorer
 
         public ExplorerListView StorageItemsControl => StorageItems;
 
-        public ExplorerViewModel ViewModel => RootElement.DataContext as ExplorerViewModel;       
+        public ExplorerViewModel ViewModel => RootElement.DataContext as ExplorerViewModel;
 
         private void Breadcrumb_ItemDragOver(object sender, BreadcrumbDragEventArgs e)
         {
@@ -128,11 +128,12 @@ namespace kmd.Core.Explorer
             }
         }
 
-        private void ExplorerControl_Loaded(object sender, RoutedEventArgs e)
+        private async void ExplorerControl_Loaded(object sender, RoutedEventArgs e)
         {
             ExplorerManager.Register(this);
             KeyEventsAgregator.HotKey += HotKeyPressed;
             KeyEventsAgregator.CharacterReceived += CharacterRecieved;
+            await ViewModel.IntializeAsync();
         }
 
         private void ExplorerControl_Unloaded(object sender, RoutedEventArgs e)
@@ -265,39 +266,52 @@ namespace kmd.Core.Explorer
                 ViewModel.SelectedItems.Remove(item as IExplorerItem);
             }
         }
-        
+
         private void AddNewFolder_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(AddNewFolderCommand));
         }
+
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(CopySelectedItemCommand));
         }
+
         private void Cut_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(CutSelectedItemCommand));
         }
+
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(DeleteSelectedItemCommand));
         }
+
         private void Paste_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(PasteToCurrentFolderCommand));
         }
+
         private void ChangeExtension_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
             ViewModel.ExecuteCommand(typeof(ChangeExtensionCommand));
         }
+
         private void GroupRename_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(GroupRenameCommand));
         }
+
         private void GroupItems_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(GroupItemsCommand));
+        }
+
+        private void Locations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var folder = (sender as ComboBox)?.SelectedItem as IStorageFolder;
+            ViewModel.CurrentFolder = folder;
         }
     }
 }

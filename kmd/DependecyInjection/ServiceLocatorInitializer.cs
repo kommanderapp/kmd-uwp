@@ -23,9 +23,9 @@ namespace kmd.DependecyInjection
             builder.RegisterType<NavigationServiceEx>().AsSelf().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>();
             builder.RegisterType<PromptService>().As<IPromptService>();
-            builder.RegisterType<LocationAccessService>().AsSelf().SingleInstance();
 
             // ViewModels
+            builder.RegisterType<LocationsViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<ShellViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<SettingsViewModel>().AsSelf().SingleInstance();
