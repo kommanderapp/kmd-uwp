@@ -187,14 +187,12 @@
     <Compile Include="Helpers\TaskExtensions.cs" />
     <Compile Include="Helpers\Unicode.cs" />
     <Compile Include="Services\Contracts\ICilpboardService.cs" />
-    <Compile Include="Services\Contracts\IPromptService.cs" />
     <Compile Include="Services\Contracts\ILocationService.cs" />
     <Compile Include="Services\Contracts\IExplorerInitialLocationService.cs" />
     <Compile Include="Services\Contracts\IExplorerItemMapper.cs" />
     <Compile Include="Services\Impl\CilpboardService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Impl\LocationService.cs" />
-    <Compile Include="Services\Impl\PromptService.cs" />
     <Compile Include="Services\Impl\ExplorerItemMapper.cs" />
     <EmbeddedResource Include="Properties\kmd.Core.rd.xml" />
   </ItemGroup>
