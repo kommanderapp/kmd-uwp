@@ -15,6 +15,14 @@ using Windows.Storage;
 
 namespace kmd.Core.Explorer
 {
+    public enum SortMethod
+    {
+        ByDateAsc,
+        ByDateDesc,
+        ByNameAsc,
+        ByNameDesc
+    }
+
     public class ExplorerViewModel : ViewModelBase, IExplorerViewModel, IViewModelWithCommandBindings
     {
         public ExplorerViewModel(IExplorerCommandBindingsProvider commandBindingsProvider)
@@ -188,6 +196,25 @@ namespace kmd.Core.Explorer
 
             SelectedItem = selectedItem;
             SelectedItemBeforeExpanding = null;
+        }
+
+        public void Sort(SortMethod sortMethod)
+        {
+            switch (sortMethod)
+            {
+                case SortMethod.ByDateAsc:
+                    ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x=> x.IsPhysical).OrderBy(i => i.DateCreated));
+                    break;
+                case SortMethod.ByDateDesc:
+                    ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x => x.IsPhysical).OrderByDescending(i => i.DateCreated));
+                    break;
+                case SortMethod.ByNameAsc:
+                    ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x => x.IsPhysical).OrderBy(i => i.Name));
+                    break;
+                case SortMethod.ByNameDesc:
+                    ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x => x.IsPhysical).OrderByDescending(i => i.Name));
+                    break;
+            }
         }
 
         private IStorageFolder _currentFolder = null;

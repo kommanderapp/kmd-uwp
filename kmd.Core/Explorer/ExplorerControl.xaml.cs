@@ -53,7 +53,7 @@ namespace kmd.Core.Explorer
 
         public ExplorerListView StorageItemsControl => StorageItems;
 
-        public ExplorerViewModel ViewModel => RootElement.DataContext as ExplorerViewModel;       
+        public ExplorerViewModel ViewModel => RootElement.DataContext as ExplorerViewModel;
 
         private void Breadcrumb_ItemDragOver(object sender, BreadcrumbDragEventArgs e)
         {
@@ -265,7 +265,16 @@ namespace kmd.Core.Explorer
                 ViewModel.SelectedItems.Remove(item as IExplorerItem);
             }
         }
-        
+
+        private void SortMethod_Changed(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.ExplorerItems == null) return;
+            var item = (RadioButton)sender;
+
+            var method = Enum.GetValues(typeof(SortMethod)).Cast<SortMethod>().First(o => o.ToString().Equals(item.Name));
+            ViewModel.Sort(method);
+        }
+
         private void AddNewFolder_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(AddNewFolderCommand));

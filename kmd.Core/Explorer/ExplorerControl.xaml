@@ -58,6 +58,9 @@
                     x:Name="BreadcrumbAndPath"
                     Height="Auto" />
                 <RowDefinition
+                    x:Name="AppBar"
+                    Height="Auto" />
+                <RowDefinition
                     x:Name="ExplorerItems"
                     Height="*" />
             </Grid.RowDefinitions>
@@ -106,7 +109,27 @@
                 </Grid>
             </Grid>
 
-            <Grid Grid.Row="3">
+            <AppBar Grid.Row="3">
+                <StackPanel Orientation="Horizontal" Background="Black">
+                    <AppBarButton Label="Sort">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="Sort"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.Flyout>
+                            <Flyout Placement="Right">
+                                <StackPanel Orientation="Vertical">
+                                    <RadioButton x:Name="ByDateAsc" Content="By Date ( newest to old )" GroupName="SortOptions" IsChecked="True" Checked="SortMethod_Changed"/>
+                                    <RadioButton x:Name="ByDateDesc" Content="By Date ( old to newest )" GroupName="SortOptions" Checked="SortMethod_Changed"/>
+                                    <RadioButton x:Name="ByNameAsc" Content="By Name ( from a - z )" GroupName="SortOptions" Checked="SortMethod_Changed"/>
+                                    <RadioButton x:Name="ByNameDesc" Content="By Name ( from z - a )" GroupName="SortOptions" Checked="SortMethod_Changed"/>
+                                </StackPanel>
+                            </Flyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                </StackPanel>
+            </AppBar>
+
+            <Grid Grid.Row="4">
                 <controls1:ExplorerListView
                     x:Name="StorageItems"
                     AllowDrop="True"
