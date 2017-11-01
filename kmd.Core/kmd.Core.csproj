@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -124,6 +124,7 @@
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandBindingsProvider.cs" />
     <Compile Include="Explorer\Commands\CancelOperationsCommand.cs" />
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandBase.cs" />
+    <Compile Include="Explorer\Commands\Configuration\ExplorerCommandDescriptor.cs" />
     <Compile Include="Explorer\Commands\Configuration\IExplorerCommandBindingsProvider.cs" />
     <Compile Include="Explorer\Commands\CopySelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\CutSelectedItemCommand.cs" />
@@ -170,6 +171,9 @@
     </Compile>
     <Compile Include="Explorer\ExplorerViewModel.cs" />
     <Compile Include="Explorer\Models\ExplorerNavigationHistory.cs" />
+    <Compile Include="FluentKeyboard.xaml.cs">
+      <DependentUpon>FluentKeyboard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\IDialogServiceExtensions.cs" />
     <Compile Include="Helpers\DependencyObjectExtensions.cs" />
     <Compile Include="Helpers\DragOperations.cs" />
@@ -179,6 +183,7 @@
     <Compile Include="Hotkeys\CharReceivedEventArgs.cs" />
     <Compile Include="Hotkeys\Hotkey.cs" />
     <Compile Include="Hotkeys\HotkeyEventArg.cs" />
+    <Compile Include="Hotkeys\HotkeyPersistenceService.cs" />
     <Compile Include="Hotkeys\KeyEventsAgregator.cs" />
     <Compile Include="Explorer\Models\ExplorerUpperFolderLinkItem.cs" />
     <Compile Include="Extensions\Behaviors\FocusBehavior.cs" />
@@ -186,6 +191,7 @@
     <Compile Include="Helpers\ResourceExtensions.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
     <Compile Include="Helpers\Unicode.cs" />
+    <Compile Include="Hotkeys\VirtualKeyStringMapper.cs" />
     <Compile Include="Services\Contracts\ICilpboardService.cs" />
     <Compile Include="Services\Contracts\ILocationService.cs" />
     <Compile Include="Services\Contracts\IExplorerInitialLocationService.cs" />
@@ -234,6 +240,10 @@
     <Page Include="Explorer\ExplorerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FluentKeyboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

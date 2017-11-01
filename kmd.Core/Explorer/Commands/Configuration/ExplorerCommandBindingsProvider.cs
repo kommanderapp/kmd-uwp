@@ -5,28 +5,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
+using kmd.Core.Hotkeys;
+using System.Threading.Tasks;
 
 namespace kmd.Core.Explorer.Commands.Configuration
 {
     public class ExplorerCommandBindingsProvider : IExplorerCommandBindingsProvider
     {
+        private static IEnumerable<ExplorerCommandDescriptor> _explorerCommandDescriptors;
+        public static IEnumerable<ExplorerCommandDescriptor> ExplorerCommandDescriptors
+        {
+            get
+            {
+                if (_explorerCommandDescriptors == null)
+                {
+                    _explorerCommandDescriptors = GetExplorerCommandDescriptors();
+                }
+                return _explorerCommandDescriptors;
+            }            
+        }
+
         public static Func<Type, object> Resolve { private get; set; }
 
-        public static IEnumerable<ExplorerCommandDescriptor> GetExplorerCommandDescriptors()
+        private static IEnumerable<ExplorerCommandDescriptor> GetExplorerCommandDescriptors()
         {
+            var descriptors = new List<ExplorerCommandDescriptor>();
             var assembly = typeof(CommandBase).GetTypeInfo().Assembly;
-            foreach (Type type in assembly.GetTypes())
+            foreach (var type in assembly.GetTypes())
             {
-                if (type.GetTypeInfo().GetCustomAttributes(typeof(ExplorerCommandAttribute), true).Count() > 0)
+                if (type.GetTypeInfo().GetCustomAttributes(typeof(ExplorerCommandAttribute), true).Any())
                 {
                     if (type.GetTypeInfo()
                         .GetCustomAttributes(typeof(ExplorerCommandAttribute), true)
                         .FirstOrDefault() is ExplorerCommandAttribute commandAttr)
                     {
-                        yield return new ExplorerCommandDescriptor(type, commandAttr);
+                        //TODO find a better solution
+                        var prefferedHotkey = HotkeyPersistenceService.GetPrefferedHotkeyAsync(commandAttr);
+                        descriptors.Add(new ExplorerCommandDescriptor(type, commandAttr, prefferedHotkey));
                     }
                 }
             }
+            return descriptors;
+        }
+
+        public async static Task RefreshCommandBindingsAsync()
+        {
+            await Task.Run(() => _explorerCommandDescriptors = GetExplorerCommandDescriptors());            
         }
 
         public CommandBindings GetBindings(IExplorerViewModel explorerViewModel)
@@ -40,9 +64,7 @@ namespace kmd.Core.Explorer.Commands.Configuration
 
             var commandBindings = new List<CommandBinding>();
 
-            var explorerCommandDescriptors = GetExplorerCommandDescriptors();
-
-            foreach (var commandDescriptor in explorerCommandDescriptors)
+            foreach (var commandDescriptor in ExplorerCommandDescriptors)
             {
                 var command = Resolve(commandDescriptor.Type) as ICommand;
                 if (command == null)
@@ -51,8 +73,8 @@ namespace kmd.Core.Explorer.Commands.Configuration
                 }
 
                 var commandName = commandDescriptor.Attribute.Name ?? commandDescriptor.Type.Name;
-                var commandHotkey = commandDescriptor.Attribute.Hotkey ?? null; // TODO get hotkey from settings
-                var commandInfo = new CommandBinding(commandName, command, commandHotkey);
+                var commandPreferredHotkey = commandDescriptor.PreferredHotkey ?? null;
+                var commandInfo = new CommandBinding(commandName, command, commandPreferredHotkey);
                 commandBindings.Add(commandInfo);
             }
 
@@ -60,16 +82,6 @@ namespace kmd.Core.Explorer.Commands.Configuration
             return bindings;
         }
 
-        public class ExplorerCommandDescriptor
-        {
-            public ExplorerCommandDescriptor(Type type, ExplorerCommandAttribute attribute)
-            {
-                Type = type ?? throw new ArgumentNullException(nameof(type));
-                Attribute = attribute ?? throw new ArgumentNullException(nameof(attribute));
-            }
 
-            public ExplorerCommandAttribute Attribute { get; }
-            public Type Type { get; }
-        }
     }
 }

@@ -5,76 +5,121 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:xaml="using:Windows.UI.Xaml"
+      xmlns:viewmodels="using:kmd.ViewModels"
+      xmlns:core="using:kmd.Core"
       DataContext="{Binding SettingsViewModel, Source={StaticResource Locator}}"
       mc:Ignorable="d">
     <Page.Resources>
         <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter"
                                            EnumType="ElementTheme" />
     </Page.Resources>
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="RootGrid"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid Margin="{StaticResource MediumLeftRightMargin}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="48" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="70" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <TextBlock x:Name="TitlePage"
                        x:Uid="Settings_Title"
                        Grid.Row="0"
                        Style="{StaticResource PageTitleStyle}" />
+            <Pivot Grid.Row="1">
+                <PivotItem>
+                    <PivotItem.Header>
+                        <TextBlock x:Uid="Settings_Personalization"
+                                   Style="{StaticResource SubtitleTextBlockStyle}" />
+                    </PivotItem.Header>
+                    <StackPanel>
+                        <TextBlock x:Uid="Settings_Theme"
+                                   Style="{StaticResource BodyTextStyle}" />
 
-            <StackPanel Grid.Row="1">
-                <TextBlock x:Uid="Settings_Personalization"
-                           Style="{StaticResource SubtitleTextBlockStyle}" />
-
-                <StackPanel Margin="{StaticResource SettingsSubheaderMargin}">
-                    <TextBlock x:Uid="Settings_Theme"
-                               Style="{StaticResource BodyTextStyle}" />
-
-                    <StackPanel Margin="{StaticResource EightTopMargin}">
-                        <RadioButton x:Uid="Settings_Theme_Light"
-                                     Command="{Binding SwitchThemeCommand}"
-                                     GroupName="AppTheme"
-                                     IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=TwoWay}">
-                            <RadioButton.CommandParameter>
-                                <xaml:ElementTheme>Light</xaml:ElementTheme>
-                            </RadioButton.CommandParameter>
-                        </RadioButton>
-                        <RadioButton x:Uid="Settings_Theme_Dark"
-                                     Command="{Binding SwitchThemeCommand}"
-                                     GroupName="AppTheme"
-                                     IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=TwoWay}">
-                            <RadioButton.CommandParameter>
-                                <xaml:ElementTheme>Dark</xaml:ElementTheme>
-                            </RadioButton.CommandParameter>
-                        </RadioButton>
-                        <RadioButton x:Uid="Settings_Theme_Default"
-                                     Command="{Binding SwitchThemeCommand}"
-                                     GroupName="AppTheme"
-                                     IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=TwoWay}">
-                            <RadioButton.CommandParameter>
-                                <xaml:ElementTheme>Default</xaml:ElementTheme>
-                            </RadioButton.CommandParameter>
-                        </RadioButton>
+                        <StackPanel Margin="{StaticResource EightTopMargin}">
+                            <RadioButton x:Uid="Settings_Theme_Light"
+                                         Command="{Binding SwitchThemeCommand}"
+                                         GroupName="AppTheme"
+                                         IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=TwoWay}">
+                                <RadioButton.CommandParameter>
+                                    <xaml:ElementTheme>Light</xaml:ElementTheme>
+                                </RadioButton.CommandParameter>
+                            </RadioButton>
+                            <RadioButton x:Uid="Settings_Theme_Dark"
+                                         Command="{Binding SwitchThemeCommand}"
+                                         GroupName="AppTheme"
+                                         IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=TwoWay}">
+                                <RadioButton.CommandParameter>
+                                    <xaml:ElementTheme>Dark</xaml:ElementTheme>
+                                </RadioButton.CommandParameter>
+                            </RadioButton>
+                            <RadioButton x:Uid="Settings_Theme_Default"
+                                         Command="{Binding SwitchThemeCommand}"
+                                         GroupName="AppTheme"
+                                         IsChecked="{Binding ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=TwoWay}">
+                                <RadioButton.CommandParameter>
+                                    <xaml:ElementTheme>Default</xaml:ElementTheme>
+                                </RadioButton.CommandParameter>
+                            </RadioButton>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
+                </PivotItem>
+                <PivotItem>
+                    <PivotItem.Header>
+                        <TextBlock x:Uid="Settings_About"
+                                   Style="{StaticResource SubtitleTextBlockStyle}" />
+                    </PivotItem.Header>
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
+                        <TextBlock x:Uid="Settings_AboutDescription"
+                                   Margin="{StaticResource EightTopMargin}" />
 
-                <TextBlock x:Uid="Settings_About"
-                           Style="{StaticResource SubtitleTextBlockStyle}" />
+                        <HyperlinkButton x:Uid="Settings_FeedbackLink"
+                                         Margin="{StaticResource EightTopMargin}"
+                                         Click="Feedback_Click" />
 
-                <StackPanel Margin="{StaticResource EightTopMargin}">
-                    <TextBlock Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
-                    <TextBlock x:Uid="Settings_AboutDescription"
-                               Margin="{StaticResource EightTopMargin}" />
-
-                    <HyperlinkButton x:Uid="Settings_FeedbackLink"
-                                     Margin="{StaticResource EightTopMargin}"
-                                     Click="Feedback_Click" />
-
-                    <HyperlinkButton x:Uid="Settings_PrivacyTermsLink"
-                                     Margin="{StaticResource EightTopMargin}" />
-                </StackPanel>
-            </StackPanel>
+                        <HyperlinkButton x:Uid="Settings_PrivacyTermsLink"
+                                         Margin="{StaticResource EightTopMargin}" />
+                    </StackPanel>
+                </PivotItem>
+                <PivotItem>
+                    <PivotItem.Header>
+                        <TextBlock x:Uid="Settings_Hotkeys"
+                                   Style="{StaticResource SubtitleTextBlockStyle}" />
+                    </PivotItem.Header>
+                    <Grid>
+                        <GridView ItemsSource="{x:Bind ViewModel.HotkeySettings}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="viewmodels:HotkeySettingDto">
+                                    <Button Margin="15" Opacity="1" Style="{StaticResource ButtonRevealStyle}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="260" Height="90">
+                                        <Button.Flyout>
+                                            <Flyout Placement="Right">
+                                                <Flyout.FlyoutPresenterStyle>
+                                                    <Style TargetType="FlyoutPresenter">
+                                                        <Setter Property="Width" Value="700"/>
+                                                        <Setter Property="MinWidth" Value="700"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="MaxWidth" Value="700"/>
+                                                        <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush }"/>
+                                                        
+                                                    </Style>
+                                                </Flyout.FlyoutPresenterStyle>
+                                                <core:FluentKeyboard HorizontalAlignment="Center" VerticalAlignment="Center" Key="{x:Bind Key, Mode=TwoWay}" ModifierKey="{x:Bind ModifierKey, Mode=TwoWay}"/>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                        <StackPanel VerticalAlignment="Stretch">
+                                            <TextBlock Margin="-2,0,0,0" Text="{x:Bind Description}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                            <StackPanel Margin="0,18,0,0" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                <TextBlock FontSize="22" VerticalAlignment="Center" Text="{Binding ModifierKey}" Opacity="0.7" Visibility="{Binding HasModifierKey, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                <TextBlock Padding="3,0" VerticalAlignment="Center" FontSize="25" Text="+" Visibility="{Binding HasModifierKey, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                <TextBlock FontSize="28" VerticalAlignment="Center" Text="{Binding KeyString}"/>
+                                            </StackPanel>                                            
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </Grid>
+                </PivotItem>
+            </Pivot>
         </Grid>
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>

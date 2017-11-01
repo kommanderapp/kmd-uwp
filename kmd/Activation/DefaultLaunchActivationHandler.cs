@@ -1,8 +1,8 @@
-﻿using kmd.Services;
+﻿using CommonServiceLocator;
+using kmd.Services;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
-using Microsoft.Practices.ServiceLocation;
 
 namespace kmd.Activation
 {

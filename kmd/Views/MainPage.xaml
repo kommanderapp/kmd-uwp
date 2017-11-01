@@ -12,23 +12,16 @@
           Margin="{StaticResource MediumLeftRightMargin}">
         <Grid.RowDefinitions>
             <RowDefinition x:Name="TitleRow"
-                           Height="48" />
+                           Height="70" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <TextBlock x:Name="TitlePage"
-                   x:Uid="Main_Title"
+        <TextBlock x:Uid="Main_Title"
                    Style="{StaticResource PageTitleStyle}" />
-
-        <explorertabs:ExplorerTabsControl Grid.Row="1"
-                                          Grid.Column="0" />
-        <explorertabs:ExplorerTabsControl Grid.Row="1"
-                                          Grid.Column="1" />
-
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <explorertabs:ExplorerTabsControl RootFolder="{Binding RootFolder}" />
+            <explorertabs:ExplorerTabsControl Visibility="Visible"
+                                              RootFolder="{Binding RootFolder}" />
+        </StackPanel>    
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">

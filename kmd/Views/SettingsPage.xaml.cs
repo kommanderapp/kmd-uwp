@@ -1,6 +1,5 @@
 ﻿using System;
 using kmd.ViewModels;
-
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -13,9 +12,14 @@ namespace kmd.Views
             InitializeComponent();
         }
 
+        protected async override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            await ViewModel.SaveChangesAsync();
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Initialize();
+            ViewModel.EnsureInitialized();
         }
 
         private SettingsViewModel ViewModel => DataContext as SettingsViewModel;

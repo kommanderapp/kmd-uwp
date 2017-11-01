@@ -5,7 +5,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand(key: VirtualKey.Escape)]
+    [ExplorerCommand("CancelOperations", "CancelOperations", key: VirtualKey.Escape)]
     public class CancelOperationsCommand : ExplorerCommandBase
     {
         protected override bool OnCanExecute(IExplorerViewModel vm)

@@ -19,7 +19,7 @@ namespace kmd.Core.Explorer.Commands
             var lastTypedChar = vm.LastTypedChar;
             var lastTypedDate = vm.LastTypedCharacterDate;
 
-            if ((now - lastTypedDate).TotalSeconds > _typingIntervalThreashold)
+            if ((now - lastTypedDate).TotalSeconds > TypingIntervalThreashold)
             {
                 vm.TypedText = lastTypedChar;
             }
@@ -31,14 +31,13 @@ namespace kmd.Core.Explorer.Commands
             vm.LastTypedCharacterDate = now;
 
             var elem = vm.ExplorerItems
-                .Where(x => x.Name.StartsWith(vm.TypedText, StringComparison.OrdinalIgnoreCase))
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.Name.StartsWith(vm.TypedText, StringComparison.OrdinalIgnoreCase));
             if (elem != null)
             {
                 vm.SelectedItem = elem;
             }
         }
 
-        private const double _typingIntervalThreashold = 0.5;
+        private const double TypingIntervalThreashold = 0.5;
     }
 }

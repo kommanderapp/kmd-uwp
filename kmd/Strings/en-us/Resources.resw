@@ -142,7 +142,7 @@
     <comment>Light theme text for Settings</comment>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
-    <value>About this application</value>
+    <value>About</value>
     <comment>About this application title for Settings</comment>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
@@ -192,6 +192,8 @@
   <data name="Settings_FeedbackLink.Content" xml:space="preserve">
     <value>Feedback</value>
   </data>
+  <data name="Settings_Hotkeys.Text" xml:space="preserve">
+    <value>Hotkeys</value>
   <data name="FeedbackPopup_CancelButtonText" xml:space="preserve">
     <value>no, thanks</value>
   </data>
