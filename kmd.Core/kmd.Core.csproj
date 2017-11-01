@@ -183,6 +183,7 @@
     <Compile Include="Helpers\ResourceExtensions.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
     <Compile Include="Helpers\Unicode.cs" />
+    <Compile Include="Hotkeys\VirtualKeyStringMapper.cs" />
     <Compile Include="Services\Contracts\ICilpboardService.cs" />
     <Compile Include="Services\Contracts\IPromptService.cs" />
     <Compile Include="Services\Contracts\IDriveAccessService.cs" />

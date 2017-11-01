@@ -89,7 +89,7 @@
                         <GridView ItemsSource="{x:Bind ViewModel.HotkeySettings}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                             <GridView.ItemTemplate>
                                 <DataTemplate x:DataType="viewmodels:HotkeySettingDto">
-                                    <Button Style="{StaticResource ButtonRevealStyle}" Width="250" Height="150">
+                                    <Button Margin="15" Opacity="1" Style="{StaticResource ButtonRevealStyle}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="260" Height="90">
                                         <Button.Flyout>
                                             <Flyout Placement="Right">
                                                 <Flyout.FlyoutPresenterStyle>
@@ -105,11 +105,13 @@
                                                 <core:FluentKeyboard HorizontalAlignment="Center" VerticalAlignment="Center" Key="{x:Bind Key, Mode=TwoWay}" ModifierKey="{x:Bind ModifierKey, Mode=TwoWay}"/>
                                             </Flyout>
                                         </Button.Flyout>
-                                        <StackPanel>
-                                            <TextBlock HorizontalAlignment="Center" Text="{x:Bind Description}"/>
-                                            <TextBlock VerticalAlignment="Center" FontSize="40" HorizontalAlignment="Center" Text="&#xE00B;" FontFamily="Segoe MDL2 Assets"/>
-                                            <Button HorizontalAlignment="Center" Content="{x:Bind ModifierKey}"/>
-                                            <Button HorizontalAlignment="Center" Content="{x:Bind Key}"/>
+                                        <StackPanel VerticalAlignment="Stretch">
+                                            <TextBlock Margin="-2,0,0,0" Text="{x:Bind Description}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                            <StackPanel Margin="0,18,0,0" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                <TextBlock FontSize="22" VerticalAlignment="Center" Text="{Binding ModifierKey}" Opacity="0.7" Visibility="{Binding HasModifierKey, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                <TextBlock Padding="3,0" VerticalAlignment="Center" FontSize="25" Text="+" Visibility="{Binding HasModifierKey, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                <TextBlock FontSize="28" VerticalAlignment="Center" Text="{Binding KeyString}"/>
+                                            </StackPanel>                                            
                                         </StackPanel>
                                     </Button>
                                 </DataTemplate>

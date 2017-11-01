@@ -3,8 +3,6 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace kmd.Core
 {
     public sealed partial class FluentKeyboard : UserControl
@@ -30,6 +28,6 @@ namespace kmd.Core
         public FluentKeyboard()
         {
             this.InitializeComponent();
-        }
+        }        
     }
 }
