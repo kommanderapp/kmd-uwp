@@ -267,6 +267,15 @@ namespace kmd.Core.Explorer
             }
         }
 
+        private void SortMethod_Changed(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.ExplorerItems == null) return;
+            var item = (RadioButton)sender;
+
+            var method = Enum.GetValues(typeof(SortMethod)).Cast<SortMethod>().First(o => o.ToString().Equals(item.Name));
+            ViewModel.Sort(method);
+        }
+
         private void AddNewFolder_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(AddNewFolderCommand));

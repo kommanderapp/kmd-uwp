@@ -4,7 +4,6 @@ using Autofac.Extras.CommonServiceLocator;
 using GalaSoft.MvvmLight.Views;
 using kmd.Core.DI;
 using kmd.Core.Explorer.Commands.Configuration;
-using kmd.Core.Services.Contracts;
 using kmd.Core.Services.Impl;
 using kmd.Services;
 using kmd.ViewModels;

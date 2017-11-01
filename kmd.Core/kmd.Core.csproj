@@ -154,6 +154,9 @@
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbDragEventArgs.cs" />
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbEventArgs.cs" />
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbItem.cs" />
+    <Compile Include="Explorer\Controls\ContentDialogs\NameCollisionDialog.xaml.cs">
+      <DependentUpon>NameCollisionDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Explorer\Controls\ContentDialogs\TextInputDialog.xaml.cs">
       <DependentUpon>TextInputDialog.xaml</DependentUpon>
     </Compile>
@@ -167,8 +170,10 @@
     </Compile>
     <Compile Include="Explorer\ExplorerViewModel.cs" />
     <Compile Include="Explorer\Models\ExplorerNavigationHistory.cs" />
+    <Compile Include="Extensions\IDialogServiceExtensions.cs" />
     <Compile Include="Helpers\DependencyObjectExtensions.cs" />
     <Compile Include="Helpers\DragOperations.cs" />
+    <Compile Include="Helpers\NameCollision.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\Singleton.cs" />
     <Compile Include="Hotkeys\CharReceivedEventArgs.cs" />
@@ -219,6 +224,10 @@
     <Page Include="Explorer\Controls\Breadcrumb\BreadcrumbControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Explorer\Controls\ContentDialogs\NameCollisionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Explorer\Controls\ContentDialogs\TextInputDialog.xaml">
       <SubType>Designer</SubType>
