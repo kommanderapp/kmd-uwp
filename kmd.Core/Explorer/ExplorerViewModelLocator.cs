@@ -1,4 +1,4 @@
-﻿using CommonServiceLocator;
+using Microsoft.Practices.ServiceLocation;
 
 namespace kmd.Core.Explorer
 {

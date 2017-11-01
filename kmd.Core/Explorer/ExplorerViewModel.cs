@@ -1,8 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
-using kmd.Core.Helpers;
-using kmd.Core.Services.Contracts;
+using kmd.Core.Command;
+using kmd.Core.Explorer.Commands;
+using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Models;
+using kmd.Core.Helpers;
+using kmd.Core.Services.Contracts;
 using kmd.Storage.Contracts;
 using System;
 using System.Collections.ObjectModel;
@@ -10,24 +13,43 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using System.Windows.Input;
-using kmd.Core.Explorer.Commands;
-using kmd.Core.Explorer.Commands.Configuration;
-using kmd.Core.Command;
 
 namespace kmd.Core.Explorer
 {
+    public enum SortMethod
+    {
+        ByDateAsc,
+        ByDateDesc,
+        ByNameAsc,
+        ByNameDesc
+    }
+
     public class ExplorerViewModel : ViewModelBase, IExplorerViewModel, IViewModelWithCommandBindings
     {
-        public ExplorerViewModel(IExplorerCommandBindingsProvider commandBindingsProvider)
+        public ExplorerViewModel(IExplorerCommandBindingsProvider commandBindingsProvider,
+            ILocationService locationService)
         {
             _commandBindingsProvider = commandBindingsProvider ?? throw new ArgumentNullException(nameof(commandBindingsProvider));
-            CommandBindings = _commandBindingsProvider.GetBindings(this);
-            NavigationHistory = new ExplorerNavigationHistory();
+            _locationService = locationService ?? throw new ArgumentNullException(nameof(locationService));
         }
 
         public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
-        public CommandBindings CommandBindings { get; }
+        public CommandBindings CommandBindings { get; private set; }
+
+        public async Task IntializeAsync()
+        {
+            CommandBindings = _commandBindingsProvider.GetBindings(this);
+            NavigationHistory = new ExplorerNavigationHistory();
+            SelectedItems = new ObservableCollection<IExplorerItem>();
+
+            var locations = await _locationService.GetLocationsAsync();
+            Locations = new ObservableCollection<IStorageFolder>(locations);
+
+            if (CurrentFolder == null)
+            {
+                CurrentFolder = Locations.FirstOrDefault();
+            }
+        }
 
         public IStorageFolder CurrentFolder
         {
@@ -39,6 +61,18 @@ namespace kmd.Core.Explorer
             {
                 Set(ref _currentFolder, value);
                 OnCurrentFolderUpdate();
+            }
+        }
+
+        public ObservableCollection<IStorageFolder> Locations
+        {
+            get
+            {
+                return _locations;
+            }
+            set
+            {
+                Set(ref _locations, value);
             }
         }
 
@@ -80,6 +114,8 @@ namespace kmd.Core.Explorer
                 Set(ref _isBusy, value);
             }
         }
+
+        public bool CanGroup => SelectedItems.Count > 1 && SelectedItems.All(i => i.IsPhysical);
 
         public bool IsPathBoxFocused
         {
@@ -140,6 +176,7 @@ namespace kmd.Core.Explorer
 
         public string TypedText { get; set; }
         protected readonly IExplorerCommandBindingsProvider _commandBindingsProvider;
+        protected readonly ILocationService _locationService;
 
         protected async Task AppendAdditionalItems()
         {
@@ -189,8 +226,28 @@ namespace kmd.Core.Explorer
             SelectedItemBeforeExpanding = null;
         }
 
+        public void Sort(SortMethod sortMethod)
+        {
+            switch (sortMethod)
+            {
+                case SortMethod.ByDateAsc:
+                    ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x=> x.IsPhysical).OrderBy(i => i.DateCreated));
+                    break;
+                case SortMethod.ByDateDesc:
+                    ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x => x.IsPhysical).OrderByDescending(i => i.DateCreated));
+                    break;
+                case SortMethod.ByNameAsc:
+                    ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x => x.IsPhysical).OrderBy(i => i.Name));
+                    break;
+                case SortMethod.ByNameDesc:
+                    ExplorerItems = new ObservableCollection<IExplorerItem>(ExplorerItems.Where(x => x.IsPhysical).OrderByDescending(i => i.Name));
+                    break;
+            }
+        }
+
         private IStorageFolder _currentFolder = null;
 
+        private ObservableCollection<IStorageFolder> _locations;
         private ObservableCollection<IStorageFolder> _currentFolderExpandedRoots;
 
         private ObservableCollection<IExplorerItem> _explorerItems;

@@ -16,6 +16,7 @@ namespace kmd.Core.DI
             sp.AddSingleton<IExplorerItemMapper, ExplorerItemMapper>();
             sp.AddSingleton<ICilpboardService, CilpboardService>();
             sp.AddSingleton<IPathService, PathService>();
+            sp.AddSingleton<ILocationService, LocationService>();
             sp.AddSingleton<IFileLauncher, FileLauncher>();
             sp.AddSingleton<IFolderPickerService, FolderPickerService>();
             sp.AddSingleton<IStorageFolderRootsExpander, StorageFolderRootsExpander>();

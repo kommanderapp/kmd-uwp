@@ -9,11 +9,10 @@ namespace kmd.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public MainViewModel(LocationAccessService driveAccessService)
+        public MainViewModel()
         {
-            _driveAccessService = driveAccessService ?? throw new ArgumentNullException(nameof(driveAccessService));
         }
-
+        
         public StorageFolder RootFolder
         {
             get

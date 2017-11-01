@@ -211,6 +211,7 @@ namespace kmd.ViewModels
             _secondaryItems.Clear();
 
             _primaryItems.Add(new ShellNavigationItem("Shell_Main".GetLocalized(), Symbol.Document, typeof(MainViewModel).FullName));
+            _primaryItems.Add(new ShellNavigationItem("Shell_Locations".GetLocalized(), Symbol.MapDrive, typeof(LocationsViewModel).FullName));
             _secondaryItems.Add(new ShellNavigationItem("Shell_Settings".GetLocalized(), Symbol.Setting, typeof(SettingsViewModel).FullName));
         }
     }

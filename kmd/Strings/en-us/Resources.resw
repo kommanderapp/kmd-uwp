@@ -194,5 +194,37 @@
   </data>
   <data name="Settings_Hotkeys.Text" xml:space="preserve">
     <value>Hotkeys</value>
+  <data name="FeedbackPopup_CancelButtonText" xml:space="preserve">
+    <value>no, thanks</value>
+  </data>
+  <data name="FeedbackPopup_Content" xml:space="preserve">
+    <value>Maybe you want to send us an email with feedback regarding your experience with the app?</value>
+  </data>
+  <data name="FeedbackPopup_EmailSubject" xml:space="preserve">
+    <value>Feedback for kmd - kommander</value>
+  </data>
+  <data name="FeedbackPopup_SendFeedbackButtonText" xml:space="preserve">
+    <value>yes, send feedback</value>
+  </data>
+  <data name="FeedbackPopup_Title" xml:space="preserve">
+    <value>Would you like to send feedback?</value>
+  </data>
+  <data name="RatePopup_CancelButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="RatePopup_Content" xml:space="preserve">
+    <value>Would you like to rate this app?</value>
+  </data>
+  <data name="RatePopup_RateButtonText" xml:space="preserve">
+    <value>Rate</value>
+  </data>
+  <data name="RatePopup_Title" xml:space="preserve">
+    <value>Rate app</value>
+  </data>
+  <data name="Locations_Description" xml:space="preserve">
+    <value>Locations are nesseccary to know physical locations in your device.</value>
+  </data>
+  <data name="Locations_Title" xml:space="preserve">
+    <value>Locations</value>
   </data>
 </root>

@@ -5,7 +5,6 @@ using CommonServiceLocator;
 using GalaSoft.MvvmLight.Views;
 using kmd.Core.DI;
 using kmd.Core.Explorer.Commands.Configuration;
-using kmd.Core.Services.Contracts;
 using kmd.Core.Services.Impl;
 using kmd.Services;
 using kmd.ViewModels;
@@ -22,10 +21,9 @@ namespace kmd.DependecyInjection
 
             builder.RegisterType<NavigationServiceEx>().AsSelf().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>();
-            builder.RegisterType<PromptService>().As<IPromptService>();
-            builder.RegisterType<LocationAccessService>().AsSelf().SingleInstance();
 
             // ViewModels
+            builder.RegisterType<LocationsViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<ShellViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<SettingsViewModel>().AsSelf().SingleInstance();
@@ -37,7 +35,6 @@ namespace kmd.DependecyInjection
             var serviceLocator = new AutofacServiceLocator(container);
 
             ExplorerCommandBindingsProvider.Resolve = (t) => serviceLocator.GetService(t);
-            //CoreRegistration.RegisterFactoryResolvers(serviceLocator);
 
             ServiceLocator.SetLocatorProvider(() => serviceLocator);
         }

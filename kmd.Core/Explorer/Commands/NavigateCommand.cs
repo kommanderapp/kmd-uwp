@@ -1,11 +1,9 @@
-﻿using kmd.Core.Command;
-using kmd.Core.Explorer.Commands.Configuration;
+﻿using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Services.Contracts;
 using kmd.Storage.Contracts;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace kmd.Core.Explorer.Commands

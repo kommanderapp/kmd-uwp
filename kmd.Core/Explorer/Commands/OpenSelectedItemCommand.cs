@@ -1,5 +1,4 @@
-﻿using kmd.Core.Command;
-using kmd.Core.Explorer.Commands.Configuration;
+﻿using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using kmd.Storage.Contracts;
 using System;

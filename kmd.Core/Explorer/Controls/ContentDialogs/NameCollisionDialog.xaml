@@ -1,0 +1,15 @@
+﻿<c:ContentDialog
+    x:Class="kmd.Core.Explorer.Controls.ContentDialogs.NameCollisionDialog"
+    x:Name="ContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:c="using:Windows.UI.Xaml.Controls">
+    <c:ContentDialog.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </c:ContentDialog.Resources>
+    <c:StackPanel Orientation="Vertical">
+        <c:ListView ItemsSource="{x:Bind Options}" SelectionChanged="ListView_SelectionChanged" />
+        <c:CheckBox Content="Do this for all files" IsChecked="{x:Bind ForAll}" Visibility="{x:Bind ShowCheckbox, Converter={StaticResource BoolToVisibilityConverter}}"/>
+    </c:StackPanel>
+</c:ContentDialog>

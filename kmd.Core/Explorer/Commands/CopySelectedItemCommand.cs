@@ -1,14 +1,11 @@
 ﻿using kmd.Core.Explorer.Commands.Configuration;
-using kmd.Core.Services.Contracts;
-using kmd.Core.Hotkeys;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using Windows.System;
-using kmd.Core.Command;
 using kmd.Core.Explorer.Contracts;
+using kmd.Core.Hotkeys;
+using kmd.Core.Services.Contracts;
+using System;
+using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
@@ -33,7 +30,7 @@ namespace kmd.Core.Explorer.Commands
             {
                 RequestedOperation = DataPackageOperation.Copy
             };
-            dataObject.SetStorageItems(new List<IStorageItem>() { vm.SelectedItem.StorageItem });
+            dataObject.SetStorageItems(vm.SelectedItems.Select(i => i.StorageItem));
             _clipboardService.Set(dataObject);
         }
     }

@@ -14,9 +14,6 @@ namespace kmd.Core.ExplorerTabs
 {
     public sealed partial class ExplorerTabsControl
     {
-        public static readonly DependencyProperty RootFolderProperty =
-                    DependencyProperty.Register("RootFolder", typeof(StorageFolder), typeof(ExplorerTabsControl), new PropertyMetadata(null, RootFolder_Changed));
-
         public ExplorerTabsControl()
         {
             InitializeComponent();
@@ -40,16 +37,10 @@ namespace kmd.Core.ExplorerTabs
 
         public ObservableCollection<object> Items { get; set; } = new ObservableCollection<object>();
 
-        public StorageFolder RootFolder
-        {
-            get => (StorageFolder)GetValue(RootFolderProperty);
-            set => SetValue(RootFolderProperty, value);
-        }
-
         public void AddTab(StorageFolder storageFolder)
         {
-            var explorer = new ExplorerControl { CurrentFolder = storageFolder };
-
+            var explorer = new ExplorerControl();
+            explorer.Loaded += (s, e) => { (s as ExplorerControl).CurrentFolder = storageFolder; };
             var pvItem = ConfigurePivotItem(explorer);
 
             Items.Add(pvItem);
@@ -94,17 +85,10 @@ namespace kmd.Core.ExplorerTabs
 
         private readonly Hotkey _removeTabHotkey = Hotkey.For(ModifierKeys.Control, VirtualKey.W);
 
-        private static void RootFolder_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is ExplorerTabsControl control && control.Items.Count == 0)
-            {
-                control.AddTab((StorageFolder)e.NewValue);
-            }
-        }
-
         private void ExplorerTabsControl_Loaded(object sender, RoutedEventArgs e)
         {
             KeyEventsAgregator.HotKey += HotkeyEventAgrigator_HotKey;
+            this.AddTab(null);
         }
 
         private void ExplorerTabsControl_Unloaded(object sender, RoutedEventArgs e)

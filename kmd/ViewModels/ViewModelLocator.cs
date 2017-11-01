@@ -13,6 +13,8 @@ namespace kmd.ViewModels
 
         public MainViewModel MainViewModel => ServiceLocator.Current.GetInstance<MainViewModel>();
 
+        public LocationsViewModel LocationsViewModel => ServiceLocator.Current.GetInstance<LocationsViewModel>();
+
         public NavigationServiceEx NavigationService => ServiceLocator.Current.GetInstance<NavigationServiceEx>();
 
         public SettingsViewModel SettingsViewModel => ServiceLocator.Current.GetInstance<SettingsViewModel>();
@@ -22,6 +24,7 @@ namespace kmd.ViewModels
         private void ConfigureNavigationService()
         {
             NavigationService.Configure(typeof(MainViewModel).FullName, typeof(MainPage));
+            NavigationService.Configure(typeof(LocationsViewModel).FullName, typeof(LocationsPage));
             NavigationService.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsPage));
         }
     }

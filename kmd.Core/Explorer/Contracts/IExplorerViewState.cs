@@ -9,6 +9,7 @@ namespace kmd.Core.Explorer.Contracts
         ObservableCollection<IStorageFolder> CurrentFolderExpandedRoots { get; set; }
         ObservableCollection<IExplorerItem> ExplorerItems { get; set; }
         bool IsBusy { get; set; }
+        bool CanGroup { get; }
         bool IsPathBoxFocused { get; set; }
         IExplorerItem SelectedItem { get; set; }
         ObservableCollection<IExplorerItem> SelectedItems { get; set; }

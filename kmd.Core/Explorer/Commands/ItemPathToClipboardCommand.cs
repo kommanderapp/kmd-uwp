@@ -2,10 +2,8 @@
 using kmd.Core.Services.Contracts;
 using kmd.Core.Hotkeys;
 using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
-using kmd.Core.Command;
 using kmd.Core.Explorer.Contracts;
 
 namespace kmd.Core.Explorer.Commands

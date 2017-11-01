@@ -21,8 +21,7 @@
             <explorertabs:ExplorerTabsControl RootFolder="{Binding RootFolder}" />
             <explorertabs:ExplorerTabsControl Visibility="Visible"
                                               RootFolder="{Binding RootFolder}" />
-        </StackPanel>
-       
+        </StackPanel>    
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
