@@ -40,7 +40,7 @@ namespace kmd.Core.Explorer.Commands.Configuration
                         .FirstOrDefault() is ExplorerCommandAttribute commandAttr)
                     {
                         //TODO find a better solution
-                        var prefferedHotkey = HotkeyPersistenceService.GetPrefferedHotkeyAsync(commandAttr);
+                        var prefferedHotkey = HotkeyPersistenceService.GetPrefferedHotkey(commandAttr);
                         descriptors.Add(new ExplorerCommandDescriptor(type, commandAttr, prefferedHotkey));
                     }
                 }

@@ -1,6 +1,7 @@
 ﻿using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Helpers;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -8,7 +9,7 @@ namespace kmd.Core.Hotkeys
 {
     public class HotkeyPersistenceService
     {
-        public static Hotkey GetPrefferedHotkeyAsync(ExplorerCommandAttribute attribute)
+        public static Hotkey GetPrefferedHotkey(ExplorerCommandAttribute attribute)
         {
             var defaultHotkey = attribute.DefaultHotkey;
             if (defaultHotkey == null) return null;
@@ -30,6 +31,15 @@ namespace kmd.Core.Hotkeys
         public static async Task SetPrefferedHotkeyAsync(string name, Hotkey hotkey)
         {
             await ApplicationData.Current.LocalSettings.SaveAsync(name, hotkey);          
+        }
+
+        public static async Task ResetToDefaultsAsync()
+        {
+            var commandDescriptors = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x=> x.DefaultHotkey != null);
+            foreach (var commandDescriptor in commandDescriptors)
+            {
+                await SetPrefferedHotkeyAsync(commandDescriptor.Attribute.Name, commandDescriptor.DefaultHotkey);
+            }
         }
     }
 }

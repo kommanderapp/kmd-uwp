@@ -2,12 +2,13 @@
 using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Helpers;
+using kmd.Core.Hotkeys;
 using System;
 using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("DeleteSelectedItem", "DeleteSelectedItem", key: VirtualKey.Delete)]
+    [ExplorerCommand("DeleteSelectedItem", "DeleteSelectedItem", ModifierKeys.None, VirtualKey.Delete)]
     public class DeleteSelectedItemCommand : ExplorerCommandBase
     {
         public DeleteSelectedItemCommand(IDialogService dialogService)

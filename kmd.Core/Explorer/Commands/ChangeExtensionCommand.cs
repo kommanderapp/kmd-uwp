@@ -10,7 +10,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("GroupRenameCommand", "GroupRenameCommand", key: VirtualKey.E, modifierKey: ModifierKeys.Control)]
+    [ExplorerCommand("ChangeExtensionCommand", "ChangeExtensionCommand", key: VirtualKey.E, modifierKey: ModifierKeys.Control)]
     public class ChangeExtensionCommand : ExplorerCommandBase
     {
         public ChangeExtensionCommand(IDialogService dialogService)

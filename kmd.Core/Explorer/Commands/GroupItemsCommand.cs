@@ -11,7 +11,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("GroupItemsCommand", "GroupItemsCommand", key: VirtualKey.Q, modifierKey: ModifierKeys.Control)]
+    [ExplorerCommand("GroupItemsCommand", "GroupItemsCommand", key: VirtualKey.Q, modifierKey: ModifierKeys.Shift)]
     public class GroupItemsCommand : ExplorerCommandBase
     {
         public GroupItemsCommand(IDialogService dialogService)

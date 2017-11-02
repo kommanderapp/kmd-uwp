@@ -1,12 +1,13 @@
 ﻿using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
+using kmd.Core.Hotkeys;
 using System;
 using Windows.Storage;
 using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("NavigateToParrent", "NavigateToParrent", key: VirtualKey.Back)]
+    [ExplorerCommand("NavigateToParrent", "NavigateToParrent", ModifierKeys.None, VirtualKey.Back)]
     public class NavigateToParrentCommand : ExplorerCommandBase
     {
         public NavigateToParrentCommand(NavigateCommand navigateCommand)

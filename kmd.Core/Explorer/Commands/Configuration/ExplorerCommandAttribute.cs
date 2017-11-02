@@ -7,7 +7,12 @@ namespace kmd.Core.Explorer.Commands.Configuration
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ExplorerCommandAttribute : Attribute
     {
-        public ExplorerCommandAttribute(string name = null, string shortcutText = null, ModifierKeys modifierKey = ModifierKeys.None, VirtualKey key = VirtualKey.None)
+        public ExplorerCommandAttribute() : this(null, null, ModifierKeys.None, VirtualKey.None)
+        {
+
+        }
+
+        public ExplorerCommandAttribute(string name, string shortcutText, ModifierKeys modifierKey, VirtualKey key)
         {
             Name = name;
             ShortcutText = shortcutText;

@@ -86,7 +86,18 @@
                                    Style="{StaticResource SubtitleTextBlockStyle}" />
                     </PivotItem.Header>
                     <Grid>
-                        <GridView ItemsSource="{x:Bind ViewModel.HotkeySettings}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <GridView Grid.Column="0" ItemsSource="{x:Bind ViewModel.HotkeySettings, Mode=OneWay}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <GridView.ItemContainerTransitions>
+                                <TransitionCollection>
+                                    <EntranceThemeTransition IsStaggeringEnabled="True" 
+                                         FromVerticalOffset="0" 
+                                         FromHorizontalOffset="-200"/>
+                                </TransitionCollection>
+                            </GridView.ItemContainerTransitions>
                             <GridView.ItemTemplate>
                                 <DataTemplate x:DataType="viewmodels:HotkeySettingDto">
                                     <Button Margin="15" Opacity="1" Style="{StaticResource ButtonRevealStyle}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="260" Height="90">
@@ -98,8 +109,7 @@
                                                         <Setter Property="MinWidth" Value="700"/>
                                                         <Setter Property="BorderThickness" Value="0"/>
                                                         <Setter Property="MaxWidth" Value="700"/>
-                                                        <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush }"/>
-                                                        
+                                                        <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush }"/>                                                        
                                                     </Style>
                                                 </Flyout.FlyoutPresenterStyle>
                                                 <core:FluentKeyboard HorizontalAlignment="Center" VerticalAlignment="Center" Key="{x:Bind Key, Mode=TwoWay}" ModifierKey="{x:Bind ModifierKey, Mode=TwoWay}"/>
@@ -117,6 +127,7 @@
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
+                        <Button Command="{x:Bind ViewModel.ResetDefaultHotkeysCommand}" Grid.Row="1" Content="Reset defaults"/>
                     </Grid>
                 </PivotItem>
             </Pivot>

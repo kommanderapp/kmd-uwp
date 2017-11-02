@@ -1,12 +1,13 @@
 ﻿using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
+using kmd.Core.Hotkeys;
 using kmd.Storage.Contracts;
 using System;
 using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("OpenSelectedItem", "OpenSelectedItem", key: VirtualKey.Enter)]
+    [ExplorerCommand("OpenSelectedItem", "OpenSelectedItem", ModifierKeys.None, VirtualKey.Enter)]
     public class OpenSelectedItemCommand : ExplorerCommandBase
     {
         public OpenSelectedItemCommand(IFileLauncher fileLauncher)
