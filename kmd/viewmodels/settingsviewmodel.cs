@@ -56,7 +56,30 @@ namespace kmd.ViewModels
                 return _switchThemeCommand;
             }
         }
-               
+
+        private ICommand _resetDefaultHotkeysCommand;
+
+        public ICommand ResetDefaultHotkeysCommand
+        {
+            get
+            {
+                if (_resetDefaultHotkeysCommand == null)
+                {
+                    _resetDefaultHotkeysCommand = new RelayCommand(
+                        async () =>
+                        {
+                            await HotkeyPersistenceService.ResetToDefaultsAsync();
+                            await ExplorerCommandBindingsProvider.RefreshCommandBindingsAsync();
+                            _hasInstanceBeenInitialized = false;
+                            EnsureInitialized();
+                            RaisePropertyChanged(nameof(HotkeySettings));
+                        });
+                }
+
+                return _resetDefaultHotkeysCommand;
+            }
+        }
+
         public SettingsViewModel()
         {
         }
@@ -90,10 +113,17 @@ namespace kmd.ViewModels
             var commandDescriptors = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x=> x.PreferredHotkey != null);
             foreach (var commandDescriptor in commandDescriptors)
             {
-                hotkeySettings.Add(HotkeySettingDto.From(commandDescriptor));
+                var hotkeyDto = HotkeySettingDto.From(commandDescriptor);
+                hotkeySettings.Add(hotkeyDto);
+                hotkeyDto.PropertyChanged += HotkeyDto_PropertyChanged;
             }
 
             return new ObservableCollection<HotkeySettingDto>(hotkeySettings);
+        }
+
+        private async void HotkeyDto_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            await SaveChangesAsync();
         }
 
         public async Task SaveChangesAsync()
@@ -121,16 +151,42 @@ namespace kmd.ViewModels
             set
             {
                 if (_key == value) return;
-                var matchingCommand = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.Attribute.Name != Name && x.PreferredHotkey != null).FirstOrDefault(y => y.PreferredHotkey == Hotkey.For(ModifierKey, value));
 
-                if (matchingCommand !=null)
+                if (value == VirtualKey.None)
                 {
-                    var dialogService = new DialogService();
-                    dialogService.ShowError($"This combination is reserved for {matchingCommand.Attribute.ShortcutText}", "Warning", "OK", () => { return; });
+                    value = _key;
+                    RaisePropertyChanged();
+                }
+
+                var matchingCommand = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.Attribute.Name != Name && x.PreferredHotkey != null).FirstOrDefault(y => y.PreferredHotkey == Hotkey.For(ModifierKey, value));
+                if (matchingCommand != null)
+                {
+                    ShowWarningDialog(Description, matchingCommand.Attribute.ShortcutText);
+                    RaisePropertyChanged();
+                    return;
                 }
 
                 Set(ref _key, value);
             }
+        }
+
+        public string KeyString
+        {
+            get
+            {
+                return Key.ToStringRepresentation();
+            }
+        }
+
+        public bool HasModifierKey
+        {
+            get => ModifierKey != ModifierKeys.None;
+        }
+
+        private static void ShowWarningDialog(string currentCommandText, string matchingCommandText)
+        {
+            var dialogService = new DialogService();
+            dialogService.ShowError($"The combination you are trying to use for {currentCommandText} is in use for {matchingCommandText}", "Warning", "OK", () => { return; });
         }
 
         private ModifierKeys _modifierKey;
@@ -139,32 +195,41 @@ namespace kmd.ViewModels
             get => _modifierKey;
             set
             {
-                if (_modifierKey == value) return;
+                if (_modifierKey == value || (value == ModifierKeys.None && Key == VirtualKey.None)) return;
+
                 var matchingCommand = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.Attribute.Name != Name && x.PreferredHotkey != null).FirstOrDefault(y => y.PreferredHotkey == Hotkey.For(value, Key));
                 if (matchingCommand != null)
                 {
-                    var dialogService = new DialogService();
-                    dialogService.ShowError($"This combination is reserved for {matchingCommand.Attribute.ShortcutText}", "Warning", "OK", ()=> { return; });                    
+                    ShowWarningDialog(Description, matchingCommand.Attribute.ShortcutText);
+                    RaisePropertyChanged();
+                    return;
                 }
 
                 Set(ref _modifierKey, value);
             }
         }
-
+        
         public static HotkeySettingDto From(ExplorerCommandDescriptor commandDescriptor)
         {
+
             return new HotkeySettingDto
             {
                  Description = commandDescriptor.Attribute.ShortcutText,
                  Name = commandDescriptor.Attribute.Name,
-                 Key = commandDescriptor.PreferredHotkey.Key,
-                 ModifierKey = commandDescriptor.PreferredHotkey.ModifierKey
+                 _key = commandDescriptor.PreferredHotkey.Key,
+                 _modifierKey = commandDescriptor.PreferredHotkey.ModifierKey
             };
         }       
 
         private HotkeySettingDto()
         {
+            this.PropertyChanged += HotkeySettingDto_PropertyChanged;
+        }
 
+        private void HotkeySettingDto_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Key)) RaisePropertyChanged(nameof(KeyString));
+            else if (e.PropertyName == nameof(ModifierKey)) RaisePropertyChanged(nameof(HasModifierKey));
         }
     }
 }
