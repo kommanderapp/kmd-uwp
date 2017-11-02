@@ -17,11 +17,10 @@
         </Grid.RowDefinitions>
         <TextBlock x:Uid="Main_Title"
                    Style="{StaticResource PageTitleStyle}" />
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal">
+        <Grid Grid.Row="1">
             <explorertabs:ExplorerTabsControl />
-            <explorertabs:ExplorerTabsControl Visibility="Visible" />
-        </StackPanel>
+            <explorertabs:ExplorerTabsControl />
+        </Grid>
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">

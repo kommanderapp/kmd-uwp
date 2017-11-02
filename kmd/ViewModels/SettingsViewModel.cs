@@ -17,7 +17,7 @@ using Windows.UI.Xaml;
 namespace kmd.ViewModels
 {
     public class SettingsViewModel : ViewModelBase
-    {
+    {       
         public ObservableCollection<HotkeySettingDto> HotkeySettings { get; set; }
 
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
@@ -56,7 +56,7 @@ namespace kmd.ViewModels
                 return _switchThemeCommand;
             }
         }
-
+               
         public SettingsViewModel()
         {
         }
@@ -68,6 +68,7 @@ namespace kmd.ViewModels
             if (!_hasInstanceBeenInitialized)
             {
                 HotkeySettings = GetHotkeySettings();
+
                 VersionDescription = GetVersionDescription();
 
                 _hasInstanceBeenInitialized = true;
@@ -86,7 +87,7 @@ namespace kmd.ViewModels
         private ObservableCollection<HotkeySettingDto> GetHotkeySettings()
         {
             var hotkeySettings = new List<HotkeySettingDto>();
-            var commandDescriptors = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.PreferredHotkey != null);
+            var commandDescriptors = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x=> x.PreferredHotkey != null);
             foreach (var commandDescriptor in commandDescriptors)
             {
                 var hotkeyDto = HotkeySettingDto.From(commandDescriptor);
@@ -121,7 +122,6 @@ namespace kmd.ViewModels
         public string Description { get => _description; set => Set(ref _description, value); }
 
         private VirtualKey _key;
-
         public VirtualKey Key
         {
             get => _key;
@@ -167,7 +167,6 @@ namespace kmd.ViewModels
         }
 
         private ModifierKeys _modifierKey;
-
         public ModifierKeys ModifierKey
         {
             get => _modifierKey;
@@ -191,12 +190,12 @@ namespace kmd.ViewModels
         {
             return new HotkeySettingDto
             {
-                Description = commandDescriptor.Attribute.ShortcutText,
-                Name = commandDescriptor.Attribute.Name,
-                Key = commandDescriptor.PreferredHotkey.Key,
-                ModifierKey = commandDescriptor.PreferredHotkey.ModifierKey
+                 Description = commandDescriptor.Attribute.ShortcutText,
+                 Name = commandDescriptor.Attribute.Name,
+                 Key = commandDescriptor.PreferredHotkey.Key,
+                 ModifierKey = commandDescriptor.PreferredHotkey.ModifierKey
             };
-        }
+        }       
 
         private HotkeySettingDto()
         {
