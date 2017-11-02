@@ -1,4 +1,5 @@
-# kmd - Kommander
+
+*# kmd - Kommander
 Kommander is next generation UWP file manager with the focus on usability. 
 
 It will *probably* change the way you work with your files.
@@ -25,6 +26,9 @@ Release Date: **11/15/2017**
 * Quick extension rename
 * Group extension rename
 * Group files in folder
+* Sort files and folders
+* Quick-access locations
+* Fully configurable hotkeys
 
 ### Contribution
 
