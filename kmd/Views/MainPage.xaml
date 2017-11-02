@@ -19,7 +19,6 @@
                    Style="{StaticResource PageTitleStyle}" />
         <Grid Grid.Row="1">
             <explorertabs:ExplorerTabsControl />
-            <explorertabs:ExplorerTabsControl />
         </Grid>
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>
