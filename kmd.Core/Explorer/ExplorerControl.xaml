@@ -105,8 +105,8 @@
                 </Grid>
             </Grid>
 
-            <AppBar Grid.Row="3">
-                <StackPanel Background="Black" Orientation="Horizontal">
+            <AppBar Grid.Row="3" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <StackPanel Orientation="Horizontal">
                     <AppBarButton Label="Sort">
                         <AppBarButton.Icon>
                             <SymbolIcon Symbol="Sort" />
@@ -138,6 +138,36 @@
                                 </StackPanel>
                             </Flyout>
                         </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarButton Label="Copy Path" Click="CopyPath_Click">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="Copy" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Expand" Click="Expand_Click">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="MoveToFolder" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Copy" Click="Copy_Click">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="Copy" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Delete" Click="Delete_Click">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="Delete" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Cut" Click="Cut_Click">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="Cut"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Paste" Click="Paste_Click">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="Paste" />
+                        </AppBarButton.Icon>
                     </AppBarButton>
                 </StackPanel>
             </AppBar>

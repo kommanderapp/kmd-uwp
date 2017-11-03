@@ -301,6 +301,16 @@ namespace kmd.Core.Explorer
             ViewModel.ExecuteCommand(typeof(PasteToCurrentFolderCommand));
         }
 
+        private void Expand_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(ExplodeCurrentFolderCommand));
+        }
+
+        private void CopyPath_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(ItemPathToClipboardCommand));
+        }
+
         private void ChangeExtension_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
