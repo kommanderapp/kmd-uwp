@@ -301,6 +301,16 @@ namespace kmd.Core.Explorer
             ViewModel.ExecuteCommand(typeof(PasteToCurrentFolderCommand));
         }
 
+        private void Expand_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(ExplodeCurrentFolderCommand));
+        }
+
+        private void CopyPath_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(ItemPathToClipboardCommand));
+        }
+
         private void ChangeExtension_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
@@ -321,6 +331,23 @@ namespace kmd.Core.Explorer
         {
             var folder = (sender as ComboBox)?.SelectedItem as IStorageFolder;
             ViewModel.CurrentFolder = folder;
+        }
+
+        private async void PathBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var path = PathBox.Text;
+            try
+            {
+                var storageFolder = await StorageFolder.GetFolderFromPathAsync(path);
+                if (storageFolder != null)
+                {
+                    ViewModel.CurrentFolder = storageFolder;
+                }
+            }
+            catch
+            {
+                PathBox.Text = ViewModel.CurrentFolder.Path;
+            }
         }
     }
 }
