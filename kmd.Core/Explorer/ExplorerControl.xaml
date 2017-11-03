@@ -80,6 +80,7 @@
                         VerticalContentAlignment="Stretch"
                         EscFallbackValue="{Binding CurrentFolder.Path}"
                         FocusFallbackControl="{Binding ElementName=StorageItems}"
+                        LostFocus="PathBox_LostFocus"
                         Opacity="{Binding ElementName=PathBox, Path=FocusState, Converter={StaticResource FocusStateToOpacityReverseConverter}}"
                         Text="{Binding CurrentFolder.Path}">
                         <interactivity:Interaction.Behaviors>

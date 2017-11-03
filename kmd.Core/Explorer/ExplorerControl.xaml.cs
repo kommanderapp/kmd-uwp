@@ -322,5 +322,22 @@ namespace kmd.Core.Explorer
             var folder = (sender as ComboBox)?.SelectedItem as IStorageFolder;
             ViewModel.CurrentFolder = folder;
         }
+
+        private async void PathBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var path = PathBox.Text;
+            try
+            {
+                var storageFolder = await StorageFolder.GetFolderFromPathAsync(path);
+                if (storageFolder != null)
+                {
+                    ViewModel.CurrentFolder = storageFolder;
+                }
+            }
+            catch
+            {
+                PathBox.Text = ViewModel.CurrentFolder.Path;
+            }
+        }
     }
 }
