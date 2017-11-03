@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
-using kmd.Core.Explorer.Commands.Configuration;
+using kmd.Core.Command.Configuration;
 using kmd.Core.Hotkeys;
 using kmd.Services;
 using System;
@@ -17,7 +17,7 @@ using Windows.UI.Xaml;
 namespace kmd.ViewModels
 {
     public class SettingsViewModel : ViewModelBase
-    {       
+    {
         public ObservableCollection<HotkeySettingAdapter> HotkeySettings { get; set; }
 
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
@@ -69,7 +69,6 @@ namespace kmd.ViewModels
                         async () =>
                         {
                             await HotkeyPersistenceService.ResetToDefaultsAsync();
-                            await ExplorerCommandBindingsProvider.RefreshCommandBindingsAsync();
                             _hasInstanceBeenInitialized = false;
                             EnsureInitialized();
                             RaisePropertyChanged(nameof(HotkeySettings));
@@ -110,7 +109,7 @@ namespace kmd.ViewModels
         private ObservableCollection<HotkeySettingAdapter> GetHotkeySettings()
         {
             var hotkeySettings = new List<HotkeySettingAdapter>();
-            var commandDescriptors = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x=> x.PreferredHotkey != null);
+            var commandDescriptors = CommandDescriptorProvider.GetCommandDescriptors().Where(x => x.HasHotkey);
             foreach (var commandDescriptor in commandDescriptors)
             {
                 var hotkeySettingAdapter = HotkeySettingAdapter.From(commandDescriptor);
@@ -130,10 +129,8 @@ namespace kmd.ViewModels
         {
             foreach (var hotkeySetting in HotkeySettings)
             {
-                await HotkeyPersistenceService.SetPrefferedHotkeyAsync(hotkeySetting.Name, Hotkey.For(hotkeySetting.ModifierKey, hotkeySetting.Key));
+                await HotkeyPersistenceService.ConfigPrefferedHotkeyAsync(hotkeySetting.Name, Hotkey.For(hotkeySetting.ModifierKey, hotkeySetting.Key));
             }
-
-            await ExplorerCommandBindingsProvider.RefreshCommandBindingsAsync();
         }
     }
 }

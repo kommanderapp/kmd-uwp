@@ -5,6 +5,7 @@ using kmd.Core.Explorer;
 using kmd.Storage.Contracts;
 using kmd.Storage.Impl;
 using Microsoft.Extensions.DependencyInjection;
+using kmd.Core.Command.Configuration;
 
 namespace kmd.Core.DI
 {
@@ -30,10 +31,13 @@ namespace kmd.Core.DI
         {
             sp.AddSingleton<IExplorerCommandBindingsProvider, ExplorerCommandBindingsProvider>();
 
-            var commandDescriptors = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors;
+            var commandDescriptors = CommandDescriptorProvider.GetCommandDescriptors();
             foreach (var commandDescriptor in commandDescriptors)
             {
-                sp.AddSingleton(commandDescriptor.CommandType);
+                if (commandDescriptor is ExplorerCommandDescriptor explorerCommandDescriptor)
+                {
+                    sp.AddSingleton(explorerCommandDescriptor.CommandType);
+                }
             }
         }
     }

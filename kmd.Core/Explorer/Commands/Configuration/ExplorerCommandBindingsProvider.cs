@@ -7,52 +7,13 @@ using System.Reflection;
 using System.Windows.Input;
 using kmd.Core.Hotkeys;
 using System.Threading.Tasks;
+using kmd.Core.Command.Configuration;
 
 namespace kmd.Core.Explorer.Commands.Configuration
 {
     public class ExplorerCommandBindingsProvider : IExplorerCommandBindingsProvider
     {
-        private static IEnumerable<ExplorerCommandDescriptor> _explorerCommandDescriptors;
-
-        public static IEnumerable<ExplorerCommandDescriptor> ExplorerCommandDescriptors
-        {
-            get
-            {
-                if (_explorerCommandDescriptors == null)
-                {
-                    _explorerCommandDescriptors = GetExplorerCommandDescriptors();
-                }
-                return _explorerCommandDescriptors;
-            }
-        }
-
         public static Func<Type, object> Resolve { private get; set; }
-
-        private static IEnumerable<ExplorerCommandDescriptor> GetExplorerCommandDescriptors()
-        {
-            var descriptors = new List<ExplorerCommandDescriptor>();
-            var assembly = typeof(CommandBase).GetTypeInfo().Assembly;
-            foreach (var type in assembly.GetTypes())
-            {
-                if (type.GetTypeInfo().GetCustomAttributes(typeof(ExplorerCommandAttribute), true).Any())
-                {
-                    if (type.GetTypeInfo()
-                        .GetCustomAttributes(typeof(ExplorerCommandAttribute), true)
-                        .FirstOrDefault() is ExplorerCommandAttribute commandAttr)
-                    {
-                        var descriptor = new ExplorerCommandDescriptor(type, commandAttr);
-                        HotkeyPersistenceService.SetPrefferedHotkey(descriptor);
-                        descriptors.Add(descriptor);
-                    }
-                }
-            }
-            return descriptors;
-        }
-
-        public async static Task RefreshCommandBindingsAsync()
-        {
-            await Task.Run(() => _explorerCommandDescriptors = GetExplorerCommandDescriptors());
-        }
 
         public CommandBindings GetBindings(IExplorerViewModel explorerViewModel)
         {
@@ -64,8 +25,9 @@ namespace kmd.Core.Explorer.Commands.Configuration
             if (explorerViewModel == null) throw new Exception(nameof(explorerViewModel));
 
             var commandBindings = new List<CommandBinding>();
-
-            foreach (var commandDescriptor in ExplorerCommandDescriptors)
+            var descriptors = CommandDescriptorProvider.GetCommandDescriptors()
+                .Where(x => x is ExplorerCommandDescriptor).Cast<ExplorerCommandDescriptor>();
+            foreach (var commandDescriptor in descriptors)
             {
                 var command = Resolve(commandDescriptor.CommandType) as ICommand;
                 if (command == null)

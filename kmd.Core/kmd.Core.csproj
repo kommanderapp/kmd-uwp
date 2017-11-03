@@ -116,6 +116,8 @@
     <Compile Include="Command\ViewModelWithCommandBindingsExtensions.cs" />
     <Compile Include="CoreRegistration.cs" />
     <Compile Include="Command\CommandBase.cs" />
+    <Compile Include="ExplorerTabs\Commands\ExplorerTabsCommandDescriptor.cs" />
+    <Compile Include="ExplorerTabs\Commands\ExplorerTabsCommandDescriptorFactory.cs" />
     <Compile Include="ExplorerTabs\ExplorerTabHeader.xaml.cs">
       <DependentUpon>ExplorerTabHeader.xaml</DependentUpon>
     </Compile>
@@ -128,6 +130,7 @@
     <Compile Include="Explorer\Commands\CancelOperationsCommand.cs" />
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandBase.cs" />
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandDescriptor.cs" />
+    <Compile Include="Explorer\Commands\Configuration\ExplorerCommandDescriptorFactory.cs" />
     <Compile Include="Explorer\Commands\Configuration\IExplorerCommandBindingsProvider.cs" />
     <Compile Include="Explorer\Commands\CopySelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\CutSelectedItemCommand.cs" />

@@ -32,10 +32,10 @@ namespace kmd.Core.Hotkeys
 
         public static async Task ResetToDefaultsAsync()
         {
-            var commandDescriptors = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.DefaultHotkey != null);
+            var commandDescriptors = CommandDescriptorProvider.GetCommandDescriptors().Where(x => x.HasHotkey);
             foreach (var commandDescriptor in commandDescriptors)
             {
-                await ConfigPrefferedHotkeyAsync(commandDescriptor.Attribute.UniqueName, commandDescriptor.DefaultHotkey);
+                await ConfigPrefferedHotkeyAsync(commandDescriptor.UniqueName, commandDescriptor.DefaultHotkey);
             }
         }
     }

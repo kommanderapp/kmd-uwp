@@ -8,6 +8,6 @@ namespace kmd.Core.Command.Configuration
 {
     public interface ICommandDescriptorFactory
     {
-        IEnumerable<CommandDescriptor> Create();
+        IEnumerable<CommandDescriptor> CreateCommandDescriptors();
     }
 }

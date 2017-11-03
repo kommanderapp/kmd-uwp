@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace kmd.Core.Command.Configuration
 {
-    public class CommandDescriptor
+    public abstract class CommandDescriptor
     {
         public string UniqueName { get; protected set; }
         public string Description { get; protected set; }

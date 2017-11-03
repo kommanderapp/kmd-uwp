@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;
+using kmd.Core.Command.Configuration;
 using kmd.Core.Explorer.Commands.Configuration;
 using System.Linq;
 using Windows.System;
@@ -14,6 +15,7 @@ namespace kmd.Core.Hotkeys
         public string Description { get => _description; set => Set(ref _description, value); }
 
         private VirtualKey _key;
+
         public VirtualKey Key
         {
             get => _key;
@@ -27,10 +29,11 @@ namespace kmd.Core.Hotkeys
                     RaisePropertyChanged();
                 }
 
-                var matchingCommand = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.Attribute.UniqueName != Name && x.PreferredHotkey != null).FirstOrDefault(y => y.PreferredHotkey == Hotkey.For(ModifierKey, value));
+                var matchingCommand = CommandDescriptorProvider.GetCommandDescriptors()
+                   .FirstOrDefault(y => y.UniqueName != Name && y.PreferredHotkey != null && y.PreferredHotkey == Hotkey.For(ModifierKey, value));
                 if (matchingCommand != null)
                 {
-                    ShowWarningDialog(Description, matchingCommand.Attribute.DescriptionResKey);
+                    ShowWarningDialog(Description, matchingCommand.Description);
                     RaisePropertyChanged();
                     return;
                 }
@@ -59,6 +62,7 @@ namespace kmd.Core.Hotkeys
         }
 
         private ModifierKeys _modifierKey;
+
         public ModifierKeys ModifierKey
         {
             get => _modifierKey;
@@ -66,10 +70,11 @@ namespace kmd.Core.Hotkeys
             {
                 if (_modifierKey == value || (value == ModifierKeys.None && Key == VirtualKey.None)) return;
 
-                var matchingCommand = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.Attribute.UniqueName != Name && x.PreferredHotkey != null).FirstOrDefault(y => y.PreferredHotkey == Hotkey.For(value, Key));
+                var matchingCommand = CommandDescriptorProvider.GetCommandDescriptors()
+                    .FirstOrDefault(y => y.UniqueName != Name && y.PreferredHotkey != null && y.PreferredHotkey == Hotkey.For(value, Key));
                 if (matchingCommand != null)
                 {
-                    ShowWarningDialog(Description, matchingCommand.Attribute.DescriptionResKey);
+                    ShowWarningDialog(Description, matchingCommand.Description);
                     RaisePropertyChanged();
                     return;
                 }
@@ -78,13 +83,12 @@ namespace kmd.Core.Hotkeys
             }
         }
 
-        public static HotkeySettingAdapter From(ExplorerCommandDescriptor commandDescriptor)
+        public static HotkeySettingAdapter From(CommandDescriptor commandDescriptor)
         {
-
             return new HotkeySettingAdapter
             {
-                Description = commandDescriptor.Attribute.DescriptionResKey,
-                Name = commandDescriptor.Attribute.UniqueName,
+                Description = commandDescriptor.Description,
+                Name = commandDescriptor.UniqueName,
                 _key = commandDescriptor.PreferredHotkey.Key,
                 _modifierKey = commandDescriptor.PreferredHotkey.ModifierKey
             };

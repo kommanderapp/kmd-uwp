@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,20 +9,27 @@ namespace kmd.Core.Command.Configuration
 {
     public static class CommandDescriptorProvider
     {
-        private static List<ICommandDescriptorFactory> _commandDescriptorFactories = new List<ICommandDescriptorFactory>();
+        private static IEnumerable<ICommandDescriptorFactory> _descriptorFactories;
 
-        public static void RegisterFactory(ICommandDescriptorFactory factory)
+        static CommandDescriptorProvider()
         {
-            if (factory == null) throw new ArgumentNullException(nameof(factory));
-            _commandDescriptorFactories.Add(factory);
+            var factories = typeof(CommandDescriptorProvider)
+                .Assembly.DefinedTypes.Where(x => typeof(ICommandDescriptorFactory).IsAssignableFrom(x) && !x.IsInterface);
+
+            var descriptorFactories = new List<ICommandDescriptorFactory>();
+            foreach (var factory in factories)
+            {
+                descriptorFactories.Add(Activator.CreateInstance(factory, false) as ICommandDescriptorFactory);
+            }
+            _descriptorFactories = descriptorFactories;
         }
 
         public static IEnumerable<CommandDescriptor> GetCommandDescriptors()
         {
             var descriptors = new List<CommandDescriptor>();
-            foreach (var factory in _commandDescriptorFactories)
+            foreach (var factory in _descriptorFactories)
             {
-                descriptors.AddRange(factory.Create());
+                descriptors.AddRange(factory.CreateCommandDescriptors());
             }
             return descriptors;
         }

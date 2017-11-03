@@ -9,6 +9,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using kmd.Core.Helpers;
+using kmd.Core.Command.Configuration;
+using kmd.Core.ExplorerTabs.Commands;
 
 namespace kmd.Core.ExplorerTabs
 {
@@ -20,6 +22,10 @@ namespace kmd.Core.ExplorerTabs
             ExplorerTabs.ItemsSource = Items;
             Loaded += ExplorerTabsControl_Loaded;
             Unloaded += ExplorerTabsControl_Unloaded;
+
+            var explorerTabsCommands = CommandDescriptorProvider.GetCommandDescriptors().Where(x => x is ExplorerTabsCommandDescriptor);
+            _addTabHotkey = explorerTabsCommands.FirstOrDefault(x => x.UniqueName == "AddTab").PreferredHotkey;
+            _removeTabHotkey = explorerTabsCommands.FirstOrDefault(x => x.UniqueName == "RemoveTab").PreferredHotkey;
         }
 
         public bool IsInFocus
@@ -86,9 +92,9 @@ namespace kmd.Core.ExplorerTabs
             }
         }
 
-        private readonly Hotkey _addTabHotkey = Hotkey.For(ModifierKeys.Control, VirtualKey.T);
+        private readonly Hotkey _addTabHotkey = null;
 
-        private readonly Hotkey _removeTabHotkey = Hotkey.For(ModifierKeys.Control, VirtualKey.W);
+        private readonly Hotkey _removeTabHotkey = null;
 
         private void ExplorerTabsControl_Loaded(object sender, RoutedEventArgs e)
         {
