@@ -92,10 +92,10 @@ namespace kmd.Core.Hotkeys
 
         private HotkeySettingAdapter()
         {
-            this.PropertyChanged += HotkeySettingDto_PropertyChanged;
+            this.PropertyChanged += HotkeySettingAdapter_PropertyChanged;
         }
 
-        private void HotkeySettingDto_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void HotkeySettingAdapter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(Key)) RaisePropertyChanged(nameof(KeyString));
             else if (e.PropertyName == nameof(ModifierKey)) RaisePropertyChanged(nameof(HasModifierKey));
