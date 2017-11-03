@@ -3,6 +3,7 @@ using kmd.Core.Services.Contracts;
 using kmd.Storage.Contracts;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace kmd.Core.Services.Impl
             var locations = new List<IStorageFolder>();
             foreach (var lt in locationTokens)
             {
-                var location = await GetFoldeFromFalAsync(lt.Token);
+                var location = await GetFolderFromFalAsync(lt.Token);
                 if (location != null)
                 {
                     locations.Add(location);
@@ -43,6 +44,8 @@ namespace kmd.Core.Services.Impl
                 await AddLocationAsync(pictures.SaveFolder);
                 var videos = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Videos);
                 await AddLocationAsync(videos.SaveFolder);
+
+                return await GetLocationsAsync();
             }
 
             return locations;
@@ -73,21 +76,27 @@ namespace kmd.Core.Services.Impl
 
         private async Task<IEnumerable<LocationToken>> GetLocationTokensAsync()
         {
-            var driveTokens = await ApplicationData.Current.LocalSettings.ReadAsync<List<LocationToken>>(_settingsKey);
-            if (driveTokens == null)
+            var locationTokens = await ApplicationData.Current.LocalSettings.ReadAsync<List<LocationToken>>(_settingsKey);
+            if (locationTokens == null)
             {
-                driveTokens = new List<LocationToken>();
+                locationTokens = new List<LocationToken>();
             }
-            return driveTokens;
+            return locationTokens;
         }
 
-        private async Task<IStorageFolder> GetFoldeFromFalAsync(string token)
+        private async Task<IStorageFolder> GetFolderFromFalAsync(string token)
         {
             IStorageFolder storageItem = null;
             var fal = StorageApplicationPermissions.FutureAccessList;
             if (token != null)
             {
-                storageItem = await fal.GetFolderAsync(token);
+                try
+                {
+                    storageItem = await fal.GetFolderAsync(token);
+                }
+                catch // If file doesn't exist return null
+                {
+                }
             }
             return storageItem;
         }
