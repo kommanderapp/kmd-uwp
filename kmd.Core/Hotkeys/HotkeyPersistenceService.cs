@@ -1,4 +1,5 @@
-﻿using kmd.Core.Explorer.Commands.Configuration;
+﻿using kmd.Core.Command.Configuration;
+using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Helpers;
 using System;
 using System.Linq;
@@ -9,36 +10,32 @@ namespace kmd.Core.Hotkeys
 {
     public class HotkeyPersistenceService
     {
-        public static Hotkey GetPrefferedHotkey(ExplorerCommandAttribute attribute)
+        public static void SetPrefferedHotkey(CommandDescriptor descriptor)
         {
-            var defaultHotkey = attribute.DefaultHotkey;
-            if (defaultHotkey == null) return null;
+            var defaultHotkey = descriptor.DefaultHotkey;
+            if (defaultHotkey == null) return;
 
-            var hotkeySettingKey = attribute.Name ?? throw new Exception($"Can't resolve the hotkey setting for {attribute.Name}, because the property {attribute.GetType().GetProperty(nameof(attribute.DefaultHotkey))} was not found.");
+            var hotkeySettingKey = descriptor.UniqueName ?? throw new Exception($"Can't resolve the hotkey setting for {descriptor.UniqueName}.");
             var hotkeySetting = ApplicationData.Current.LocalSettings.Read<Hotkey>(hotkeySettingKey);
 
-            if (hotkeySetting != default(Hotkey))
-            {
-                return hotkeySetting;
-            }
-            else
+            if (hotkeySetting == default(Hotkey))
             {
                 ApplicationData.Current.LocalSettings.Save(hotkeySettingKey, defaultHotkey);
-                return hotkeySetting;
             }
+            descriptor.PreferredHotkey = hotkeySetting;
         }
 
-        public static async Task SetPrefferedHotkeyAsync(string name, Hotkey hotkey)
+        public static async Task ConfigPrefferedHotkeyAsync(string name, Hotkey hotkey)
         {
-            await ApplicationData.Current.LocalSettings.SaveAsync(name, hotkey);          
+            await ApplicationData.Current.LocalSettings.SaveAsync(name, hotkey);
         }
 
         public static async Task ResetToDefaultsAsync()
         {
-            var commandDescriptors = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x=> x.DefaultHotkey != null);
+            var commandDescriptors = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.DefaultHotkey != null);
             foreach (var commandDescriptor in commandDescriptors)
             {
-                await SetPrefferedHotkeyAsync(commandDescriptor.Attribute.Name, commandDescriptor.DefaultHotkey);
+                await ConfigPrefferedHotkeyAsync(commandDescriptor.Attribute.UniqueName, commandDescriptor.DefaultHotkey);
             }
         }
     }

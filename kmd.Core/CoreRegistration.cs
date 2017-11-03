@@ -33,7 +33,7 @@ namespace kmd.Core.DI
             var commandDescriptors = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors;
             foreach (var commandDescriptor in commandDescriptors)
             {
-                sp.AddSingleton(commandDescriptor.Type);
+                sp.AddSingleton(commandDescriptor.CommandType);
             }
         }
     }

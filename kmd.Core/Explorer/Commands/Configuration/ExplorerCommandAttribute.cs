@@ -9,13 +9,12 @@ namespace kmd.Core.Explorer.Commands.Configuration
     {
         public ExplorerCommandAttribute() : this(null, null, ModifierKeys.None, VirtualKey.None)
         {
-
         }
 
         public ExplorerCommandAttribute(string name, string shortcutText, ModifierKeys modifierKey, VirtualKey key)
         {
-            Name = name;
-            ShortcutText = shortcutText;
+            UniqueName = name;
+            DescriptionResKey = shortcutText;
             if (modifierKey != ModifierKeys.None || key != VirtualKey.None)
             {
                 DefaultHotkey = Hotkey.For(modifierKey, key);
@@ -23,7 +22,7 @@ namespace kmd.Core.Explorer.Commands.Configuration
         }
 
         public Hotkey DefaultHotkey { get; }
-        public string Name { get; }
-        public string ShortcutText { get; set; }
+        public string UniqueName { get; }
+        public string DescriptionResKey { get; set; }
     }
 }

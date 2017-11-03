@@ -13,6 +13,7 @@ namespace kmd.Core.Explorer.Commands.Configuration
     public class ExplorerCommandBindingsProvider : IExplorerCommandBindingsProvider
     {
         private static IEnumerable<ExplorerCommandDescriptor> _explorerCommandDescriptors;
+
         public static IEnumerable<ExplorerCommandDescriptor> ExplorerCommandDescriptors
         {
             get
@@ -22,7 +23,7 @@ namespace kmd.Core.Explorer.Commands.Configuration
                     _explorerCommandDescriptors = GetExplorerCommandDescriptors();
                 }
                 return _explorerCommandDescriptors;
-            }            
+            }
         }
 
         public static Func<Type, object> Resolve { private get; set; }
@@ -39,9 +40,9 @@ namespace kmd.Core.Explorer.Commands.Configuration
                         .GetCustomAttributes(typeof(ExplorerCommandAttribute), true)
                         .FirstOrDefault() is ExplorerCommandAttribute commandAttr)
                     {
-                        //TODO find a better solution
-                        var prefferedHotkey = HotkeyPersistenceService.GetPrefferedHotkey(commandAttr);
-                        descriptors.Add(new ExplorerCommandDescriptor(type, commandAttr, prefferedHotkey));
+                        var descriptor = new ExplorerCommandDescriptor(type, commandAttr);
+                        HotkeyPersistenceService.SetPrefferedHotkey(descriptor);
+                        descriptors.Add(descriptor);
                     }
                 }
             }
@@ -50,7 +51,7 @@ namespace kmd.Core.Explorer.Commands.Configuration
 
         public async static Task RefreshCommandBindingsAsync()
         {
-            await Task.Run(() => _explorerCommandDescriptors = GetExplorerCommandDescriptors());            
+            await Task.Run(() => _explorerCommandDescriptors = GetExplorerCommandDescriptors());
         }
 
         public CommandBindings GetBindings(IExplorerViewModel explorerViewModel)
@@ -66,13 +67,13 @@ namespace kmd.Core.Explorer.Commands.Configuration
 
             foreach (var commandDescriptor in ExplorerCommandDescriptors)
             {
-                var command = Resolve(commandDescriptor.Type) as ICommand;
+                var command = Resolve(commandDescriptor.CommandType) as ICommand;
                 if (command == null)
                 {
-                    throw new Exception($"No instance resoled for {commandDescriptor.Type.FullName} command.");
+                    throw new Exception($"No instance resoled for {commandDescriptor.CommandType.FullName} command.");
                 }
 
-                var commandName = commandDescriptor.Attribute.Name ?? commandDescriptor.Type.Name;
+                var commandName = commandDescriptor.Attribute.UniqueName ?? commandDescriptor.CommandType.Name;
                 var commandPreferredHotkey = commandDescriptor.PreferredHotkey ?? null;
                 var commandInfo = new CommandBinding(commandName, command, commandPreferredHotkey);
                 commandBindings.Add(commandInfo);
@@ -81,7 +82,5 @@ namespace kmd.Core.Explorer.Commands.Configuration
             var bindings = new CommandBindings(commandBindings);
             return bindings;
         }
-
-
     }
 }

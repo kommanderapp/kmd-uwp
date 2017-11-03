@@ -27,10 +27,10 @@ namespace kmd.Core.Hotkeys
                     RaisePropertyChanged();
                 }
 
-                var matchingCommand = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.Attribute.Name != Name && x.PreferredHotkey != null).FirstOrDefault(y => y.PreferredHotkey == Hotkey.For(ModifierKey, value));
+                var matchingCommand = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.Attribute.UniqueName != Name && x.PreferredHotkey != null).FirstOrDefault(y => y.PreferredHotkey == Hotkey.For(ModifierKey, value));
                 if (matchingCommand != null)
                 {
-                    ShowWarningDialog(Description, matchingCommand.Attribute.ShortcutText);
+                    ShowWarningDialog(Description, matchingCommand.Attribute.DescriptionResKey);
                     RaisePropertyChanged();
                     return;
                 }
@@ -66,10 +66,10 @@ namespace kmd.Core.Hotkeys
             {
                 if (_modifierKey == value || (value == ModifierKeys.None && Key == VirtualKey.None)) return;
 
-                var matchingCommand = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.Attribute.Name != Name && x.PreferredHotkey != null).FirstOrDefault(y => y.PreferredHotkey == Hotkey.For(value, Key));
+                var matchingCommand = ExplorerCommandBindingsProvider.ExplorerCommandDescriptors.Where(x => x.Attribute.UniqueName != Name && x.PreferredHotkey != null).FirstOrDefault(y => y.PreferredHotkey == Hotkey.For(value, Key));
                 if (matchingCommand != null)
                 {
-                    ShowWarningDialog(Description, matchingCommand.Attribute.ShortcutText);
+                    ShowWarningDialog(Description, matchingCommand.Attribute.DescriptionResKey);
                     RaisePropertyChanged();
                     return;
                 }
@@ -83,8 +83,8 @@ namespace kmd.Core.Hotkeys
 
             return new HotkeySettingAdapter
             {
-                Description = commandDescriptor.Attribute.ShortcutText,
-                Name = commandDescriptor.Attribute.Name,
+                Description = commandDescriptor.Attribute.DescriptionResKey,
+                Name = commandDescriptor.Attribute.UniqueName,
                 _key = commandDescriptor.PreferredHotkey.Key,
                 _modifierKey = commandDescriptor.PreferredHotkey.ModifierKey
             };

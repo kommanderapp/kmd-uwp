@@ -109,6 +109,9 @@
   <ItemGroup>
     <Compile Include="Command\CommandBindings.cs" />
     <Compile Include="Command\CommandBinding.cs" />
+    <Compile Include="Command\Configuration\CommandDescriptor.cs" />
+    <Compile Include="Command\Configuration\CommandDescriptorProvider.cs" />
+    <Compile Include="Command\Configuration\ICommandDescriptorFactory.cs" />
     <Compile Include="Command\IViewModelWithCommandBindings.cs" />
     <Compile Include="Command\ViewModelWithCommandBindingsExtensions.cs" />
     <Compile Include="CoreRegistration.cs" />
