@@ -1,5 +1,5 @@
 
-*# kmd - Kommander
+## kmd - Kommander
 Kommander is next generation UWP file manager with the focus on usability. 
 
 It will *probably* change the way you work with your files.
