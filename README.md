@@ -29,6 +29,7 @@ Release Date: **11/15/2017**
 * Sort files and folders
 * Quick-access locations
 * Fully configurable hotkeys
+* Navigate by path
 
 ### Contribution
 
