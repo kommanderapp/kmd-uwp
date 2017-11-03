@@ -184,6 +184,7 @@
     <Compile Include="Hotkeys\Hotkey.cs" />
     <Compile Include="Hotkeys\HotkeyEventArg.cs" />
     <Compile Include="Hotkeys\HotkeyPersistenceService.cs" />
+    <Compile Include="Hotkeys\HotkeySettingAdapter.cs" />
     <Compile Include="Hotkeys\KeyEventsAgregator.cs" />
     <Compile Include="Explorer\Models\ExplorerUpperFolderLinkItem.cs" />
     <Compile Include="Extensions\Behaviors\FocusBehavior.cs" />
