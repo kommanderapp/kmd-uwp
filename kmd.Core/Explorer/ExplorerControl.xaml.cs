@@ -332,6 +332,16 @@ namespace kmd.Core.Explorer
             ViewModel.ExecuteCommand(typeof(GroupItemsCommand));
         }
 
+        private void NavigateBackward_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(NavigateBackwardCommand));
+        }
+
+        private void NavigateForward_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(NavigateForwardCommand));
+        }
+
         private void Locations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var folder = (sender as ComboBox)?.SelectedItem as IStorageFolder;

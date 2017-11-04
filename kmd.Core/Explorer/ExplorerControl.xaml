@@ -109,6 +109,16 @@
 
             <AppBar Grid.Row="3" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <StackPanel Orientation="Horizontal">
+                    <AppBarButton Label="Navigate backward" Click="NavigateBackward_Click">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="Back" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Navigate forward" Click="NavigateForward_Click">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="Forward" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
                     <AppBarButton Label="Sort">
                         <AppBarButton.Icon>
                             <SymbolIcon Symbol="Sort" />
