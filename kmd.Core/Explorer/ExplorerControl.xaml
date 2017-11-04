@@ -25,8 +25,9 @@
                 <MenuFlyoutItem Click="Cut_Click" Text="Cut" />
                 <MenuFlyoutItem Click="Copy_Click" Text="Copy" />
                 <MenuFlyoutItem Click="Delete_Click" Text="Delete" />
-                <MenuFlyoutItem Click="GroupItems_Click" Text="Group items" />
+                <MenuFlyoutItem Click="Rename_Click" Text="Rename" />
                 <MenuFlyoutItem Click="GroupRename_Click" Text="Group rename" />
+                <MenuFlyoutItem Click="GroupItems_Click" Text="Group items" />
                 <MenuFlyoutItem
                     Click="ChangeExtension_Click"
                     Text="Change extension"

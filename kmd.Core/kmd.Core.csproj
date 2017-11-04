@@ -148,6 +148,7 @@
     <Compile Include="Explorer\Commands\NavigateToParrentCommand.cs" />
     <Compile Include="Explorer\Commands\OpenSelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\PasteToCurrentFolderCommand.cs" />
+    <Compile Include="Explorer\Commands\RenameSelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\TypingHiglightCommand.cs" />
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandAttribute.cs" />
     <Compile Include="Explorer\Contracts\ExplorerItemsStates.cs" />

@@ -317,6 +317,11 @@ namespace kmd.Core.Explorer
             ViewModel.ExecuteCommand(typeof(ChangeExtensionCommand));
         }
 
+        private void Rename_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(RenameSelectedItemCommand));
+        }
+
         private void GroupRename_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(GroupRenameCommand));

@@ -73,7 +73,7 @@ namespace kmd.Core.Explorer.Commands
                             var folderName = (item as IStorageFolder).Name;
                             var items = await vm.CurrentFolder.GetItemsAsync();
 
-                            var folder = await vm.CurrentFolder.CreateFolderAsync(NameCollision.GetUniqueNameForFolder(folderName, items));
+                            var folder = await vm.CurrentFolder.CreateFolderAsync(NameCollision.GetUniqueNameForFolder(folderName, items, " - Copy"));
                             vm.ExplorerItems.Add(await ExplorerItem.CreateAsync(folder));
                             await (item as IStorageFolder).CopyContentsRecursiveAsync(folder, vm.CancellationTokenSource.Token);
                         }
