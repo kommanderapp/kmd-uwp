@@ -97,20 +97,28 @@
                                     <EntranceThemeTransition IsStaggeringEnabled="True" 
                                          FromVerticalOffset="0" 
                                          FromHorizontalOffset="-200"/>
+                                    <ContentThemeTransition  HorizontalOffset="-200" VerticalOffset="0" />
                                 </TransitionCollection>
                             </GridView.ItemContainerTransitions>
                             <GridView.ItemTemplate>
                                 <DataTemplate x:DataType="hotkeys:HotkeySettingAdapter">
-                                    <Button Margin="15" Opacity="1" Style="{StaticResource ButtonRevealStyle}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="260" Height="90">
+                                    <Button Margin="15" Opacity="1" Style="{StaticResource ButtonRevealStyle}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="260" Height="90">                                        
                                         <Button.Flyout>
-                                            <Flyout Placement="Right">
+                                            <Flyout Placement="Right" >
                                                 <Flyout.FlyoutPresenterStyle>
                                                     <Style TargetType="FlyoutPresenter">
                                                         <Setter Property="Width" Value="700"/>
                                                         <Setter Property="MinWidth" Value="700"/>
                                                         <Setter Property="BorderThickness" Value="0"/>
-                                                        <Setter Property="MaxWidth" Value="700"/>
-                                                        <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush }"/>                                                        
+                                                        <Setter Property="MaxWidth" Value="700"/>                                                        
+                                                        <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush }"/>
+                                                        <Setter Property="Transitions">
+                                                            <Setter.Value>
+                                                                <TransitionCollection>
+                                                                    <PopupThemeTransition  />
+                                                                </TransitionCollection>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                     </Style>
                                                 </Flyout.FlyoutPresenterStyle>
                                                 <core:FluentKeyboard HorizontalAlignment="Center" VerticalAlignment="Center" Key="{x:Bind Key, Mode=TwoWay}" ModifierKey="{x:Bind ModifierKey, Mode=TwoWay}"/>

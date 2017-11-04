@@ -2,12 +2,9 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:kmd.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:storage="using:Windows.Storage"
       DataContext="{Binding LocationsViewModel, Source={StaticResource Locator}}"
       mc:Ignorable="d">
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid Margin="{StaticResource MediumLeftRightMargin}">
             <Grid.RowDefinitions>
@@ -18,7 +15,6 @@
                        x:Uid="Locations_Title"
                        Grid.Row="0"
                        Style="{StaticResource PageTitleStyle}" />
-
             <StackPanel Grid.Row="1">
                 <TextBlock x:Uid="Locations_Description"
                            Style="{StaticResource SubtitleTextBlockStyle}" />
