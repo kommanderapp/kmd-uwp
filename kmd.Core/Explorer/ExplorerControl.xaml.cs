@@ -332,6 +332,11 @@ namespace kmd.Core.Explorer
             ViewModel.ExecuteCommand(typeof(GroupItemsCommand));
         }
 
+        private void Details_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(SelectedItemDetailsCommand));
+        }
+
         private void NavigateBackward_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(NavigateBackwardCommand));

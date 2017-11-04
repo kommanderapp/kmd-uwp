@@ -1,5 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Views;
+using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Controls.ContentDialogs;
+using kmd.Core.Explorer.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -16,6 +18,12 @@ namespace kmd.Core.Extensions
             var result = await dialog.ShowAsync();
 
             return dialog.Result;
+        }
+
+        public static async Task FileInfo(this IDialogService dialogService, IExplorerItem file)
+        {
+            var dialog = new FileInfoDialog(file) { Title = "Details", PrimaryButtonText = "Ok" };
+            var result = await dialog.ShowAsync();
         }
 
         public static async Task<string> Prompt(this IDialogService dialogService, string title, string initialValue = null)

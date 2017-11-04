@@ -32,6 +32,7 @@
                     Click="ChangeExtension_Click"
                     Text="Change extension"
                     Visibility="{Binding IsFile, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <MenuFlyoutItem Click="Details_Click" Text="Details" />
                 <MenuFlyoutItem Click="Paste_Click" Text="Paste here" />
                 <MenuFlyoutItem Click="AddNewFolder_Click" Text="Add new folder" />
             </MenuFlyout.Items>
