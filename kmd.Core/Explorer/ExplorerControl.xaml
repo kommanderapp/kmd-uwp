@@ -25,12 +25,14 @@
                 <MenuFlyoutItem Click="Cut_Click" Text="Cut" />
                 <MenuFlyoutItem Click="Copy_Click" Text="Copy" />
                 <MenuFlyoutItem Click="Delete_Click" Text="Delete" />
-                <MenuFlyoutItem Click="GroupItems_Click" Text="Group items" />
+                <MenuFlyoutItem Click="Rename_Click" Text="Rename" />
                 <MenuFlyoutItem Click="GroupRename_Click" Text="Group rename" />
+                <MenuFlyoutItem Click="GroupItems_Click" Text="Group items" />
                 <MenuFlyoutItem
                     Click="ChangeExtension_Click"
                     Text="Change extension"
                     Visibility="{Binding IsFile, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <MenuFlyoutItem Click="Details_Click" Text="Details" />
                 <MenuFlyoutItem Click="Paste_Click" Text="Paste here" />
                 <MenuFlyoutItem Click="AddNewFolder_Click" Text="Add new folder" />
             </MenuFlyout.Items>
@@ -108,6 +110,16 @@
 
             <AppBar Grid.Row="3" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <StackPanel Orientation="Horizontal">
+                    <AppBarButton Label="Navigate backward" Click="NavigateBackward_Click">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="Back" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Navigate forward" Click="NavigateForward_Click">
+                        <AppBarButton.Icon>
+                            <SymbolIcon Symbol="Forward" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
                     <AppBarButton Label="Sort">
                         <AppBarButton.Icon>
                             <SymbolIcon Symbol="Sort" />

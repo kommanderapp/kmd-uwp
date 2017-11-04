@@ -148,6 +148,8 @@
     <Compile Include="Explorer\Commands\NavigateToParrentCommand.cs" />
     <Compile Include="Explorer\Commands\OpenSelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\PasteToCurrentFolderCommand.cs" />
+    <Compile Include="Explorer\Commands\RenameSelectedItemCommand.cs" />
+    <Compile Include="Explorer\Commands\SelectedItemDetailsCommand.cs" />
     <Compile Include="Explorer\Commands\TypingHiglightCommand.cs" />
     <Compile Include="Explorer\Commands\Configuration\ExplorerCommandAttribute.cs" />
     <Compile Include="Explorer\Contracts\ExplorerItemsStates.cs" />
@@ -161,6 +163,9 @@
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbDragEventArgs.cs" />
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbEventArgs.cs" />
     <Compile Include="Explorer\Controls\Breadcrumb\BreadcrumbItem.cs" />
+    <Compile Include="Explorer\Controls\ContentDialogs\FileInfoDialog.xaml.cs">
+      <DependentUpon>FileInfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Explorer\Controls\ContentDialogs\NameCollisionDialog.xaml.cs">
       <DependentUpon>NameCollisionDialog.xaml</DependentUpon>
     </Compile>
@@ -238,6 +243,10 @@
     <Page Include="Explorer\Controls\Breadcrumb\BreadcrumbControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Explorer\Controls\ContentDialogs\FileInfoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Explorer\Controls\ContentDialogs\NameCollisionDialog.xaml">
       <SubType>Designer</SubType>

@@ -317,6 +317,11 @@ namespace kmd.Core.Explorer
             ViewModel.ExecuteCommand(typeof(ChangeExtensionCommand));
         }
 
+        private void Rename_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(RenameSelectedItemCommand));
+        }
+
         private void GroupRename_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(GroupRenameCommand));
@@ -325,6 +330,21 @@ namespace kmd.Core.Explorer
         private void GroupItems_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteCommand(typeof(GroupItemsCommand));
+        }
+
+        private void Details_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(SelectedItemDetailsCommand));
+        }
+
+        private void NavigateBackward_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(NavigateBackwardCommand));
+        }
+
+        private void NavigateForward_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(NavigateForwardCommand));
         }
 
         private void Locations_SelectionChanged(object sender, SelectionChangedEventArgs e)

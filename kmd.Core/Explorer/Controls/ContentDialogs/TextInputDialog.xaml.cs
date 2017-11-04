@@ -13,6 +13,18 @@ namespace kmd.Core.Explorer.Controls.ContentDialogs
             InitializeComponent();
 
             CloseButtonText = "Cancel";
+            
+            textBox.TextChanged += TextBox_TextChanged;
+        }
+
+        private bool _initialized = false;
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(!_initialized)
+            {
+                textBox.SelectAll();
+                _initialized = true;
+            }
         }
 
         public string Text

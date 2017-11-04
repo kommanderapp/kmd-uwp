@@ -27,13 +27,13 @@ namespace kmd.Core.Explorer.Commands
 
         protected async override void OnExecuteAsync(IExplorerViewModel vm)
         {
-            var result = await _dialogService.Prompt("Change file extension", vm.SelectedItem.FileType);
+            var result = await _dialogService.Prompt("Change file extension", vm.SelectedItem.Name.Split('.').Last());
 
             if (result == null) return;
 
             try
             {
-                await vm.SelectedItem.StorageItem.RenameAsync(vm.SelectedItem.Name.Split('.').First() + result);
+                await vm.SelectedItem.StorageItem.RenameAsync(vm.SelectedItem.DisplayName + "." + result);
                 var storageItem = vm.SelectedItem.StorageItem;
                 var newItem = await ExplorerItem.CreateAsync(storageItem);
 
