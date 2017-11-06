@@ -113,26 +113,28 @@ namespace kmd.Core.Explorer
                 {
                     if (item is IStorageFolder)
                     {
+                        var folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
                         if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Copy)
                         {
-                            await (item as IStorageFolder).CopyContentsRecursiveAsync(droppedTarget, ViewModel.CancellationTokenSource.Token);
+                            await folder.CopyContentsRecursiveAsync(droppedTarget, ViewModel.CancellationTokenSource.Token);
                         }
                         else if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Move)
                         {
-                            await (item as IStorageFolder).MoveContentsRecursiveAsync(droppedTarget, ViewModel.CancellationTokenSource.Token);
+                            await folder.MoveContentsRecursiveAsync(droppedTarget, ViewModel.CancellationTokenSource.Token);
                         }
                         changesMade = true;
                     }
-                    else if (item is IStorageFile storageFile)
+                    else if (item is IStorageFile)
                     {
+                        var file = await StorageFile.GetFileFromPathAsync(item.Path);
                         if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Copy)
                         {
-                            await storageFile.CopyAsync(droppedTarget, item.Name, NameCollisionOption.GenerateUniqueName);
+                            await file.CopyAsync(droppedTarget, item.Name, NameCollisionOption.GenerateUniqueName);
                         }
                         else if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Move)
                         {
                             await e.DragArgs.DataView.RequestAccessAsync();
-                            await storageFile.MoveAsync(droppedTarget, item.Name, NameCollisionOption.GenerateUniqueName);
+                            await file.MoveAsync(droppedTarget, item.Name, NameCollisionOption.GenerateUniqueName);
                         }
                         changesMade = true;
                     }
@@ -226,25 +228,27 @@ namespace kmd.Core.Explorer
                 {
                     if (item is IStorageFolder)
                     {
+                        var folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
                         if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Copy)
                         {
-                            await (item as IStorageFolder).CopyContentsRecursiveAsync(CurrentFolder, ViewModel.CancellationTokenSource.Token);
+                            await folder.CopyContentsRecursiveAsync(CurrentFolder, ViewModel.CancellationTokenSource.Token);
                         }
                         else if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Move)
                         {
-                            await (item as IStorageFolder).MoveContentsRecursiveAsync(CurrentFolder, ViewModel.CancellationTokenSource.Token);
+                            await folder.MoveContentsRecursiveAsync(CurrentFolder, ViewModel.CancellationTokenSource.Token);
                         }
                         changesMade = true;
                     }
                     else if (item is IStorageFile)
                     {
+                        var file = await StorageFile.GetFileFromPathAsync(item.Path);
                         if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Copy)
                         {
-                            await (item as IStorageFile).CopyAsync(CurrentFolder, item.Name, NameCollisionOption.GenerateUniqueName);
+                            await file.CopyAsync(CurrentFolder, item.Name, NameCollisionOption.GenerateUniqueName);
                         }
                         else if (DragOperations.UserRequestedDragOperation == DataPackageOperation.Move)
                         {
-                            await (item as IStorageFile).MoveAsync(CurrentFolder, item.Name, NameCollisionOption.GenerateUniqueName);
+                            await file.MoveAsync(CurrentFolder, item.Name, NameCollisionOption.GenerateUniqueName);
                         }
                         changesMade = true;
                     }
