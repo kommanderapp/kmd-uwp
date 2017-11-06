@@ -50,7 +50,7 @@
     </UserControl.Resources>
     <Border
         x:Name="IsActiveBorder"
-        Margin="5,5"
+        Padding="0,10,0,0"
         BorderBrush="{ThemeResource SystemAccentColor}"
         BorderThickness="{x:Bind IsActive, Mode=OneWay, Converter={StaticResource BooleanToActiveExplorerTicknessConverter}}">
 

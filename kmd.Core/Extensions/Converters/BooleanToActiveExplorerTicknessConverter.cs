@@ -10,7 +10,7 @@ namespace kmd.Core.Extensions.Converters
         {
             if (value != null && (bool)value == true)
             {
-                return new Thickness(1, 1, 1, 3);
+                return new Thickness(0, 5, 0, 0);
             }
 
             return new Thickness(0);
