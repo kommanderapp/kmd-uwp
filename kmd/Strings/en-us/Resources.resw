@@ -228,4 +228,7 @@
   <data name="Locations_Title.Text" xml:space="preserve">
     <value>Locations</value>
   </data>
+  <data name="Shell_Locations" xml:space="preserve">
+    <value>Locations</value>
+  </data>
 </root>

@@ -6,6 +6,7 @@
     xmlns:contracts="using:kmd.Core.Explorer.Contracts"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls1="using:kmd.Core.Explorer.Controls"
+    xmlns:converteresExt="using:kmd.Core.Extensions.Converters"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,10 +17,13 @@
     xmlns:storage1="using:Windows.Storage"
     d:DesignHeight="300"
     d:DesignWidth="400"
+    GettingFocus="UserControl_GettingFocus"
     mc:Ignorable="d">
     <UserControl.Resources>
         <explorer:ExplorerViewModelLocator x:Key="ExplorerViewModelLocator" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converteresExt:BooleanToActiveExplorerTicknessConverter x:Key="BooleanToActiveExplorerTicknessConverter" />
+
         <MenuFlyout x:Key="ExplorerItemMenuFlyout">
             <MenuFlyout.Items>
                 <MenuFlyoutItem Click="Cut_Click" Text="Cut" />
@@ -44,140 +48,147 @@
             </MenuFlyout.Items>
         </MenuFlyout>
     </UserControl.Resources>
-    <Grid x:Name="RootElement" DataContext="{Binding ExplorerViewModel, Source={StaticResource ExplorerViewModelLocator}}">
+    <Border
+        x:Name="IsActiveBorder"
+        Margin="5,5"
+        BorderBrush="{ThemeResource SystemAccentColor}"
+        BorderThickness="{x:Bind IsActive, Mode=OneWay, Converter={StaticResource BooleanToActiveExplorerTicknessConverter}}">
 
-        <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid x:Name="RootElement" DataContext="{Binding ExplorerViewModel, Source={StaticResource ExplorerViewModelLocator}}">
 
-            <Grid.RowDefinitions>
-                <RowDefinition x:Name="LoadingDots" Height="Auto" />
-                <RowDefinition x:Name="Actions" Height="Auto" />
-                <RowDefinition x:Name="BreadcrumbAndPath" Height="Auto" />
-                <RowDefinition x:Name="AppBar" Height="Auto" />
-                <RowDefinition x:Name="ExplorerItems" Height="*" />
-            </Grid.RowDefinitions>
+            <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
 
-            <Grid Grid.Row="0">
-                <ProgressBar IsIndeterminate="True" Opacity="{Binding IsBusy, Converter={StaticResource BooleanToOpacityConverter}}" />
-            </Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="LoadingDots" Height="Auto" />
+                    <RowDefinition x:Name="Actions" Height="Auto" />
+                    <RowDefinition x:Name="BreadcrumbAndPath" Height="Auto" />
+                    <RowDefinition x:Name="AppBar" Height="Auto" />
+                    <RowDefinition x:Name="ExplorerItems" Height="*" />
+                </Grid.RowDefinitions>
 
-            <Grid Grid.Row="1" />
-            <Grid Grid.Row="2">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <ComboBox
-                        Grid.Column="0"
-                        DisplayMemberPath="Name"
-                        ItemsSource="{Binding Locations}"
-                        SelectionChanged="Locations_SelectionChanged" />
-                    <controls1:PathBox
-                        x:Name="PathBox"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Top"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        EscFallbackValue="{Binding CurrentFolder.Path}"
-                        FocusFallbackControl="{Binding ElementName=StorageItems}"
-                        LostFocus="PathBox_LostFocus"
-                        Opacity="{Binding ElementName=PathBox, Path=FocusState, Converter={StaticResource FocusStateToOpacityReverseConverter}}"
-                        Text="{Binding CurrentFolder.Path}">
-                        <interactivity:Interaction.Behaviors>
-                            <bh:FocusBehavior IsFocused="{Binding IsPathBoxFocused, Mode=TwoWay}" />
-                        </interactivity:Interaction.Behaviors>
-                    </controls1:PathBox>
-                    <controls1:BreadcrumbControl
-                        x:Name="Breadcrumb"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        ItemDragOver="Breadcrumb_ItemDragOver"
-                        ItemDrop="Breadcrumb_ItemDrop"
-                        ItemSelected="Breadcrumb_ItemSelected"
-                        ItemsSource="{Binding CurrentFolderExpandedRoots}"
-                        Opacity="{Binding ElementName=PathBox, Path=FocusState, Converter={StaticResource FocusStateToOpacityConverter}}"
-                        Seperator="&gt;">
-                        <controls1:BreadcrumbControl.ItemTemplate>
-                            <DataTemplate x:DataType="storage1:IStorageFolder">
-                                <TextBlock Text="{Binding DisplayName}" />
+                <Grid Grid.Row="0">
+                    <ProgressBar IsIndeterminate="True" Opacity="{Binding IsBusy, Converter={StaticResource BooleanToOpacityConverter}}" />
+                </Grid>
+
+                <Grid Grid.Row="1" />
+                <Grid Grid.Row="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox
+                            Grid.Column="0"
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding Locations}"
+                            SelectionChanged="Locations_SelectionChanged" />
+                        <controls1:PathBox
+                            x:Name="PathBox"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            EscFallbackValue="{Binding CurrentFolder.Path}"
+                            FocusFallbackControl="{Binding ElementName=StorageItems}"
+                            LostFocus="PathBox_LostFocus"
+                            Opacity="{Binding ElementName=PathBox, Path=FocusState, Converter={StaticResource FocusStateToOpacityReverseConverter}}"
+                            Text="{Binding CurrentFolder.Path}">
+                            <interactivity:Interaction.Behaviors>
+                                <bh:FocusBehavior IsFocused="{Binding IsPathBoxFocused, Mode=TwoWay}" />
+                            </interactivity:Interaction.Behaviors>
+                        </controls1:PathBox>
+                        <controls1:BreadcrumbControl
+                            x:Name="Breadcrumb"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            ItemDragOver="Breadcrumb_ItemDragOver"
+                            ItemDrop="Breadcrumb_ItemDrop"
+                            ItemSelected="Breadcrumb_ItemSelected"
+                            ItemsSource="{Binding CurrentFolderExpandedRoots}"
+                            Opacity="{Binding ElementName=PathBox, Path=FocusState, Converter={StaticResource FocusStateToOpacityConverter}}"
+                            Seperator="&gt;">
+                            <controls1:BreadcrumbControl.ItemTemplate>
+                                <DataTemplate x:DataType="storage1:IStorageFolder">
+                                    <TextBlock Text="{Binding DisplayName}" />
+                                </DataTemplate>
+                            </controls1:BreadcrumbControl.ItemTemplate>
+                        </controls1:BreadcrumbControl>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="4">
+                    <controls1:ExplorerListView
+                        x:Name="StorageItems"
+                        AllowDrop="True"
+                        CanDragItems="True"
+                        DoubleTapped="StorageItems_DoubleTapped"
+                        DragItemsCompleted="StorageItems_DragItemsCompleted"
+                        DragItemsStarting="StorageItems_DragItemsStarting"
+                        DragOver="StorageItems_DragOver"
+                        Drop="StorageItems_Drop"
+                        ItemsSource="{Binding ExplorerItems}"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                        SelectionChanged="StorageItems_SelectionChanged"
+                        SelectionMode="Extended">
+                        <controls1:ExplorerListView.Style>
+                            <Style TargetType="controls1:ExplorerListView">
+                                <Setter Property="ContextFlyout" Value="{StaticResource ExplorerMenuFlyout}" />
+                            </Style>
+                        </controls1:ExplorerListView.Style>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.Header>
+                            <controls:ScrollHeader Mode="Sticky" TargetListViewBase="{x:Bind StorageItems}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                            </controls:ScrollHeader>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="contracts:IExplorerItem">
+                                <Grid Name="ItemTemplateGrid">
+                                    <interactivity:Interaction.Behaviors>
+                                        <core:DataTriggerBehavior Binding="{Binding IsPhysical}" Value="true">
+                                            <core:ChangePropertyAction
+                                                PropertyName="ContextFlyout"
+                                                TargetObject="{Binding ElementName=ItemTemplateGrid}"
+                                                Value="{StaticResource ExplorerItemMenuFlyout}" />
+                                        </core:DataTriggerBehavior>
+                                    </interactivity:Interaction.Behaviors>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{x:Bind Icon}" />
+                                            <TextBlock Text="{x:Bind Name}" />
+                                        </StackPanel>
+                                        <TextBlock Text="{x:Bind DisplayType}" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{x:Bind DateCreated}" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="{x:Bind Attributes}" />
+                                    </StackPanel>
+                                </Grid>
                             </DataTemplate>
-                        </controls1:BreadcrumbControl.ItemTemplate>
-                    </controls1:BreadcrumbControl>
+                        </ListView.ItemTemplate>
+                    </controls1:ExplorerListView>
                 </Grid>
             </Grid>
-
-            <Grid Grid.Row="4">
-                <controls1:ExplorerListView
-                    x:Name="StorageItems"
-                    AllowDrop="True"
-                    CanDragItems="True"
-                    DoubleTapped="StorageItems_DoubleTapped"
-                    DragItemsCompleted="StorageItems_DragItemsCompleted"
-                    DragItemsStarting="StorageItems_DragItemsStarting"
-                    DragOver="StorageItems_DragOver"
-                    Drop="StorageItems_Drop"
-                    ItemsSource="{Binding ExplorerItems}"
-                    ScrollViewer.VerticalScrollBarVisibility="Auto"
-                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                    SelectionChanged="StorageItems_SelectionChanged"
-                    SelectionMode="Extended">
-                    <controls1:ExplorerListView.Style>
-                        <Style TargetType="controls1:ExplorerListView">
-                            <Setter Property="ContextFlyout" Value="{StaticResource ExplorerMenuFlyout}" />
-                        </Style>
-                    </controls1:ExplorerListView.Style>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.Header>
-                        <controls:ScrollHeader Mode="Sticky" TargetListViewBase="{x:Bind StorageItems}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                </Grid.ColumnDefinitions>
-                            </Grid>
-                        </controls:ScrollHeader>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="contracts:IExplorerItem">
-                            <Grid Name="ItemTemplateGrid">
-                                <interactivity:Interaction.Behaviors>
-                                    <core:DataTriggerBehavior Binding="{Binding IsPhysical}" Value="true">
-                                        <core:ChangePropertyAction
-                                            PropertyName="ContextFlyout"
-                                            TargetObject="{Binding ElementName=ItemTemplateGrid}"
-                                            Value="{StaticResource ExplorerItemMenuFlyout}" />
-                                    </core:DataTriggerBehavior>
-                                </interactivity:Interaction.Behaviors>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="{x:Bind Icon}" />
-                                        <TextBlock Text="{x:Bind Name}" />
-                                    </StackPanel>
-                                    <TextBlock Text="{x:Bind DisplayType}" />
-                                </StackPanel>
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock Text="{x:Bind DateCreated}" />
-                                </StackPanel>
-                                <StackPanel Grid.Column="2">
-                                    <TextBlock Text="{x:Bind Attributes}" />
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </controls1:ExplorerListView>
-            </Grid>
         </Grid>
-    </Grid>
+    </Border>
 </UserControl>

@@ -116,8 +116,9 @@
     <Compile Include="Command\ViewModelWithCommandBindingsExtensions.cs" />
     <Compile Include="CoreRegistration.cs" />
     <Compile Include="Command\CommandBase.cs" />
-    <Compile Include="ExplorerManager\ExplorerManager.xaml.cs">
-      <DependentUpon>ExplorerManager.xaml</DependentUpon>
+    <Compile Include="ExplorerManager\ExplorerManager.cs" />
+    <Compile Include="ExplorerManager\ExplorerManagerControl.xaml.cs">
+      <DependentUpon>ExplorerManagerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExplorerTabs\Commands\ExplorerTabsCommandDescriptor.cs" />
     <Compile Include="ExplorerTabs\Commands\ExplorerTabsCommandDescriptorFactory.cs" />
@@ -184,6 +185,7 @@
     </Compile>
     <Compile Include="Explorer\ExplorerViewModel.cs" />
     <Compile Include="Explorer\Models\ExplorerNavigationHistory.cs" />
+    <Compile Include="Extensions\Converters\BooleanToActiveExplorerTicknessConverter.cs" />
     <Compile Include="FluentKeyboard.xaml.cs">
       <DependentUpon>FluentKeyboard.xaml</DependentUpon>
     </Compile>
@@ -234,7 +236,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ExplorerManager\ExplorerManager.xaml">
+    <Page Include="ExplorerManager\ExplorerManagerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

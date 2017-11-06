@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Views;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Controls.ContentDialogs;
-using kmd.Core.Explorer.Models;
 using System;
 using System.Threading.Tasks;
 

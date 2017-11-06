@@ -1,12 +1,9 @@
 ﻿using kmd.Core.Command;
 using kmd.Core.Command.Configuration;
 using kmd.Core.Hotkeys;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace kmd.Core.Explorer.Commands.Configuration
 {

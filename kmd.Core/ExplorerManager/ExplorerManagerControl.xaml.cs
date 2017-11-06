@@ -1,32 +1,59 @@
 ﻿using kmd.Core.Command;
 using kmd.Core.Explorer;
 using kmd.Core.Explorer.Commands;
+using kmd.Core.Hotkeys;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace kmd.Core.ExplorerManager
 {
-    public sealed partial class ExplorerManager : UserControl
+    public sealed partial class ExplorerManagerControl : UserControl
     {
-        public ExplorerManager()
+        public ExplorerManagerControl()
         {
             this.InitializeComponent();
+            Explorer1.ExplorerManager = this;
+            Explorer2.ExplorerManager = this;
+            this.Loaded += ExplorerManager_Loaded;
+            this.Unloaded += ExplorerManager_Unloaded;
+        }
+
+        private void ExplorerManager_Unloaded(object sender, RoutedEventArgs e)
+        {
+            KeyEventsAgregator.HotKey -= HotKeyPressed;
+            KeyEventsAgregator.CharacterReceived -= CharacterRecieved;
+        }
+
+        private void ExplorerManager_Loaded(object sender, RoutedEventArgs e)
+        {
+            KeyEventsAgregator.HotKey += HotKeyPressed;
+            KeyEventsAgregator.CharacterReceived += CharacterRecieved;
+        }
+
+        private void CharacterRecieved(object sender, CharReceivedEventArgs args)
+        {
+            if (Current == null) return;
+
+            if (!string.IsNullOrEmpty(args.Character))
+            {
+                Current.ViewModel.LastTypedChar = args.Character;
+                args.Handled = true;
+            }
+        }
+
+        private void HotKeyPressed(object sender, HotkeyEventArg e)
+        {
+            if (Current == null) return;
+            var command = Current.ViewModel.CommandBindings.OfHotkey(e.Hotkey);
+            if (command != null)
+            {
+                Current.ViewModel.ExecuteCommand(command.GetType());
+                e.Handled = true;
+            }
         }
 
         private void NavigateBackward_Click(object sender, RoutedEventArgs e)
@@ -83,22 +110,13 @@ namespace kmd.Core.ExplorerManager
             Current.ViewModel.Sort(method);
         }
 
-        public static ExplorerControl Current => _explorers.FirstOrDefault(x => x.Value.ItemsInFocus).Value;
-
-        public static void Register(ExplorerControl explorerControl)
+        public ExplorerControl Current
         {
-            var id = Interlocked.Increment(ref _explorerCounter);
-            explorerControl.ExplorerId = id;
-            _explorers.TryAdd(id, explorerControl);
+            get { return (ExplorerControl)GetValue(CurrentProperty); }
+            set { SetValue(CurrentProperty, value); }
         }
 
-        public static void Unregister(ExplorerControl explorerControl)
-        {
-            var id = explorerControl.ExplorerId;
-            _explorers.TryRemove(id, out ExplorerControl outValue);
-        }
-
-        private static int _explorerCounter = 0;
-        private static ConcurrentDictionary<int, ExplorerControl> _explorers = new ConcurrentDictionary<int, ExplorerControl>();
+        public static readonly DependencyProperty CurrentProperty =
+            DependencyProperty.Register("Current", typeof(ExplorerControl), typeof(ExplorerManagerControl), new PropertyMetadata(null));
     }
 }

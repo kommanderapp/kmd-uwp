@@ -1,11 +1,6 @@
 ﻿using kmd.Core.Command.Configuration;
 using kmd.Core.Helpers;
 using kmd.Core.Hotkeys;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace kmd.Core.ExplorerTabs.Commands
 {

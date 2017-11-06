@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;
 using kmd.Core.Command.Configuration;
-using kmd.Core.Explorer.Commands.Configuration;
 using System.Linq;
 using Windows.System;
 

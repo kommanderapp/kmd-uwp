@@ -19,7 +19,7 @@
         <TextBlock x:Uid="Main_Title"
                    Style="{StaticResource PageTitleStyle}" />
         <Grid Grid.Row="1">
-            <explorermanager:ExplorerManager />
+            <explorermanager:ExplorerManagerControl />
         </Grid>
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>

@@ -4,18 +4,20 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using kmd.Core.Helpers;
 using kmd.Core.Command.Configuration;
 using kmd.Core.ExplorerTabs.Commands;
+using kmd.Core.ExplorerManager;
 
 namespace kmd.Core.ExplorerTabs
 {
     public sealed partial class ExplorerTabsControl
     {
+        public ExplorerManagerControl ExplorerManager { get; set; }
+
         public ExplorerTabsControl()
         {
             InitializeComponent();
@@ -28,24 +30,13 @@ namespace kmd.Core.ExplorerTabs
             _removeTabHotkey = explorerTabsCommands.FirstOrDefault(x => x.UniqueName == "RemoveTab").PreferredHotkey;
         }
 
-        public bool IsInFocus
-        {
-            get
-            {
-                if (ExplorerTabs.SelectedItem is PivotItem pivotItem)
-                {
-                    var explorerControl = pivotItem.Content as ExplorerControl;
-                    return explorerControl != null && (explorerControl.ItemsInFocus);
-                }
-                return false;
-            }
-        }
-
         public ObservableCollection<object> Items { get; set; } = new ObservableCollection<object>();
 
         public void AddTab(StorageFolder storageFolder)
         {
             var explorer = new ExplorerControl();
+            explorer.ExplorerManagerControl = ExplorerManager;
+
             if (storageFolder != null)
             {
                 explorer.Loaded += (s, e) => { (s as ExplorerControl).CurrentFolder = storageFolder; };
@@ -121,7 +112,7 @@ namespace kmd.Core.ExplorerTabs
 
         private void HotkeyEventAgrigator_HotKey(object sender, HotkeyEventArg e)
         {
-            if (!IsInFocus) return;
+            if (!IsTabControlInFocus) return;
 
             if (e.Hotkey == _addTabHotkey)
             {
@@ -138,6 +129,15 @@ namespace kmd.Core.ExplorerTabs
                 var selectedIndex = ExplorerTabs.SelectedIndex;
                 RemoveTab(selectedIndex);
                 e.Handled = true;
+            }
+        }
+
+        private bool IsTabControlInFocus
+        {
+            get
+            {
+                var currentExplorer = ExplorerManager.Current;
+                return Items.Cast<PivotItem>().Select(x => x.Content).Cast<ExplorerControl>().Any(x => x == currentExplorer);
             }
         }
 

@@ -3,10 +3,7 @@ using kmd.Core.Explorer.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Input;
-using kmd.Core.Hotkeys;
-using System.Threading.Tasks;
 using kmd.Core.Command.Configuration;
 
 namespace kmd.Core.Explorer.Commands.Configuration

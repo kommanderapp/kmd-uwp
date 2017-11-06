@@ -3,8 +3,8 @@ using kmd.Core.Explorer.Commands;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Controls;
 using kmd.Core.Explorer.Controls.Breadcrumb;
+using kmd.Core.ExplorerManager;
 using kmd.Core.Helpers;
-using kmd.Core.Hotkeys;
 using kmd.Storage.Extensions;
 using System;
 using System.Linq;
@@ -21,6 +21,46 @@ namespace kmd.Core.Explorer
     {
         public static readonly DependencyProperty CurrentFolderProperty =
             DependencyProperty.Register("CurrentFolder", typeof(StorageFolder), typeof(ExplorerControl), new PropertyMetadata(null));
+
+        private ExplorerManagerControl _explorerManagerControl;
+        private long _explorerManagerCurrentRegisteredCallback = 0;
+
+        public ExplorerManagerControl ExplorerManagerControl
+        {
+            get
+            {
+                return _explorerManagerControl;
+            }
+            set
+            {
+                _explorerManagerControl?.UnregisterPropertyChangedCallback(ExplorerManagerControl.CurrentProperty, _explorerManagerCurrentRegisteredCallback);
+                _explorerManagerCurrentRegisteredCallback = value.RegisterPropertyChangedCallback(ExplorerManagerControl.CurrentProperty, new DependencyPropertyChangedCallback((depOb, depProp) =>
+                {
+                    var control = (ExplorerControl)depOb?.GetValue(depProp);
+                    if (control != null)
+                    {
+                        if (control.ExplorerId == this.ExplorerId)
+                        {
+                            IsActive = true;
+                        }
+                        else
+                        {
+                            IsActive = false;
+                        }
+                    }
+                }));
+                _explorerManagerControl = value;
+            }
+        }
+
+        public bool IsActive
+        {
+            get { return (bool)GetValue(IsActiveProperty); }
+            set { SetValue(IsActiveProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsActiveProperty =
+            DependencyProperty.Register("IsActive", typeof(bool), typeof(ExplorerControl), new PropertyMetadata(false));
 
         public ExplorerControl()
         {
@@ -46,8 +86,6 @@ namespace kmd.Core.Explorer
         }
 
         public int ExplorerId { get; set; }
-
-        public bool ItemsInFocus => StorageItems.IsFocusedEx;
 
         public PathBox PathBoxControl => PathBox;
 
@@ -118,41 +156,16 @@ namespace kmd.Core.Explorer
             }
         }
 
-        private void CharacterRecieved(object sender, CharReceivedEventArgs args)
-        {
-            if (!ItemsInFocus) return;
-            if (!string.IsNullOrEmpty(args.Character))
-            {
-                ViewModel.LastTypedChar = args.Character;
-                args.Handled = true;
-            }
-        }
-
         private async void ExplorerControl_Loaded(object sender, RoutedEventArgs e)
         {
             ExplorerManager.ExplorerManager.Register(this);
-            KeyEventsAgregator.HotKey += HotKeyPressed;
-            KeyEventsAgregator.CharacterReceived += CharacterRecieved;
             await ViewModel.InitializeAsync();
         }
 
         private void ExplorerControl_Unloaded(object sender, RoutedEventArgs e)
         {
             ExplorerManager.ExplorerManager.Unregister(this);
-            KeyEventsAgregator.HotKey -= HotKeyPressed;
-            KeyEventsAgregator.CharacterReceived -= CharacterRecieved;
-        }
-
-        private void HotKeyPressed(object sender, HotkeyEventArg e)
-        {
-            if (!ItemsInFocus) return;
-
-            var command = ViewModel.CommandBindings.OfHotkey(e.Hotkey);
-            if (command != null)
-            {
-                ViewModel.ExecuteCommand(command.GetType());
-                e.Handled = true;
-            }
+            _explorerManagerControl.UnregisterPropertyChangedCallback(ExplorerManagerControl.CurrentProperty, _explorerManagerCurrentRegisteredCallback);
         }
 
         private void StorageItems_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
@@ -349,6 +362,11 @@ namespace kmd.Core.Explorer
             {
                 PathBox.Text = ViewModel.CurrentFolder.Path;
             }
+        }
+
+        private void UserControl_GettingFocus(UIElement sender, Windows.UI.Xaml.Input.GettingFocusEventArgs args)
+        {
+            ExplorerManagerControl.Current = this;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using kmd.Core.Command.Configuration;
-using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Helpers;
 using System;
 using System.Linq;

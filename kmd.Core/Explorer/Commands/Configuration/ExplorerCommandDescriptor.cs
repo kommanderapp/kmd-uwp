@@ -1,5 +1,4 @@
 ﻿using System;
-using kmd.Core.Hotkeys;
 using kmd.Core.Command.Configuration;
 using kmd.Core.Helpers;
 
