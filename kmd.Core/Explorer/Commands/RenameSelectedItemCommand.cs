@@ -28,7 +28,7 @@ namespace kmd.Core.Explorer.Commands
 
         protected override async void OnExecuteAsync(IExplorerViewModel vm)
         {
-            var result = await _dialogService.Prompt("Change file extension", vm.SelectedItem.Name);
+            var result = await _dialogService.Prompt("Rename file", vm.SelectedItem.Name);
 
             if (result == null) return;
 

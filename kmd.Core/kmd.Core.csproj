@@ -116,6 +116,9 @@
     <Compile Include="Command\ViewModelWithCommandBindingsExtensions.cs" />
     <Compile Include="CoreRegistration.cs" />
     <Compile Include="Command\CommandBase.cs" />
+    <Compile Include="ExplorerManager\ExplorerManager.xaml.cs">
+      <DependentUpon>ExplorerManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExplorerTabs\Commands\ExplorerTabsCommandDescriptor.cs" />
     <Compile Include="ExplorerTabs\Commands\ExplorerTabsCommandDescriptorFactory.cs" />
     <Compile Include="ExplorerTabs\ExplorerTabHeader.xaml.cs">
@@ -174,7 +177,6 @@
     </Compile>
     <Compile Include="Explorer\Controls\ExplorerListView.cs" />
     <Compile Include="Explorer\Controls\PathBox.cs" />
-    <Compile Include="Explorer\ExplorerManager.cs" />
     <Compile Include="Explorer\Models\ExplorerItem.cs" />
     <Compile Include="Explorer\ExplorerViewModelLocator.cs" />
     <Compile Include="Explorer\ExplorerControl.xaml.cs">
@@ -232,6 +234,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ExplorerManager\ExplorerManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExplorerTabs\ExplorerTabHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

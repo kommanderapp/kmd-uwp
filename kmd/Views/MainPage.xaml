@@ -6,6 +6,7 @@
       xmlns:explorer="using:kmd.Core.Explorer"
       xmlns:explorertabs="using:kmd.Core.ExplorerTabs"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:explorermanager="using:kmd.Core.ExplorerManager"
       DataContext="{Binding MainViewModel, Source={StaticResource Locator}}"
       mc:Ignorable="d">
     <Grid x:Name="ContentArea"
@@ -18,7 +19,7 @@
         <TextBlock x:Uid="Main_Title"
                    Style="{StaticResource PageTitleStyle}" />
         <Grid Grid.Row="1">
-            <explorertabs:ExplorerTabsControl />
+            <explorermanager:ExplorerManager />
         </Grid>
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>

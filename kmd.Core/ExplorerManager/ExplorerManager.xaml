@@ -1,0 +1,111 @@
+﻿<UserControl
+    x:Class="kmd.Core.ExplorerManager.ExplorerManager"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:explorertabs="using:kmd.Core.ExplorerTabs"
+    xmlns:local="using:kmd.Core.ExplorerManager"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <CommandBar Grid.Row="0">
+            <AppBarButton Click="NavigateBackward_Click" Label="Back">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Back" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Click="NavigateForward_Click" Label="Forward">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Forward" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Click="NavigateUp_Click" Label="Up">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Up" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarSeparator />
+            <AppBarButton Click="Cut_Click" Label="Cut">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Cut" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Click="Copy_Click" Label="Copy">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Copy" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Click="Paste_Click" Label="Paste">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Paste" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Click="Delete_Click" Label="Delete">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Delete" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarSeparator />
+            <AppBarButton Label="Sort">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Sort" />
+                </AppBarButton.Icon>
+                <AppBarButton.Flyout>
+                    <Flyout Placement="Right">
+                        <StackPanel Orientation="Vertical">
+                            <RadioButton
+                                x:Name="ByDateAsc"
+                                Checked="SortMethod_Changed"
+                                Content="By Date ( newest to old )"
+                                GroupName="SortOptions"
+                                IsChecked="True" />
+                            <RadioButton
+                                x:Name="ByDateDesc"
+                                Checked="SortMethod_Changed"
+                                Content="By Date ( old to newest )"
+                                GroupName="SortOptions" />
+                            <RadioButton
+                                x:Name="ByNameAsc"
+                                Checked="SortMethod_Changed"
+                                Content="By Name ( from a - z )"
+                                GroupName="SortOptions" />
+                            <RadioButton
+                                x:Name="ByNameDesc"
+                                Checked="SortMethod_Changed"
+                                Content="By Name ( from z - a )"
+                                GroupName="SortOptions" />
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarSeparator />
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Click="CopyPath_Click" Label="Copy Path">
+                    <AppBarButton.Icon>
+                        <SymbolIcon Symbol="Copy" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Click="Expand_Click" Label="Expand">
+                    <AppBarButton.Icon>
+                        <SymbolIcon Symbol="MoveToFolder" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <explorertabs:ExplorerTabsControl Grid.Column="0" />
+            <explorertabs:ExplorerTabsControl Grid.Column="1" />
+        </Grid>
+    </Grid>
+</UserControl>

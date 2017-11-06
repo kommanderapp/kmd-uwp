@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using kmd.Core.Command.Configuration;
 using kmd.Core.Hotkeys;
+using kmd.Helpers;
 using kmd.Services;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace kmd.ViewModels
                     _switchThemeCommand = new RelayCommand<ElementTheme>(
                         async (param) =>
                         {
-                            await ThemeSelectorService.SetThemeAsync(param);
+                            await ThemeSelectorService.SetThemeAsync(param);                            
                         });
                 }
 
@@ -80,7 +81,7 @@ namespace kmd.ViewModels
         }
 
         public SettingsViewModel()
-        {
+        {            
         }
 
         private bool _hasInstanceBeenInitialized = false;
