@@ -1,6 +1,7 @@
 ﻿using kmd.Core.Command;
 using kmd.Core.Explorer;
 using kmd.Core.Explorer.Commands;
+using kmd.Core.Explorer.States;
 using kmd.Core.Hotkeys;
 using System;
 using System.Linq;
@@ -117,6 +118,50 @@ namespace kmd.Core.ExplorerManager
         }
 
         public static readonly DependencyProperty CurrentProperty =
-            DependencyProperty.Register("Current", typeof(ExplorerControl), typeof(ExplorerManagerControl), new PropertyMetadata(null));
+            DependencyProperty.Register("Current", typeof(ExplorerControl), typeof(ExplorerManagerControl), new PropertyMetadata(null, CurrentExplorerChanged));
+
+        private static void CurrentExplorerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ExplorerManagerControl explorerManager) explorerManager.UpdateBindings(); 
+        }
+
+        public bool ChangeExplorerViewState
+        {
+            get
+            {
+                if (Current == null) return false;
+
+                switch (Current.ExplorerViewStates)
+                {
+                    case ExplorerViewStates.DataGrid:
+                        return false;                        
+                    case ExplorerViewStates.Tiles:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+            set
+            {
+                if (Current != null)
+                {
+                    if (value)
+                    {
+                        Current.ExplorerViewStates = ExplorerViewStates.Tiles;
+                    }
+                    else
+                    {
+                        Current.ExplorerViewStates = ExplorerViewStates.DataGrid;
+                    }
+                }
+
+                Bindings.Update();
+            }
+        }
+
+        public void UpdateBindings()
+        {
+            Bindings.Update();
+        }
     }
 }

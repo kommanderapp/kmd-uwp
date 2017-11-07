@@ -52,7 +52,7 @@ namespace kmd.Core.Explorer.Models
         protected async Task<BitmapImage> GetIconAsync()
         {
             BitmapImage iconImage = null;
-            var thumb = await Props?.GetThumbnailAsync(ThumbnailMode.SingleItem, 16, ThumbnailOptions.UseCurrentScale)
+            var thumb = await Props?.GetThumbnailAsync(ThumbnailMode.SingleItem, 96, ThumbnailOptions.UseCurrentScale)
 ;
             if (thumb != null)
             {

@@ -14,15 +14,72 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    GettingFocus="UserControl_GettingFocus"
     xmlns:storage1="using:Windows.Storage"
     d:DesignHeight="300"
-    d:DesignWidth="400"
-    GettingFocus="UserControl_GettingFocus"
+    d:DesignWidth="400"    
     mc:Ignorable="d">
     <UserControl.Resources>
         <explorer:ExplorerViewModelLocator x:Key="ExplorerViewModelLocator" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converteresExt:BooleanToActiveExplorerConverter x:Key="BooleanToActiveExplorerConverter" />
+       
+        <ItemsPanelTemplate x:Key="ItemsWrapGridTemplate">
+            <ItemsWrapGrid Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+        
+        <ItemsPanelTemplate x:Key="ItemsStackPanelTemplate">
+            <ItemsStackPanel />
+        </ItemsPanelTemplate>
+
+        <DataTemplate x:DataType="contracts:IExplorerItem" x:Key="ExplorerListDataGridItemTemplate">
+            <Grid Name="ItemTemplateGrid" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+                <interactivity:Interaction.Behaviors>
+                    <core:DataTriggerBehavior Binding="{Binding IsPhysical}" Value="true">
+                        <core:ChangePropertyAction
+                                                PropertyName="ContextFlyout"
+                                                TargetObject="{Binding ElementName=ItemTemplateGrid}"
+                                                Value="{StaticResource ExplorerItemMenuFlyout}" />
+                    </core:DataTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{x:Bind Icon}" Height="30" />
+                        <TextBlock Text="{x:Bind Name}" />
+                    </StackPanel>
+                    <TextBlock Text="{x:Bind DisplayType}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="{x:Bind DateCreated}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="{x:Bind Attributes}" />
+                </StackPanel>
+            </Grid>
+
+        </DataTemplate>
+
+        <DataTemplate x:DataType="contracts:IExplorerItem" x:Key="ExplorerListTilesItemTemplate">
+            <Grid Name="ItemControl" Background="Transparent" >                
+                <StackPanel Margin="10" Orientation="Vertical" Height="80" Width="70" >
+                    <interactivity:Interaction.Behaviors>
+                        <core:DataTriggerBehavior Binding="{Binding IsPhysical}" Value="true">
+                            <core:ChangePropertyAction
+                                                PropertyName="ContextFlyout"
+                                                TargetObject="{Binding ElementName=ItemControl}"
+                                                Value="{StaticResource ExplorerItemMenuFlyout}" />
+                        </core:DataTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Image Source="{x:Bind Icon}" Height="40"/>
+                    <TextBlock Text="{x:Bind Name}" MaxLines="2" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
+                </StackPanel>
+            </Grid>           
+        </DataTemplate>
 
         <MenuFlyout x:Key="ExplorerItemMenuFlyout">
             <MenuFlyout.Items>
@@ -53,11 +110,8 @@
         Padding="0,10,0,0"
         BorderBrush="{x:Bind IsActive, Mode=OneWay, Converter={StaticResource BooleanToActiveExplorerConverter}}"
         BorderThickness="0,3,0,0">
-
         <Grid x:Name="RootElement" DataContext="{Binding ExplorerViewModel, Source={StaticResource ExplorerViewModelLocator}}">
-
             <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
-
                 <Grid.RowDefinitions>
                     <RowDefinition x:Name="LoadingDots" Height="Auto" />
                     <RowDefinition x:Name="Actions" Height="Auto" />
@@ -65,11 +119,9 @@
                     <RowDefinition x:Name="AppBar" Height="Auto" />
                     <RowDefinition x:Name="ExplorerItems" Height="*" />
                 </Grid.RowDefinitions>
-
                 <Grid Grid.Row="0">
                     <ProgressBar IsIndeterminate="True" Opacity="{Binding IsBusy, Converter={StaticResource BooleanToOpacityConverter}}" />
                 </Grid>
-
                 <Grid Grid.Row="1" />
                 <Grid Grid.Row="2">
                     <Grid>
@@ -117,9 +169,8 @@
                         </controls1:BreadcrumbControl>
                     </Grid>
                 </Grid>
-
                 <Grid Grid.Row="4">
-                    <controls1:ExplorerListView
+                    <controls1:ExplorerGridView
                         x:Name="StorageItems"
                         AllowDrop="True"
                         CanDragItems="True"
@@ -127,66 +178,26 @@
                         DragItemsCompleted="StorageItems_DragItemsCompleted"
                         DragItemsStarting="StorageItems_DragItemsStarting"
                         DragOver="StorageItems_DragOver"
-                        Drop="StorageItems_Drop"
+                        Drop="StorageItems_Drop"                      
+                        ItemTemplate="{StaticResource ExplorerListDataGridItemTemplate}"                        
                         ItemsSource="{Binding ExplorerItems}"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                         SelectionChanged="StorageItems_SelectionChanged"
+                        ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
                         SelectionMode="Extended">
-                        <controls1:ExplorerListView.Style>
-                            <Style TargetType="controls1:ExplorerListView">
-                                <Setter Property="ContextFlyout" Value="{StaticResource ExplorerMenuFlyout}" />
+                        <controls1:ExplorerGridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalContentAlignment" Value="Bottom"/>
                             </Style>
-                        </controls1:ExplorerListView.Style>
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </controls1:ExplorerGridView.ItemContainerStyle>                       
+                        <controls1:ExplorerGridView.Style>
+                            <Style TargetType="controls1:ExplorerGridView">
+                                <Setter Property="ContextFlyout" Value="{StaticResource ExplorerMenuFlyout}" />                              
                             </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.Header>
-                            <controls:ScrollHeader Mode="Sticky" TargetListViewBase="{x:Bind StorageItems}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="2*" />
-                                    </Grid.ColumnDefinitions>
-                                </Grid>
-                            </controls:ScrollHeader>
-                        </ListView.Header>
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="contracts:IExplorerItem">
-                                <Grid Name="ItemTemplateGrid">
-                                    <interactivity:Interaction.Behaviors>
-                                        <core:DataTriggerBehavior Binding="{Binding IsPhysical}" Value="true">
-                                            <core:ChangePropertyAction
-                                                PropertyName="ContextFlyout"
-                                                TargetObject="{Binding ElementName=ItemTemplateGrid}"
-                                                Value="{StaticResource ExplorerItemMenuFlyout}" />
-                                        </core:DataTriggerBehavior>
-                                    </interactivity:Interaction.Behaviors>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="2*" />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" Orientation="Vertical">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="{x:Bind Icon}" />
-                                            <TextBlock Text="{x:Bind Name}" />
-                                        </StackPanel>
-                                        <TextBlock Text="{x:Bind DisplayType}" />
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{x:Bind DateCreated}" />
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="2">
-                                        <TextBlock Text="{x:Bind Attributes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </controls1:ExplorerListView>
+                        </controls1:ExplorerGridView.Style>                                 
+                    </controls1:ExplorerGridView>
                 </Grid>
             </Grid>
         </Grid>

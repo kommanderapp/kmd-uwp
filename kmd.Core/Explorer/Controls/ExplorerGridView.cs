@@ -1,11 +1,12 @@
 ﻿using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
 namespace kmd.Core.Explorer.Controls
 {
-    public class ExplorerListView : ListView
+    public class ExplorerGridView : GridView
     {
         public void ForceFocusSelectedItem(FocusState state = FocusState.Keyboard)
         {
@@ -14,11 +15,10 @@ namespace kmd.Core.Explorer.Controls
 
             this.UpdateLayout();
 
-            var listViewItem = (ListViewItem)this
-                .ContainerFromItem(this.SelectedItem);
-            if (listViewItem != null)
+            var item = (SelectorItem)ContainerFromItem(this.SelectedItem);
+            if (item != null)
             {
-                listViewItem.Focus(state);
+                item.Focus(state);
             }
         }
 

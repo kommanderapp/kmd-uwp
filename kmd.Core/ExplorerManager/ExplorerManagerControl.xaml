@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:explorertabs="using:kmd.Core.ExplorerTabs"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:kmd.Core.ExplorerManager"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
@@ -14,6 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <CommandBar Grid.Row="0">
             <AppBarButton Click="NavigateBackward_Click" Label="Back">
@@ -107,5 +110,17 @@
             <explorertabs:ExplorerTabsControl x:Name="Explorer1" Grid.Column="0" />
             <explorertabs:ExplorerTabsControl x:Name="Explorer2" Grid.Column="1" />
         </Grid>
+        <CommandBar Grid.Row="2">
+            <AppBarToggleButton x:Name="ChangeExplorerViewStateButton" IsChecked="{x:Bind ChangeExplorerViewState, Mode=TwoWay}">
+                <interactivity:Interaction.Behaviors>
+                    <core:DataTriggerBehavior Binding="{Binding IsChecked, ElementName=ChangeExplorerViewStateButton}" Value="False">
+                        <core:ChangePropertyAction TargetObject="{Binding ElementName=ChangeExplorerViewStateButton}" PropertyName="Icon" Value="ViewAll" />
+                    </core:DataTriggerBehavior>
+                    <core:DataTriggerBehavior Binding="{Binding IsChecked, ElementName=ChangeExplorerViewStateButton}" Value="True">
+                        <core:ChangePropertyAction TargetObject="{Binding ElementName=ChangeExplorerViewStateButton}" PropertyName="Icon" Value="List" />
+                    </core:DataTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </AppBarToggleButton>
+        </CommandBar>
     </Grid>
 </UserControl>
