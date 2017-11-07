@@ -85,6 +85,8 @@ namespace kmd.Core.Explorer
             set => SetValue(CurrentFolderProperty, value);
         }
 
+        public IStorageFolder RootFolder { get; set; }
+
         public int ExplorerId { get; set; }
 
         public PathBox PathBoxControl => PathBox;
@@ -161,7 +163,7 @@ namespace kmd.Core.Explorer
         private async void ExplorerControl_Loaded(object sender, RoutedEventArgs e)
         {
             ExplorerManager.ExplorerManager.Register(this);
-            await ViewModel.InitializeAsync();
+            await ViewModel.InitializeAsync(RootFolder);
         }
 
         private void ExplorerControl_Unloaded(object sender, RoutedEventArgs e)

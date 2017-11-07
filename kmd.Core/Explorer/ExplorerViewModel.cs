@@ -33,14 +33,14 @@ namespace kmd.Core.Explorer
             _locationService = locationService ?? throw new ArgumentNullException(nameof(locationService));
         }
 
-        public async Task InitializeAsync()
+        public async Task InitializeAsync(IStorageFolder folder = null)
         {
             CommandBindings = _commandBindingsProvider.GetBindings(this);
             NavigationHistory = new ExplorerNavigationHistory();
             SelectedItems = new ObservableCollection<IExplorerItem>();
             var locations = await _locationService.GetLocationsAsync();
             Locations = new ObservableCollection<IStorageFolder>(locations);
-            CurrentFolder = Locations.First();
+            CurrentFolder = folder ?? Locations.First();
         }
 
         public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
