@@ -372,5 +372,15 @@ namespace kmd.Core.Explorer
         {
             ExplorerManagerControl.Current = this;
         }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(OpenSelectedItemCommand));
+        }
+
+        private void OpenWith_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(OpenWithSelectedItemCommand));
+        }
     }
 }

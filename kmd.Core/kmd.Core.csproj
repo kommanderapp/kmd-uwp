@@ -151,6 +151,7 @@
     <Compile Include="Explorer\Commands\NavigateCommand.cs" />
     <Compile Include="Explorer\Commands\NavigateToParrentCommand.cs" />
     <Compile Include="Explorer\Commands\OpenSelectedItemCommand.cs" />
+    <Compile Include="Explorer\Commands\OpenWithSelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\PasteToCurrentFolderCommand.cs" />
     <Compile Include="Explorer\Commands\RenameSelectedItemCommand.cs" />
     <Compile Include="Explorer\Commands\SelectedItemDetailsCommand.cs" />

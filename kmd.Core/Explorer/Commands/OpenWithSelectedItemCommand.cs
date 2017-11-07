@@ -7,10 +7,10 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("OpenSelectedItem", "OpenSelectedItem", ModifierKeys.None, VirtualKey.Enter)]
-    public class OpenSelectedItemCommand : ExplorerCommandBase
+    [ExplorerCommand("OpenWithSelectedItemCommand", "OpenWithSelectedItemCommand", ModifierKeys.Control, VirtualKey.O)]
+    public class OpenWithSelectedItemCommand : ExplorerCommandBase
     {
-        public OpenSelectedItemCommand(IFileLauncher fileLauncher)
+        public OpenWithSelectedItemCommand(IFileLauncher fileLauncher)
         {
             _fileLauncher = fileLauncher ?? throw new ArgumentNullException(nameof(fileLauncher));
         }
@@ -21,19 +21,15 @@ namespace kmd.Core.Explorer.Commands
 
         protected override bool OnCanExecute(IExplorerViewModel vm)
         {
-            return vm.SelectedItem != null;
+            return vm.SelectedItem != null && vm.SelectedItem.IsFile;
         }
 
         protected override async void OnExecuteAsync(IExplorerViewModel vm)
         {
             var selectedItem = vm.SelectedItem;
-            if (selectedItem.IsFolder)
+            if (selectedItem.IsFile)
             {
-                vm.CurrentFolder = selectedItem.AsFolder;
-            }
-            else
-            {
-                await _fileLauncher.LaunchAsync(selectedItem.AsFile);
+                await _fileLauncher.LaunchAsync(selectedItem.AsFile, displayApplicationPicker: true);
             }
         }
     }

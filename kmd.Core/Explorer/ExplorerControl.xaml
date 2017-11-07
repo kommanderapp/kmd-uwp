@@ -26,6 +26,8 @@
 
         <MenuFlyout x:Key="ExplorerItemMenuFlyout">
             <MenuFlyout.Items>
+                <MenuFlyoutItem Click="Open_Click" Text="Open" />
+                <MenuFlyoutItem Click="OpenWith_Click" Text="Open With" />
                 <MenuFlyoutItem Click="Cut_Click" Text="Cut" />
                 <MenuFlyoutItem Click="Copy_Click" Text="Copy" />
                 <MenuFlyoutItem Click="Delete_Click" Text="Delete" />
