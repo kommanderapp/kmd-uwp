@@ -26,27 +26,85 @@
 
         <MenuFlyout x:Key="ExplorerItemMenuFlyout">
             <MenuFlyout.Items>
-                <MenuFlyoutItem Click="Open_Click" Text="Open" />
-                <MenuFlyoutItem Click="OpenWith_Click" Text="Open With" />
-                <MenuFlyoutItem Click="Cut_Click" Text="Cut" />
-                <MenuFlyoutItem Click="Copy_Click" Text="Copy" />
-                <MenuFlyoutItem Click="Delete_Click" Text="Delete" />
-                <MenuFlyoutItem Click="Rename_Click" Text="Rename" />
-                <MenuFlyoutItem Click="GroupRename_Click" Text="Group rename" />
-                <MenuFlyoutItem Click="GroupItems_Click" Text="Group items" />
+                <MenuFlyoutItem Click="Open_Click" Text="Open">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="OpenFile" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Click="OpenWith_Click" Text="Open With">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="OpenWith" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Click="Cut_Click" Text="Cut">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Cut" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Click="Copy_Click" Text="Copy">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Copy" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Click="Paste_Click" Text="Paste here">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Paste" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Click="Delete_Click" Text="Delete">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Delete" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Click="Rename_Click" Text="Rename">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Rename" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
                 <MenuFlyoutItem
                     Click="ChangeExtension_Click"
                     Text="Change extension"
-                    Visibility="{Binding IsFile, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <MenuFlyoutItem Click="Details_Click" Text="Details" />
-                <MenuFlyoutItem Click="Paste_Click" Text="Paste here" />
-                <MenuFlyoutItem Click="AddNewFolder_Click" Text="Add new folder" />
+                    Visibility="{Binding IsFile, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Rename" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Click="GroupRename_Click" Text="Group rename">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Rename" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Click="GroupItems_Click" Text="Group items">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Manage" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Click="Details_Click" Text="Details">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="ViewAll" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Click="AddNewFolder_Click" Text="New folder">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="NewFolder" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
             </MenuFlyout.Items>
         </MenuFlyout>
         <MenuFlyout x:Key="ExplorerMenuFlyout">
             <MenuFlyout.Items>
-                <MenuFlyoutItem Click="Paste_Click" Text="Paste here" />
-                <MenuFlyoutItem Click="AddNewFolder_Click" Text="Add new folder" />
+                <MenuFlyoutItem Click="Paste_Click" Text="Paste">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Paste" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Click="AddNewFolder_Click" Text="New Folder">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="NewFolder" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
             </MenuFlyout.Items>
         </MenuFlyout>
     </UserControl.Resources>
