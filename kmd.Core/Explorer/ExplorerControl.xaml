@@ -22,7 +22,7 @@
     <UserControl.Resources>
         <explorer:ExplorerViewModelLocator x:Key="ExplorerViewModelLocator" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <converteresExt:BooleanToActiveExplorerTicknessConverter x:Key="BooleanToActiveExplorerTicknessConverter" />
+        <converteresExt:BooleanToActiveExplorerConverter x:Key="BooleanToActiveExplorerConverter" />
 
         <MenuFlyout x:Key="ExplorerItemMenuFlyout">
             <MenuFlyout.Items>
@@ -51,8 +51,8 @@
     <Border
         x:Name="IsActiveBorder"
         Padding="0,10,0,0"
-        BorderBrush="{ThemeResource SystemAccentColor}"
-        BorderThickness="{x:Bind IsActive, Mode=OneWay, Converter={StaticResource BooleanToActiveExplorerTicknessConverter}}">
+        BorderBrush="{x:Bind IsActive, Mode=OneWay, Converter={StaticResource BooleanToActiveExplorerConverter}}"
+        BorderThickness="0,3,0,0">
 
         <Grid x:Name="RootElement" DataContext="{Binding ExplorerViewModel, Source={StaticResource ExplorerViewModelLocator}}">
 

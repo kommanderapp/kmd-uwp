@@ -185,7 +185,7 @@
     </Compile>
     <Compile Include="Explorer\ExplorerViewModel.cs" />
     <Compile Include="Explorer\Models\ExplorerNavigationHistory.cs" />
-    <Compile Include="Extensions\Converters\BooleanToActiveExplorerTicknessConverter.cs" />
+    <Compile Include="Extensions\Converters\BooleanToActiveExplorerConverter.cs" />
     <Compile Include="FluentKeyboard.xaml.cs">
       <DependentUpon>FluentKeyboard.xaml</DependentUpon>
     </Compile>
