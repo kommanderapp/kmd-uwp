@@ -24,8 +24,12 @@ namespace kmd.Core.Hotkeys
 
         public static bool IsCtrlKeyPressed { get; private set; } = false;
 
+        public static bool IsDisabled { get; set; } = false;
+
         private static void CharacterReceivedHandler(CoreWindow sender, CharacterReceivedEventArgs e)
         {
+            if (IsDisabled) return;
+
             var uniChar = Unicode.ToString(e.KeyCode);
             var args = new CharReceivedEventArgs(uniChar);
             CharacterReceived?.Invoke(sender, args);
@@ -34,6 +38,8 @@ namespace kmd.Core.Hotkeys
 
         private static void KeyDownHandler(CoreWindow sender, KeyEventArgs e)
         {
+            if (IsDisabled) return;
+
             if (e.VirtualKey == VirtualKey.Control)
             {
                 IsCtrlKeyPressed = true;
@@ -51,6 +57,8 @@ namespace kmd.Core.Hotkeys
 
         private static void KeyUpHandler(CoreWindow sender, KeyEventArgs e)
         {
+            if (IsDisabled) return;
+
             if (e.VirtualKey == VirtualKey.Control) IsCtrlKeyPressed = false;
         }
     }

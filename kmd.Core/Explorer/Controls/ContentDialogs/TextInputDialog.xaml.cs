@@ -15,6 +15,13 @@ namespace kmd.Core.Explorer.Controls.ContentDialogs
             CloseButtonText = "Cancel";
             
             textBox.TextChanged += TextBox_TextChanged;
+            textBox.KeyDown += TextBox_KeyDown;
+        }
+
+        private void TextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+                Hide();
         }
 
         private bool _initialized = false;

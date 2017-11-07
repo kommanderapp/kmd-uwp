@@ -11,6 +11,8 @@ namespace kmd.Core.Explorer.Controls.ContentDialogs
             InitializeComponent();
 
             File = item;
+
+            
         }
 
         public string Size => GetSizeFromByteCount(BasicProperties.Size);
