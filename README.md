@@ -30,7 +30,3 @@ Release Date: **11/15/2017**
 * Quick-access locations
 * Fully configurable hotkeys
 * Navigate by path
-
-### Contribution
-
-We are welcome to any contribution. Feel free to grab from Issues, or add new Feature-Requests/Bugs there.
