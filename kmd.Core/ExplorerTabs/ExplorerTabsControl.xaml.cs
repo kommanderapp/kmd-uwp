@@ -36,11 +36,7 @@ namespace kmd.Core.ExplorerTabs
         {
             var explorer = new ExplorerControl();
             explorer.ExplorerManagerControl = ExplorerManager;
-
-            if (storageFolder != null)
-            {
-                explorer.Loaded += (s, e) => { (s as ExplorerControl).CurrentFolder = storageFolder; };
-            }
+            explorer.RootFolder = storageFolder;
 
             var pvItem = ConfigurePivotItem(explorer);
 

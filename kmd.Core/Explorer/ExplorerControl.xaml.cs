@@ -86,6 +86,8 @@ namespace kmd.Core.Explorer
             set => SetValue(CurrentFolderProperty, value);
         }
 
+        public IStorageFolder RootFolder { get; set; }
+
         public int ExplorerId { get; set; }
 
         public PathBox PathBoxControl => PathBox;
@@ -162,7 +164,7 @@ namespace kmd.Core.Explorer
         private async void ExplorerControl_Loaded(object sender, RoutedEventArgs e)
         {
             ExplorerManager.ExplorerManager.Register(this);
-            await ViewModel.InitializeAsync();
+            await ViewModel.InitializeAsync(RootFolder);
         }
 
         private void ExplorerControl_Unloaded(object sender, RoutedEventArgs e)
@@ -292,16 +294,25 @@ namespace kmd.Core.Explorer
 
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
+            if (ViewModel.SelectedItems.Count < 2)
+                ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
+
             ViewModel.ExecuteCommand(typeof(CopySelectedItemCommand));
         }
 
         private void Cut_Click(object sender, RoutedEventArgs e)
         {
+            if (ViewModel.SelectedItems.Count < 2)
+                ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
+
             ViewModel.ExecuteCommand(typeof(CutSelectedItemCommand));
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
+            if (ViewModel.SelectedItems.Count < 2)
+                ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
+
             ViewModel.ExecuteCommand(typeof(DeleteSelectedItemCommand));
         }
 
@@ -312,11 +323,13 @@ namespace kmd.Core.Explorer
 
         private void Expand_Click(object sender, RoutedEventArgs e)
         {
+            ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
             ViewModel.ExecuteCommand(typeof(ExplodeCurrentFolderCommand));
         }
 
         private void CopyPath_Click(object sender, RoutedEventArgs e)
         {
+            ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
             ViewModel.ExecuteCommand(typeof(ItemPathToClipboardCommand));
         }
 
@@ -328,6 +341,7 @@ namespace kmd.Core.Explorer
 
         private void Rename_Click(object sender, RoutedEventArgs e)
         {
+            ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
             ViewModel.ExecuteCommand(typeof(RenameSelectedItemCommand));
         }
 
@@ -343,6 +357,7 @@ namespace kmd.Core.Explorer
 
         private void Details_Click(object sender, RoutedEventArgs e)
         {
+            ViewModel.SelectedItem = (sender as MenuFlyoutItem).DataContext as IExplorerItem;
             ViewModel.ExecuteCommand(typeof(SelectedItemDetailsCommand));
         }
 
@@ -406,6 +421,16 @@ namespace kmd.Core.Explorer
         private void UserControl_GettingFocus(UIElement sender, Windows.UI.Xaml.Input.GettingFocusEventArgs args)
         {
             ExplorerManagerControl.Current = this;
+        }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(OpenSelectedItemCommand));
+        }
+
+        private void OpenWith_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteCommand(typeof(OpenWithSelectedItemCommand));
         }
     }
 }

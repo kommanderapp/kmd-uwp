@@ -231,4 +231,13 @@
   <data name="Shell_Locations" xml:space="preserve">
     <value>Locations</value>
   </data>
+  <data name="Settings_ExplorerMode.Text" xml:space="preserve">
+    <value>Chose explorer mode</value>
+  </data>
+  <data name="Settings_ExplorerMode_Double.Content" xml:space="preserve">
+    <value>Double</value>
+  </data>
+  <data name="Settings_ExplorerMode_Single.Content" xml:space="preserve">
+    <value>Single</value>
+  </data>
 </root>
