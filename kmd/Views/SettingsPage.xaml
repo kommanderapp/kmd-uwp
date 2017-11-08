@@ -2,12 +2,12 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:converters="using:kmd.Helpers.Converters"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:xaml="using:Windows.UI.Xaml"
-      xmlns:viewmodels="using:kmd.ViewModels"
       xmlns:core="using:kmd.Core"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:hotkeys="using:kmd.Core.Hotkeys"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:viewmodels="using:kmd.ViewModels"
+      xmlns:xaml="using:Windows.UI.Xaml"
       DataContext="{Binding SettingsViewModel, Source={StaticResource Locator}}"
       mc:Ignorable="d">
     <Page.Resources>
@@ -63,10 +63,10 @@
                         </StackPanel>
 
                         <TextBlock x:Uid="Settings_ExplorerMode"
-                                   Style="{StaticResource BodyTextStyle}"
-                                   Margin="{StaticResource TwentyTopMargin}"/>
+                                   Margin="{StaticResource TwentyTopMargin}"
+                                   Style="{StaticResource BodyTextStyle}" />
 
-                        <StackPanel  Margin="{StaticResource EightTopMargin}">
+                        <StackPanel Margin="{StaticResource EightTopMargin}">
                             <RadioButton x:Uid="Settings_ExplorerMode_Single"
                                          Command="{Binding SwitchExplorerModeCommand}"
                                          GroupName="ExplorerMode"
@@ -111,55 +111,85 @@
                     </PivotItem.Header>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <GridView Grid.Column="0" ItemsSource="{x:Bind ViewModel.HotkeySettings, Mode=OneWay}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <GridView Grid.Column="0"
+                                  ItemsSource="{x:Bind ViewModel.HotkeySettings, Mode=OneWay}"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto">
                             <GridView.ItemContainerTransitions>
                                 <TransitionCollection>
-                                    <EntranceThemeTransition IsStaggeringEnabled="True" 
-                                         FromVerticalOffset="0" 
-                                         FromHorizontalOffset="-200"/>
-                                    <ContentThemeTransition  HorizontalOffset="-200" VerticalOffset="0" />
+                                    <EntranceThemeTransition FromHorizontalOffset="-200"
+                                                             FromVerticalOffset="0"
+                                                             IsStaggeringEnabled="True" />
+                                    <ContentThemeTransition HorizontalOffset="-200"
+                                                            VerticalOffset="0" />
                                 </TransitionCollection>
                             </GridView.ItemContainerTransitions>
                             <GridView.ItemTemplate>
                                 <DataTemplate x:DataType="hotkeys:HotkeySettingAdapter">
-                                    <Button Margin="15" Opacity="1" Style="{StaticResource ButtonRevealStyle}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="260" Height="90">                                        
+                                    <Button Width="260"
+                                            Height="90"
+                                            Margin="15"
+                                            HorizontalContentAlignment="Stretch"
+                                            VerticalContentAlignment="Stretch"
+                                            Opacity="1"
+                                            Style="{StaticResource ButtonRevealStyle}">
                                         <Button.Flyout>
-                                            <Flyout Placement="Right" >
+                                            <Flyout Placement="Right">
                                                 <Flyout.FlyoutPresenterStyle>
                                                     <Style TargetType="FlyoutPresenter">
-                                                        <Setter Property="Width" Value="700"/>
-                                                        <Setter Property="MinWidth" Value="700"/>
-                                                        <Setter Property="BorderThickness" Value="0"/>
-                                                        <Setter Property="MaxWidth" Value="700"/>                                                        
-                                                        <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush }"/>
+                                                        <Setter Property="Width" Value="700" />
+                                                        <Setter Property="MinWidth" Value="700" />
+                                                        <Setter Property="BorderThickness" Value="0" />
+                                                        <Setter Property="MaxWidth" Value="700" />
+                                                        <Setter Property="Background" Value="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush}" />
                                                         <Setter Property="Transitions">
                                                             <Setter.Value>
                                                                 <TransitionCollection>
-                                                                    <PopupThemeTransition  />
+                                                                    <PopupThemeTransition />
                                                                 </TransitionCollection>
                                                             </Setter.Value>
                                                         </Setter>
                                                     </Style>
                                                 </Flyout.FlyoutPresenterStyle>
-                                                <core:FluentKeyboard HorizontalAlignment="Center" VerticalAlignment="Center" Key="{x:Bind Key, Mode=TwoWay}" ModifierKey="{x:Bind ModifierKey, Mode=TwoWay}"/>
+                                                <core:FluentKeyboard Key="{x:Bind Key, Mode=TwoWay}"
+                                                                     HorizontalAlignment="Center"
+                                                                     VerticalAlignment="Center"
+                                                                     ModifierKey="{x:Bind ModifierKey, Mode=TwoWay}" />
                                             </Flyout>
                                         </Button.Flyout>
                                         <StackPanel VerticalAlignment="Stretch">
-                                            <TextBlock Margin="-2,0,0,0" Text="{x:Bind Description}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                                            <StackPanel Margin="0,18,0,0" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                                <TextBlock FontSize="22" VerticalAlignment="Center" Text="{Binding ModifierKey}" Opacity="0.7" Visibility="{Binding HasModifierKey, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                                <TextBlock Padding="3,0" VerticalAlignment="Center" FontSize="25" Text="+" Visibility="{Binding HasModifierKey, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                                <TextBlock FontSize="28" VerticalAlignment="Center" Text="{Binding KeyString}"/>
-                                            </StackPanel>                                            
+                                            <TextBlock Margin="-2,0,0,0"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Top"
+                                                       Text="{x:Bind Description}" />
+                                            <StackPanel Margin="0,18,0,0"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Stretch"
+                                                        Orientation="Horizontal">
+                                                <TextBlock VerticalAlignment="Center"
+                                                           FontSize="22"
+                                                           Opacity="0.7"
+                                                           Text="{Binding ModifierKey}"
+                                                           Visibility="{Binding HasModifierKey, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                <TextBlock Padding="3,0"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="25"
+                                                           Text="+"
+                                                           Visibility="{Binding HasModifierKey, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                <TextBlock VerticalAlignment="Center"
+                                                           FontSize="28"
+                                                           Text="{Binding KeyString}" />
+                                            </StackPanel>
                                         </StackPanel>
                                     </Button>
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
-                        <Button Command="{x:Bind ViewModel.ResetDefaultHotkeysCommand}" Grid.Row="1" Content="Reset defaults"/>
+                        <Button Grid.Row="1"
+                                Command="{x:Bind ViewModel.ResetDefaultHotkeysCommand}"
+                                Content="Reset defaults" />
                     </Grid>
                 </PivotItem>
             </Pivot>

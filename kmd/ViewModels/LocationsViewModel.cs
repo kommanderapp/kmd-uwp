@@ -3,6 +3,7 @@ using kmd.Core.Services.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Storage;
 
 namespace kmd.ViewModels
@@ -10,7 +11,7 @@ namespace kmd.ViewModels
     public class LocationsViewModel : ViewModelBase
     {
         private ILocationService _locationService;
-
+      
         public LocationsViewModel(ILocationService locationService)
         {
             _locationService = locationService ?? throw new ArgumentNullException(nameof(locationService));
@@ -43,6 +44,12 @@ namespace kmd.ViewModels
             {
                 Locations.Add(location);
             }
+        }
+
+        public async Task RemoveLocationAsync(IStorageFolder location)
+        {
+            await _locationService.RemoveLocationAsync(location);
+            Locations.Remove(location);
         }
     }
 }

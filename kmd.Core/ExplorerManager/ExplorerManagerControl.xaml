@@ -22,12 +22,12 @@
                 <AutoSuggestBox
                     Width="200"
                     Margin="8,8,0,0"
-                    PlaceholderText="Search"
-                    QueryIcon="Find"
                     GotFocus="AutoSuggestBox_GotFocus"
                     LostFocus="AutoSuggestBox_LostFocus"
-                    TextChanged="AutoSuggestBox_TextChanged"
-                    QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
+                    PlaceholderText="Search"
+                    QueryIcon="Find"
+                    QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+                    TextChanged="AutoSuggestBox_TextChanged" />
             </CommandBar.Content>
             <AppBarButton Click="NavigateBackward_Click" Label="Back">
                 <AppBarButton.Icon>
@@ -128,12 +128,20 @@
                             PropertyName="Icon"
                             TargetObject="{Binding ElementName=ChangeExplorerViewStateButton}"
                             Value="ViewAll" />
+                        <core:ChangePropertyAction
+                            PropertyName="Label"
+                            TargetObject="{Binding ElementName=ChangeExplorerViewStateButton}"
+                            Value="GridView" />
                     </core:DataTriggerBehavior>
                     <core:DataTriggerBehavior Binding="{Binding IsChecked, ElementName=ChangeExplorerViewStateButton}" Value="True">
                         <core:ChangePropertyAction
                             PropertyName="Icon"
                             TargetObject="{Binding ElementName=ChangeExplorerViewStateButton}"
                             Value="List" />
+                        <core:ChangePropertyAction
+                            PropertyName="Label"
+                            TargetObject="{Binding ElementName=ChangeExplorerViewStateButton}"
+                            Value="ListView" />
                     </core:DataTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </AppBarToggleButton>

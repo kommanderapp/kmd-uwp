@@ -192,7 +192,7 @@
       <DependentUpon>FluentKeyboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\IDialogServiceExtensions.cs" />
-    <Compile Include="Helpers\DependencyObjectExtensions.cs" />
+    <Compile Include="Helpers\VisualTreeExtensions.cs" />
     <Compile Include="Helpers\DragOperations.cs" />
     <Compile Include="Helpers\NameCollision.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />

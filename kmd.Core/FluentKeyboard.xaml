@@ -52,7 +52,7 @@
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
-            <ToggleButton Grid.Column="0" Content="Esc" HorizontalContentAlignment="Left" IsChecked="{x:Bind Key, Converter={StaticResource VirtualKeyToCheckedConverter}, ConverterParameter=Escape, Mode=TwoWay}"/>
+            <ToggleButton Grid.Column="0" Content="Esc" IsChecked="{x:Bind Key, Converter={StaticResource VirtualKeyToCheckedConverter}, ConverterParameter=Escape, Mode=TwoWay}"  Padding="0" FontSize="16" HorizontalContentAlignment="Center"/>
             <ToggleButton Grid.Column="1" Content="F1" IsChecked="{x:Bind Key, Converter={StaticResource VirtualKeyToCheckedConverter}, ConverterParameter=F1, Mode=TwoWay}"/>
             <ToggleButton Grid.Column="2" Content="F2" IsChecked="{x:Bind Key, Converter={StaticResource VirtualKeyToCheckedConverter}, ConverterParameter=F2, Mode=TwoWay}"/>
             <ToggleButton Grid.Column="3" Content="F3" IsChecked="{x:Bind Key, Converter={StaticResource VirtualKeyToCheckedConverter}, ConverterParameter=F3, Mode=TwoWay}"/>

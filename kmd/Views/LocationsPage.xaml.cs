@@ -1,28 +1,17 @@
-﻿using kmd.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System;
+using kmd.ViewModels;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+using kmd.Core.Helpers;
 
 namespace kmd.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class LocationsPage : Page
     {
+        private IStorageFolder _selectedItem;
         public LocationsPage()
         {
             this.InitializeComponent();
@@ -41,6 +30,76 @@ namespace kmd.Views
         private async void NewLocation_Click(object sender, RoutedEventArgs e)
         {
             await ViewModel.PickLocationAsync();
+        }
+
+        private async void DeleteMenuFlyout_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (_selectedItem != null) await ViewModel.RemoveLocationAsync(_selectedItem);
+        }
+
+        private void MenuFlyout_Opening(object sender, object e)
+        {
+            MenuFlyout senderAsMenuFlyout = sender as MenuFlyout;
+            ListViewItem itemContainer = senderAsMenuFlyout.Target as ListViewItem;
+            var currentItem = locationsListView.ItemFromContainer(itemContainer);
+
+            if (currentItem is IStorageFolder storageFolder)
+            {
+                _selectedItem = storageFolder;
+            }
+        }
+
+        private async void DeleteSwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
+        {
+            if (args.SwipeControl.DataContext is IStorageFolder storageFolder)
+            {
+                await ViewModel.RemoveLocationAsync(storageFolder);
+            }
+        }
+
+        private async void DeleteButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if(sender is Button deleteButton && deleteButton.DataContext is IStorageFolder storageFolder)
+            {
+                await ViewModel.RemoveLocationAsync(storageFolder);
+            }
+        }
+
+        private void locationsListView_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        {
+            if (args.ItemContainer != null)
+            {
+                return;
+            }
+
+            ListViewItem containerItem = new ListViewItem();
+                        
+            containerItem.PointerEntered += ContainerItem_PointerEntered;
+            containerItem.PointerExited += ContainerItem_PointerExited;
+
+            args.ItemContainer = containerItem;
+        }
+
+        private void ContainerItem_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Touch)
+            {
+                var item = sender as ListViewItem;
+                var deleteButton = item.GetVisualChildByName<Button>("DeleteButton");
+
+                deleteButton.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void ContainerItem_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Touch)
+            {
+                var item = sender as ListViewItem;
+                var deleteButton = item.GetVisualChildByName<Button>("DeleteButton");
+
+                deleteButton.Visibility = Visibility.Visible;
+            }
         }
     }
 }

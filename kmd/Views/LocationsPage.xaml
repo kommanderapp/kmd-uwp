@@ -3,28 +3,124 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:storage="using:Windows.Storage"
       DataContext="{Binding LocationsViewModel, Source={StaticResource Locator}}"
       mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.Resources>
+            <DataTemplate x:Key="LocationItemTemplate"
+                          x:DataType="storage:IStorageFolder">
+                <SwipeControl x:Name="swipeContainer">
+                    <SwipeControl.RightItems>
+                        <SwipeItems Mode="Reveal">
+                            <SwipeItem x:Name="swipeDelete"
+                                       Background="{ThemeResource SystemAccentColor}"
+                                       Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                                       Invoked="DeleteSwipeItem_Invoked"
+                                       Text="Delete">
+                                <SwipeItem.IconSource>
+                                    <SymbolIconSource Symbol="Delete" />
+                                </SwipeItem.IconSource>
+                            </SwipeItem>
+                        </SwipeItems>
+                    </SwipeControl.RightItems>
+
+                    <Grid Height="90"
+                          Background="{ThemeResource SystemControlTransparentBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Width="150"
+                                Height="70"
+                                Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+                                BorderThickness="1">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="22"
+                                       Text="{x:Bind Name}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Border>
+                        <TextBlock Grid.Column="1"
+                                   Margin="20,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   Text="{x:Bind Path}"
+                                   TextTrimming="CharacterEllipsis" />
+                        <Button x:Name="DeleteButton"
+                                Grid.Column="2"
+                                Width="48"
+                                Height="48"
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Right"
+                                Background="{ThemeResource AppBarButtonRevealBackground}"
+                                Click="DeleteButton_OnClick"
+                                FontSize="16"
+                                Style="{StaticResource ButtonRevealStyle}"
+                                ToolTipService.ToolTip="Delete"
+                                Visibility="Collapsed">
+                            <Button.Content>
+                                <Viewbox Width="16"
+                                         Height="16"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center">
+                                    <SymbolIcon Symbol="Delete" />
+                                </Viewbox>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </SwipeControl>
+            </DataTemplate>
+        </Grid.Resources>
         <Grid Margin="{StaticResource MediumLeftRightMargin}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="48" />
+                <RowDefinition Height="70" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock x:Name="TitlePage"
                        x:Uid="Locations_Title"
                        Grid.Row="0"
                        Style="{StaticResource PageTitleStyle}" />
-            <StackPanel Grid.Row="1">
-                <TextBlock x:Uid="Locations_Description"
-                           Style="{StaticResource SubtitleTextBlockStyle}" />
-                <ListView DisplayMemberPath="Name"
-                          ItemsSource="{Binding Locations}" />
-                <Button x:Name="NewLocation"
-                        Click="NewLocation_Click"
-                        Content="Add Location"
-                        Style="{StaticResource ButtonRevealStyle}" />
-            </StackPanel>
+
+            <ListView x:Name="locationsListView"
+                      Grid.Row="1"
+                      Padding="0,0,24,0"
+                      ChoosingItemContainer="locationsListView_ChoosingItemContainer"
+                      IsItemClickEnabled="True"
+                      ItemTemplate="{StaticResource LocationItemTemplate}"
+                      ItemsSource="{Binding Locations}"
+                      SelectionMode="None">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Margin" Value="0,5" />
+                        <Setter Property="ContextFlyout">
+                            <Setter.Value>
+                                <MenuFlyout Opening="MenuFlyout_Opening">
+                                    <MenuFlyoutItem Name="Delete"
+                                                    Click="DeleteMenuFlyout_OnClick"
+                                                    Icon="Delete"
+                                                    Text="Delete" />
+                                </MenuFlyout>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+            <Button Grid.Row="2"
+                    Height="50"
+                    Margin="0,0,24,16"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    HorizontalContentAlignment="Center"
+                    Click="NewLocation_Click"
+                    FontSize="24"
+                    Opacity="1"
+                    Style="{StaticResource ButtonRevealStyle}">
+                Add
+            </Button>
         </Grid>
     </Grid>
 </Page>
