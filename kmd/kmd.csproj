@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
+    <Compile Include="Activation\VoiceActivationHandler.cs" />
     <Compile Include="DependecyInjection\ServiceLocatorInitializer.cs" />
     <Compile Include="Helpers\Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
     <Compile Include="Helpers\Converters\ModifierKeyToCheckedConverter.cs" />
     <Compile Include="Helpers\Converters\VirtualKeyToCheckedConverter.cs" />
+    <Compile Include="Services\CortanaVCDInstallingService.cs" />
     <Compile Include="Services\NavigationServiceEx.cs" />
     <Compile Include="Services\RateAndFeedbackService.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
@@ -267,6 +269,9 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="KommanderVoiceCommands.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>

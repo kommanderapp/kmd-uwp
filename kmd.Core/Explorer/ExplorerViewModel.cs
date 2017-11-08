@@ -96,7 +96,20 @@ namespace kmd.Core.Explorer
             }
         }
 
-        public FilterOptions FilterOptions { get; set; }
+        private FilterOptions _filterOptions;
+
+        public FilterOptions FilterOptions
+        {
+            get
+            {
+                return _filterOptions;
+            }
+            set
+            {
+                _filterOptions = value;
+                this.ExecuteCommand(typeof(FilterCommand));
+            }
+        }
 
         public bool IsBusy
         {
