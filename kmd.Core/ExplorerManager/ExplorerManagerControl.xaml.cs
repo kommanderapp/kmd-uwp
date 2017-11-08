@@ -1,6 +1,7 @@
 ﻿using kmd.Core.Command;
 using kmd.Core.Explorer;
 using kmd.Core.Explorer.Commands;
+using kmd.Core.Explorer.States;
 using kmd.Core.Hotkeys;
 using System;
 using System.Linq;
@@ -117,6 +118,74 @@ namespace kmd.Core.ExplorerManager
         }
 
         public static readonly DependencyProperty CurrentProperty =
-            DependencyProperty.Register("Current", typeof(ExplorerControl), typeof(ExplorerManagerControl), new PropertyMetadata(null));
+            DependencyProperty.Register("Current", typeof(ExplorerControl), typeof(ExplorerManagerControl), new PropertyMetadata(null, CurrentExplorerChanged));
+
+        private static void CurrentExplorerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ExplorerManagerControl explorerManager) explorerManager.UpdateBindings(); 
+        }
+
+        public bool ChangeExplorerViewState
+        {
+            get
+            {
+                if (Current == null) return false;
+
+                switch (Current.ExplorerViewStates)
+                {
+                    case ExplorerViewStates.DataGrid:
+                        return false;                        
+                    case ExplorerViewStates.Tiles:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+            set
+            {
+                if (Current != null)
+                {
+                    if (value)
+                    {
+                        Current.ExplorerViewStates = ExplorerViewStates.Tiles;
+                    }
+                    else
+                    {
+                        Current.ExplorerViewStates = ExplorerViewStates.DataGrid;
+                    }
+                }
+
+                Bindings.Update();
+            }
+        }
+
+        public void UpdateBindings()
+        {
+            Bindings.Update();
+        }
+
+        private string _searchQueryText;
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if(args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                _searchQueryText = sender.Text;
+            }
+        }
+
+        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {           
+            Current.ViewModel.FilterOptions = new Storage.Contracts.FilterOptions() { QueryText = _searchQueryText };
+        }
+
+        private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            KeyEventsAgregator.IsDisabled = true;
+        }
+
+        private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            KeyEventsAgregator.IsDisabled = false;
+        }
     }
 }

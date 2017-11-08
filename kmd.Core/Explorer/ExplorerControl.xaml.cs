@@ -3,6 +3,7 @@ using kmd.Core.Explorer.Commands;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Controls;
 using kmd.Core.Explorer.Controls.Breadcrumb;
+using kmd.Core.Explorer.States;
 using kmd.Core.ExplorerManager;
 using kmd.Core.Helpers;
 using kmd.Storage.Extensions;
@@ -91,7 +92,7 @@ namespace kmd.Core.Explorer
 
         public PathBox PathBoxControl => PathBox;
 
-        public ExplorerListView StorageItemsControl => StorageItems;
+        public ExplorerGridView StorageItemsControl => StorageItems;
 
         public ExplorerViewModel ViewModel => RootElement.DataContext as ExplorerViewModel;
 
@@ -268,11 +269,11 @@ namespace kmd.Core.Explorer
 
         private void StorageItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var listView = sender as ListView;
-            if (listView?.SelectedItem != null)
+            var itemsContainer = sender as ListViewBase;
+            if (itemsContainer?.SelectedItem != null)
             {
                 StorageItemsControl.ForceFocusSelectedItem();
-                listView.ScrollIntoView(listView.SelectedItem);
+                itemsContainer.ScrollIntoView(itemsContainer.SelectedItem);
             }
 
             foreach (var item in e.AddedItems)
@@ -381,8 +382,42 @@ namespace kmd.Core.Explorer
             {
                 PathBox.Text = ViewModel.CurrentFolder.Path;
             }
+        }       
+
+        private ExplorerViewStates _explorerState;
+        public ExplorerViewStates ExplorerViewStates
+        {
+            get => _explorerState;
+            set
+            {
+                if (value == _explorerState) return;
+                switch (value)
+                {
+                    case ExplorerViewStates.DataGrid:
+                        ShowAsDataGrid();
+                        break;
+                    case ExplorerViewStates.Tiles:
+                        ShowAsTiles();
+                        break;
+                    default:
+                        break;
+                }
+
+                _explorerState = value;
+            }
         }
 
+        private void ShowAsDataGrid()
+        {
+            StorageItems.ItemsPanel = this.Resources["ItemsStackPanelTemplate"] as ItemsPanelTemplate;
+            StorageItems.ItemTemplate = this.Resources["ExplorerListDataGridItemTemplate"] as DataTemplate;
+        }
+
+        private void ShowAsTiles()
+        {
+            StorageItems.ItemsPanel = this.Resources["ItemsWrapGridTemplate"] as ItemsPanelTemplate;
+            StorageItems.ItemTemplate = this.Resources["ExplorerListTilesItemTemplate"] as DataTemplate;
+        }
         private void UserControl_GettingFocus(UIElement sender, Windows.UI.Xaml.Input.GettingFocusEventArgs args)
         {
             ExplorerManagerControl.Current = this;

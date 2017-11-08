@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="en-us" Name="KommanderVoiceCommands_en-us">
+    <AppName> commander </AppName>
+    <Example> Find jpg files with name myfriend </Example>
+    <Command Name="showFilesWithExtensionAndName">
+      <Example>  Find jpg files with name myfriend </Example>
+      <ListenFor RequireAppName="BeforePhrase"> [show] [find] [look for] {fileType} with name {fileName} </ListenFor>
+      <Feedback> Showing results for {fileType} with name {fileName}</Feedback>
+      <Navigate />
+    </Command>
+    <PhraseList Label="fileType">
+      <Item>pictures</Item>
+      <Item>documents</Item>
+      <Item>videos</Item>
+      <Item>sharp files</Item>
+      <Item>executables</Item>
+    </PhraseList>
+    <PhraseTopic Label="fileName">
+    </PhraseTopic>
+  </CommandSet>
+</VoiceCommands>

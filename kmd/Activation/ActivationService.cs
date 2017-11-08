@@ -99,12 +99,14 @@ namespace kmd.Activation
         private IEnumerable<ActivationHandler> GetActivationHandlers()
         {
             yield return Singleton<ToastNotificationsService>.Instance;
+            yield return Singleton<VoiceActivationHandler>.Instance;
         }
 
         private async Task InitializeAsync()
         {
             await ThemeSelectorService.InitializeAsync();
             await RateAndFeedbackService.CheckShowRateReminder();
+            await CortanaVCDInstallingService.InstallAsync();
 
             await Task.CompletedTask;
         }
