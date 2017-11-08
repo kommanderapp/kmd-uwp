@@ -14,32 +14,37 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    GettingFocus="UserControl_GettingFocus"
     xmlns:storage1="using:Windows.Storage"
     d:DesignHeight="300"
-    d:DesignWidth="400"    
+    d:DesignWidth="400"
+    GettingFocus="UserControl_GettingFocus"
     mc:Ignorable="d">
     <UserControl.Resources>
         <explorer:ExplorerViewModelLocator x:Key="ExplorerViewModelLocator" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converteresExt:BooleanToActiveExplorerConverter x:Key="BooleanToActiveExplorerConverter" />
-       
+
         <ItemsPanelTemplate x:Key="ItemsWrapGridTemplate">
-            <ItemsWrapGrid Orientation="Horizontal"/>
+            <ItemsWrapGrid Orientation="Horizontal" />
         </ItemsPanelTemplate>
-        
+
         <ItemsPanelTemplate x:Key="ItemsStackPanelTemplate">
             <ItemsStackPanel />
         </ItemsPanelTemplate>
 
-        <DataTemplate x:DataType="contracts:IExplorerItem" x:Key="ExplorerListDataGridItemTemplate">
-            <Grid Name="ItemTemplateGrid" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+        <DataTemplate x:Key="ExplorerListDataGridItemTemplate" x:DataType="contracts:IExplorerItem">
+            <Grid
+                Name="ItemTemplateGrid"
+                Height="50"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Transparent">
                 <interactivity:Interaction.Behaviors>
                     <core:DataTriggerBehavior Binding="{Binding IsPhysical}" Value="true">
                         <core:ChangePropertyAction
-                                                PropertyName="ContextFlyout"
-                                                TargetObject="{Binding ElementName=ItemTemplateGrid}"
-                                                Value="{StaticResource ExplorerItemMenuFlyout}" />
+                            PropertyName="ContextFlyout"
+                            TargetObject="{Binding ElementName=ItemTemplateGrid}"
+                            Value="{StaticResource ExplorerItemMenuFlyout}" />
                     </core:DataTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <Grid.ColumnDefinitions>
@@ -49,7 +54,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="{x:Bind Icon}" Height="30" />
+                        <Image Height="30" Source="{x:Bind Icon}" />
                         <TextBlock Text="{x:Bind Name}" />
                     </StackPanel>
                     <TextBlock Text="{x:Bind DisplayType}" />
@@ -64,21 +69,29 @@
 
         </DataTemplate>
 
-        <DataTemplate x:DataType="contracts:IExplorerItem" x:Key="ExplorerListTilesItemTemplate">
-            <Grid Name="ItemControl" Background="Transparent" >                
-                <StackPanel Margin="10" Orientation="Vertical" Height="80" Width="70" >
+        <DataTemplate x:Key="ExplorerListTilesItemTemplate" x:DataType="contracts:IExplorerItem">
+            <Grid Name="ItemControl" Background="Transparent">
+                <StackPanel
+                    Width="70"
+                    Height="80"
+                    Margin="10"
+                    Orientation="Vertical">
                     <interactivity:Interaction.Behaviors>
                         <core:DataTriggerBehavior Binding="{Binding IsPhysical}" Value="true">
                             <core:ChangePropertyAction
-                                                PropertyName="ContextFlyout"
-                                                TargetObject="{Binding ElementName=ItemControl}"
-                                                Value="{StaticResource ExplorerItemMenuFlyout}" />
+                                PropertyName="ContextFlyout"
+                                TargetObject="{Binding ElementName=ItemControl}"
+                                Value="{StaticResource ExplorerItemMenuFlyout}" />
                         </core:DataTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
-                    <Image Source="{x:Bind Icon}" Height="40"/>
-                    <TextBlock Text="{x:Bind Name}" MaxLines="2" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
+                    <Image Height="40" Source="{x:Bind Icon}" />
+                    <TextBlock
+                        MaxLines="2"
+                        Text="{x:Bind Name}"
+                        TextTrimming="WordEllipsis"
+                        TextWrapping="Wrap" />
                 </StackPanel>
-            </Grid>           
+            </Grid>
         </DataTemplate>
 
         <MenuFlyout x:Key="ExplorerItemMenuFlyout">
@@ -238,25 +251,26 @@
                         DragItemsCompleted="StorageItems_DragItemsCompleted"
                         DragItemsStarting="StorageItems_DragItemsStarting"
                         DragOver="StorageItems_DragOver"
-                        Drop="StorageItems_Drop"                      
-                        ItemTemplate="{StaticResource ExplorerListDataGridItemTemplate}"                        
+                        Drop="StorageItems_Drop"
+                        ItemTemplate="{StaticResource ExplorerListDataGridItemTemplate}"
+                        ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
                         ItemsSource="{Binding ExplorerItems}"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                         SelectionChanged="StorageItems_SelectionChanged"
-                        ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
                         SelectionMode="Extended">
                         <controls1:ExplorerGridView.ItemContainerStyle>
                             <Style TargetType="GridViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Bottom" />
+                                <Setter Property="FocusVisualPrimaryBrush" Value="Transparent" />
                             </Style>
-                        </controls1:ExplorerGridView.ItemContainerStyle>                       
+                        </controls1:ExplorerGridView.ItemContainerStyle>
                         <controls1:ExplorerGridView.Style>
                             <Style TargetType="controls1:ExplorerGridView">
-                                <Setter Property="ContextFlyout" Value="{StaticResource ExplorerMenuFlyout}" />                              
+                                <Setter Property="ContextFlyout" Value="{StaticResource ExplorerMenuFlyout}" />
                             </Style>
-                        </controls1:ExplorerGridView.Style>                                 
+                        </controls1:ExplorerGridView.Style>
                     </controls1:ExplorerGridView>
                 </Grid>
             </Grid>

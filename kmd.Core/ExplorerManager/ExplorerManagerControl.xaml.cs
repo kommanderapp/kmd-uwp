@@ -163,5 +163,29 @@ namespace kmd.Core.ExplorerManager
         {
             Bindings.Update();
         }
+
+        private string _searchQueryText;
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if(args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                _searchQueryText = sender.Text;
+            }
+        }
+
+        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {           
+            Current.ViewModel.FilterOptions = new Storage.Contracts.FilterOptions() { QueryText = _searchQueryText };
+        }
+
+        private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            KeyEventsAgregator.IsDisabled = true;
+        }
+
+        private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            KeyEventsAgregator.IsDisabled = false;
+        }
     }
 }
