@@ -11,12 +11,15 @@ using kmd.Core.Helpers;
 using kmd.Core.Command.Configuration;
 using kmd.Core.ExplorerTabs.Commands;
 using kmd.Core.ExplorerManager;
+using System;
+using System.Threading.Tasks;
 
 namespace kmd.Core.ExplorerTabs
 {
     public sealed partial class ExplorerTabsControl
     {
         public ExplorerManagerControl ExplorerManager { get; set; }
+        public string ExplorerTabTag { get; set; }
 
         public ExplorerTabsControl()
         {
@@ -24,10 +27,16 @@ namespace kmd.Core.ExplorerTabs
             ExplorerTabs.ItemsSource = Items;
             Loaded += ExplorerTabsControl_Loaded;
             Unloaded += ExplorerTabsControl_Unloaded;
+            Items.CollectionChanged += Items_CollectionChanged;
 
             var explorerTabsCommands = CommandDescriptorProvider.GetCommandDescriptors().Where(x => x is ExplorerTabsCommandDescriptor);
             _addTabHotkey = explorerTabsCommands.FirstOrDefault(x => x.UniqueName == "AddTab").PreferredHotkey;
             _removeTabHotkey = explorerTabsCommands.FirstOrDefault(x => x.UniqueName == "RemoveTab").PreferredHotkey;
+        }
+
+        private async void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            await ApplicationData.Current.LocalSettings.SaveAsync<int?>($"{ExplorerTabTag}TabCount", Items.Count);
         }
 
         public ObservableCollection<object> Items { get; set; } = new ObservableCollection<object>();
@@ -35,6 +44,7 @@ namespace kmd.Core.ExplorerTabs
         public void AddTab(StorageFolder storageFolder)
         {
             var explorer = new ExplorerControl();
+            explorer.ExplorerTag = ExplorerTabTag + Items.Count;
             explorer.ExplorerManagerControl = ExplorerManager;
             explorer.RootFolder = storageFolder;
 
@@ -83,10 +93,28 @@ namespace kmd.Core.ExplorerTabs
 
         private readonly Hotkey _removeTabHotkey = null;
 
-        private void ExplorerTabsControl_Loaded(object sender, RoutedEventArgs e)
+        private async void ExplorerTabsControl_Loaded(object sender, RoutedEventArgs e)
         {
             KeyEventsAgregator.HotKey += HotkeyEventAgrigator_HotKey;
-            this.AddTab(null);
+            var tabCount = await ApplicationData.Current.LocalSettings.ReadAsync<int?>($"{ExplorerTabTag}TabCount");
+
+            if (tabCount == null)
+                AddTab(null);
+            else
+            {
+                for (int i = 0; i < tabCount; i++)
+                {
+                    var folder = await GetSavedLocation($"{ExplorerTabTag}{i}");
+                    AddTab(folder);
+                }
+            }
+        }
+        private async Task<StorageFolder> GetSavedLocation(string explorerTag)
+        {
+            var path = await ApplicationData.Current.LocalSettings.ReadAsync<string>($"Explorer{explorerTag}SelectedLocation");
+            if (path == null) return null;
+
+            return await StorageFolder.GetFolderFromPathAsync(path);
         }
 
         private void ExplorerTabsControl_Unloaded(object sender, RoutedEventArgs e)

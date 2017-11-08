@@ -18,7 +18,9 @@ namespace kmd.Core.ExplorerManager
         {
             this.InitializeComponent();
             Explorer1.ExplorerManager = this;
+            Explorer1.ExplorerTabTag = "Left";
             Explorer2.ExplorerManager = this;
+            Explorer2.ExplorerTabTag = "Right";
             this.Loaded += ExplorerManager_Loaded;
             this.Unloaded += ExplorerManager_Unloaded;
         }

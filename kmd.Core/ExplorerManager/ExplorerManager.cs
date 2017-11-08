@@ -12,7 +12,6 @@ namespace kmd.Core.ExplorerManager
     public static class ExplorerManager
     {
         public static void Register(ExplorerControl explorerControl)
-
         {
             var id = Interlocked.Increment(ref _explorerCounter);
 
@@ -22,7 +21,6 @@ namespace kmd.Core.ExplorerManager
         }
 
         public static void Unregister(ExplorerControl explorerControl)
-
         {
             var id = explorerControl.ExplorerId;
 

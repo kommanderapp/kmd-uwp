@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.System;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace kmd.Core.Explorer.Controls.ContentDialogs

@@ -117,8 +117,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <explorertabs:ExplorerTabsControl x:Name="Explorer1" Grid.Column="0" />
-            <explorertabs:ExplorerTabsControl x:Name="Explorer2" Grid.Column="1" />
+            <explorertabs:ExplorerTabsControl x:Name="Explorer1" Grid.Column="0"/>
+            <explorertabs:ExplorerTabsControl x:Name="Explorer2" Grid.Column="1"/>
         </Grid>
         <CommandBar Grid.Row="2">
             <AppBarToggleButton x:Name="ChangeExplorerViewStateButton" IsChecked="{x:Bind ChangeExplorerViewState, Mode=TwoWay}">

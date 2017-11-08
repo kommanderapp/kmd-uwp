@@ -21,7 +21,7 @@ namespace kmd.Core.Explorer
     public sealed partial class ExplorerControl
     {
         public static readonly DependencyProperty CurrentFolderProperty =
-            DependencyProperty.Register("CurrentFolder", typeof(StorageFolder), typeof(ExplorerControl), new PropertyMetadata(null));
+            DependencyProperty.Register("CurrentFolder", typeof(StorageFolder), typeof(ExplorerControl), new PropertyMetadata(null, CurrentFolderChangedCallback));
 
         private ExplorerManagerControl _explorerManagerControl;
         private long _explorerManagerCurrentRegisteredCallback = 0;
@@ -89,6 +89,8 @@ namespace kmd.Core.Explorer
         public IStorageFolder RootFolder { get; set; }
 
         public int ExplorerId { get; set; }
+
+        public string ExplorerTag { get; set; }
 
         public PathBox PathBoxControl => PathBox;
 
@@ -367,6 +369,13 @@ namespace kmd.Core.Explorer
             ViewModel.CurrentFolder = folder;
         }
 
+        private async static void CurrentFolderChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as ExplorerControl;
+            var folder = e.NewValue as IStorageFolder;
+            await ApplicationData.Current.LocalSettings.SaveAsync($"Explorer{sender.ExplorerTag}SelectedLocation", folder.Path);
+        }
+
         private async void PathBox_LostFocus(object sender, RoutedEventArgs e)
         {
             var path = PathBox.Text;
@@ -382,7 +391,7 @@ namespace kmd.Core.Explorer
             {
                 PathBox.Text = ViewModel.CurrentFolder.Path;
             }
-        }       
+        }
 
         private ExplorerViewStates _explorerState;
         public ExplorerViewStates ExplorerViewStates
