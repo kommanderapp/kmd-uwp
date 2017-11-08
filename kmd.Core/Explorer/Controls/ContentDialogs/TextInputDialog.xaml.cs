@@ -1,4 +1,8 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace kmd.Core.Explorer.Controls.ContentDialogs
@@ -13,21 +17,14 @@ namespace kmd.Core.Explorer.Controls.ContentDialogs
             InitializeComponent();
 
             CloseButtonText = "Cancel";
-            
-            textBox.TextChanged += TextBox_TextChanged;
-            textBox.KeyDown += TextBox_KeyDown;
-        }
 
-        private void TextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-                Hide();
+            textBox.TextChanged += TextBox_TextChanged;
         }
 
         private bool _initialized = false;
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(!_initialized)
+            if (!_initialized)
             {
                 textBox.SelectAll();
                 _initialized = true;

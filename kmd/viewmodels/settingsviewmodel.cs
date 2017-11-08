@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using kmd.Core.Command.Configuration;
+using kmd.Core.Helpers;
 using kmd.Core.Hotkeys;
 using kmd.Helpers;
 using kmd.Services;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 
@@ -28,6 +30,24 @@ namespace kmd.ViewModels
             get { return _elementTheme; }
 
             set { Set(ref _elementTheme, value); }
+        }
+
+        private bool _explorerMode_IsSingleChecked = ApplicationData.Current.LocalSettings.Read<string>("ExplorerMode") == "Single";
+
+        public bool ExplorerMode_IsSingleChecked
+        {
+            get { return _explorerMode_IsSingleChecked; }
+
+            set { Set(ref _explorerMode_IsSingleChecked, value); }
+        }
+
+        private bool _explorerMode_IsDoubleChecked = ApplicationData.Current.LocalSettings.Read<string>("ExplorerMode") == "Double";
+
+        public bool ExplorerMode_IsDoubleChecked
+        {
+            get { return _explorerMode_IsDoubleChecked; }
+
+            set { Set(ref _explorerMode_IsDoubleChecked, value); }
         }
 
         private string _versionDescription;
@@ -50,11 +70,30 @@ namespace kmd.ViewModels
                     _switchThemeCommand = new RelayCommand<ElementTheme>(
                         async (param) =>
                         {
-                            await ThemeSelectorService.SetThemeAsync(param);                            
+                            await ThemeSelectorService.SetThemeAsync(param);
                         });
                 }
 
                 return _switchThemeCommand;
+            }
+        }
+
+        private ICommand _switchExplorerModeCommand;
+
+        public ICommand SwitchExplorerModeCommand
+        {
+            get
+            {
+                if (_switchExplorerModeCommand == null)
+                {
+                    _switchExplorerModeCommand = new RelayCommand<string>(
+                        async (param) =>
+                        {
+                            await ApplicationData.Current.LocalSettings.SaveAsync("ExplorerMode", param);
+                        });
+                }
+
+                return _switchExplorerModeCommand;
             }
         }
 
@@ -81,7 +120,7 @@ namespace kmd.ViewModels
         }
 
         public SettingsViewModel()
-        {            
+        {
         }
 
         private bool _hasInstanceBeenInitialized = false;
