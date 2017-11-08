@@ -115,12 +115,54 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition x:Name="SecondExplorerColumn">
+                    <interactivity:Interaction.Behaviors>
+                        <core:DataTriggerBehavior Binding="{Binding IsChecked, ElementName=ChangeExplorersCountButton}" Value="False">
+                            <core:ChangePropertyAction
+                                PropertyName="Width"
+                                TargetObject="{x:Bind SecondExplorerColumn}"
+                                Value="0" />
+                        </core:DataTriggerBehavior>
+                        <core:DataTriggerBehavior Binding="{Binding IsChecked, ElementName=ChangeExplorersCountButton}" Value="True">
+                            <core:ChangePropertyAction
+                                PropertyName="Width"
+                                TargetObject="{x:Bind SecondExplorerColumn}"
+                                Value="*" />
+                        </core:DataTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                </ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <explorertabs:ExplorerTabsControl x:Name="Explorer1" Grid.Column="0"/>
-            <explorertabs:ExplorerTabsControl x:Name="Explorer2" Grid.Column="1"/>
+            <explorertabs:ExplorerTabsControl x:Name="Explorer1" Grid.Column="0" />
+            <explorertabs:ExplorerTabsControl
+                x:Name="Explorer2"
+                Grid.Column="1"
+                Visibility="{x:Bind ChangeExplorersCount, Mode=OneWay}" />
         </Grid>
         <CommandBar Grid.Row="2">
+            <AppBarToggleButton x:Name="ChangeExplorersCountButton" IsChecked="{x:Bind ChangeExplorersCount, Mode=TwoWay}">
+                <interactivity:Interaction.Behaviors>
+                    <core:DataTriggerBehavior Binding="{Binding IsChecked, ElementName=ChangeExplorersCountButton}" Value="False">
+                        <core:ChangePropertyAction
+                            PropertyName="Icon"
+                            TargetObject="{Binding ElementName=ChangeExplorersCountButton}"
+                            Value="TwoPage" />
+                        <core:ChangePropertyAction
+                            PropertyName="Label"
+                            TargetObject="{Binding ElementName=ChangeExplorersCountButton}"
+                            Value="Double" />
+                    </core:DataTriggerBehavior>
+                    <core:DataTriggerBehavior Binding="{Binding IsChecked, ElementName=ChangeExplorersCountButton}" Value="True">
+                        <core:ChangePropertyAction
+                            PropertyName="Icon"
+                            TargetObject="{Binding ElementName=ChangeExplorersCountButton}"
+                            Value="Page" />
+                        <core:ChangePropertyAction
+                            PropertyName="Label"
+                            TargetObject="{Binding ElementName=ChangeExplorersCountButton}"
+                            Value="Single" />
+                    </core:DataTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </AppBarToggleButton>
             <AppBarToggleButton x:Name="ChangeExplorerViewStateButton" IsChecked="{x:Bind ChangeExplorerViewState, Mode=TwoWay}">
                 <interactivity:Interaction.Behaviors>
                     <core:DataTriggerBehavior Binding="{Binding IsChecked, ElementName=ChangeExplorerViewStateButton}" Value="False">

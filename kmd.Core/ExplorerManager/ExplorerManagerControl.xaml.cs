@@ -6,8 +6,10 @@ using kmd.Core.ExplorerTabs;
 using kmd.Core.Hotkeys;
 using System;
 using System.Linq;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using kmd.Core.Helpers;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -15,16 +17,20 @@ namespace kmd.Core.ExplorerManager
 {
     public sealed partial class ExplorerManagerControl : UserControl
     {
+        private const string ExplorersCountSettingKey = "ExplorersCountSettingKey";
+
         public ExplorerManagerControl()
         {
             this.InitializeComponent();
             Explorer1.ExplorerManager = this;
             Explorer1.ExplorerTabTag = "Left";
             Explorer2.ExplorerManager = this;
-            Explorer2.ExplorerTabTag = "Right";
+            Explorer2.ExplorerTabTag = "Right";           
             this.Loaded += ExplorerManager_Loaded;
             this.Unloaded += ExplorerManager_Unloaded;
         }
+
+        
 
         public ExplorerTabsControl ExplorerTabsControl1 => Explorer1;
         public ExplorerTabsControl ExplorerTabsControl2 => Explorer2;
@@ -35,10 +41,12 @@ namespace kmd.Core.ExplorerManager
             KeyEventsAgregator.CharacterReceived -= CharacterRecieved;
         }
 
-        private void ExplorerManager_Loaded(object sender, RoutedEventArgs e)
+        private async void ExplorerManager_Loaded(object sender, RoutedEventArgs e)
         {
             KeyEventsAgregator.HotKey += HotKeyPressed;
             KeyEventsAgregator.CharacterReceived += CharacterRecieved;
+
+            ChangeExplorersCount = await ApplicationData.Current.LocalSettings.ReadAsync<bool>(ExplorersCountSettingKey);
         }
 
         private void CharacterRecieved(object sender, CharReceivedEventArgs args)
@@ -162,6 +170,19 @@ namespace kmd.Core.ExplorerManager
                 }
 
                 Bindings.Update();
+            }
+        }
+
+        private bool _changeExplorersCount;
+        public bool ChangeExplorersCount
+        {
+            get => _changeExplorersCount;
+            set
+            {
+                if (_changeExplorersCount == value) return;
+                _changeExplorersCount = value;
+                UpdateBindings();
+                ApplicationData.Current.LocalSettings.SaveAsync(ExplorersCountSettingKey, value).FireAndForget();
             }
         }
 

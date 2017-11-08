@@ -60,30 +60,8 @@
                                     <xaml:ElementTheme>Default</xaml:ElementTheme>
                                 </RadioButton.CommandParameter>
                             </RadioButton>
-                        </StackPanel>
-
-                        <TextBlock x:Uid="Settings_ExplorerMode"
-                                   Margin="{StaticResource TwentyTopMargin}"
-                                   Style="{StaticResource BodyTextStyle}" />
-
-                        <StackPanel Margin="{StaticResource EightTopMargin}">
-                            <RadioButton x:Uid="Settings_ExplorerMode_Single"
-                                         Command="{Binding SwitchExplorerModeCommand}"
-                                         GroupName="ExplorerMode"
-                                         IsChecked="{Binding ExplorerMode_IsSingleChecked, Mode=TwoWay}">
-                                <RadioButton.CommandParameter>
-                                    <x:String>Single</x:String>
-                                </RadioButton.CommandParameter>
-                            </RadioButton>
-                            <RadioButton x:Uid="Settings_ExplorerMode_Double"
-                                         Command="{Binding SwitchExplorerModeCommand}"
-                                         GroupName="ExplorerMode"
-                                         IsChecked="{Binding ExplorerMode_IsDoubleChecked, Mode=TwoWay}">
-                                <RadioButton.CommandParameter>
-                                    <x:String>Double</x:String>
-                                </RadioButton.CommandParameter>
-                            </RadioButton>
-                        </StackPanel>
+                        </StackPanel>                     
+                      
                     </StackPanel>
                 </PivotItem>
                 <PivotItem>
