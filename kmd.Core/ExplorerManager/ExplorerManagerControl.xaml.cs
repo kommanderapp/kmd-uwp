@@ -2,6 +2,7 @@
 using kmd.Core.Explorer;
 using kmd.Core.Explorer.Commands;
 using kmd.Core.Explorer.States;
+using kmd.Core.ExplorerTabs;
 using kmd.Core.Hotkeys;
 using System;
 using System.Linq;
@@ -24,6 +25,9 @@ namespace kmd.Core.ExplorerManager
             this.Loaded += ExplorerManager_Loaded;
             this.Unloaded += ExplorerManager_Unloaded;
         }
+
+        public ExplorerTabsControl ExplorerTabsControl1 => Explorer1;
+        public ExplorerTabsControl ExplorerTabsControl2 => Explorer2;
 
         private void ExplorerManager_Unloaded(object sender, RoutedEventArgs e)
         {

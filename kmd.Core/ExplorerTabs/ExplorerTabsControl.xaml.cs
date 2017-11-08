@@ -13,6 +13,8 @@ using kmd.Core.ExplorerTabs.Commands;
 using kmd.Core.ExplorerManager;
 using System;
 using System.Threading.Tasks;
+using kmd.Core.Command;
+using kmd.Core.Explorer.Commands;
 
 namespace kmd.Core.ExplorerTabs
 {
@@ -32,6 +34,8 @@ namespace kmd.Core.ExplorerTabs
             var explorerTabsCommands = CommandDescriptorProvider.GetCommandDescriptors().Where(x => x is ExplorerTabsCommandDescriptor);
             _addTabHotkey = explorerTabsCommands.FirstOrDefault(x => x.UniqueName == "AddTab").PreferredHotkey;
             _removeTabHotkey = explorerTabsCommands.FirstOrDefault(x => x.UniqueName == "RemoveTab").PreferredHotkey;
+            _copyToOtherExplorerHotkey = explorerTabsCommands.FirstOrDefault(x => x.UniqueName == "CopyToOtherExplorer").PreferredHotkey;
+            _moveToOtherExplorerHotkey = explorerTabsCommands.FirstOrDefault(x => x.UniqueName == "MoveToOtherExplorer").PreferredHotkey;
         }
 
         private async void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -90,8 +94,9 @@ namespace kmd.Core.ExplorerTabs
         }
 
         private readonly Hotkey _addTabHotkey = null;
-
         private readonly Hotkey _removeTabHotkey = null;
+        private readonly Hotkey _copyToOtherExplorerHotkey = null;
+        private readonly Hotkey _moveToOtherExplorerHotkey = null;
 
         private async void ExplorerTabsControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -128,7 +133,7 @@ namespace kmd.Core.ExplorerTabs
             explorer?.StorageItemsControl.Focus(FocusState.Programmatic);
         }
 
-        private ExplorerControl GetSelectedExplorerControl()
+        public ExplorerControl GetSelectedExplorerControl()
         {
             var selectedItem = (((PivotItem)ExplorerTabs.SelectedItem)?.Content as ExplorerControl);
             return selectedItem;
@@ -154,9 +159,33 @@ namespace kmd.Core.ExplorerTabs
                 RemoveTab(selectedIndex);
                 e.Handled = true;
             }
+            else if (e.Hotkey == _copyToOtherExplorerHotkey)
+            {
+                var selectedItem = GetSelectedExplorerControl();
+                selectedItem.ViewModel.ExecuteCommand(typeof(CopySelectedItemCommand));
+
+                var passiveTab = ExplorerManager.ExplorerTabsControl1.IsTabControlInFocus ? ExplorerManager.ExplorerTabsControl2 : ExplorerManager.ExplorerTabsControl1;
+                var explorerToMoveAt = passiveTab.GetSelectedExplorerControl();
+
+                explorerToMoveAt.ViewModel.ExecuteCommand(typeof(PasteToCurrentFolderCommand));
+
+                e.Handled = true;
+            }
+            else if (e.Hotkey == _moveToOtherExplorerHotkey)
+            {
+                var selectedItem = GetSelectedExplorerControl();
+                selectedItem.ViewModel.ExecuteCommand(typeof(CutSelectedItemCommand));
+
+                var passiveTab = ExplorerManager.ExplorerTabsControl1.IsTabControlInFocus ? ExplorerManager.ExplorerTabsControl2 : ExplorerManager.ExplorerTabsControl1;
+                var explorerToMoveAt = passiveTab.GetSelectedExplorerControl();
+
+                explorerToMoveAt.ViewModel.ExecuteCommand(typeof(PasteToCurrentFolderCommand));
+
+                e.Handled = true;
+            }
         }
 
-        private bool IsTabControlInFocus
+        public bool IsTabControlInFocus
         {
             get
             {
