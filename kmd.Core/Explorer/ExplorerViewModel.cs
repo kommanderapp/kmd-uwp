@@ -168,6 +168,20 @@ namespace kmd.Core.Explorer
             }
         }
 
+        public IStorageFolder SelectedLocationItem
+        {
+            get
+            {
+                return _selectedLocationItem;
+            }
+            set
+            {
+                Set(ref _selectedLocationItem, value);
+            }
+        }
+
+        private IStorageFolder _selectedLocationItem;
+
         public IExplorerItem SelectedItemBeforeExpanding { get; set; }
 
         public ObservableCollection<IExplorerItem> SelectedItems
@@ -208,6 +222,7 @@ namespace kmd.Core.Explorer
         {
             this.ExecuteCommand(typeof(NavigateCommand));
             NavigationHistory.SetCurrent(CurrentFolder);
+            SelectedLocationItem = Locations.FirstOrDefault(x => CurrentFolder.Path.Contains(x.Path));
         }
 
         protected async Task OnExplorerItemsUpdateAsync()
