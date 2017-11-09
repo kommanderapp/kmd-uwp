@@ -16,6 +16,12 @@
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Margin" Value="0,5"/>
         </Style>
+        <Style x:Key="InfoStyleTextBox" TargetType="c:TextBox">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Margin" Value="-10,5,0,5"/>
+        </Style>
     </c:ContentDialog.Resources>
     <c:Grid>
         <c:Grid.RowDefinitions>
@@ -42,7 +48,7 @@
         <c:TextBlock Grid.Column="2" Text="{x:Bind File.Name}" Style="{StaticResource InfoStyle}"/>
         <c:TextBlock Grid.Column="2" Grid.Row="1" Text="{x:Bind File.DisplayType}" Style="{StaticResource InfoStyle}"/>
         <c:TextBlock Grid.Column="2" Grid.Row="2" Text="{x:Bind Size}" Style="{StaticResource InfoStyle}" Visibility="{x:Bind File.IsFile}"/>
-        <c:TextBlock Grid.Column="2" Grid.Row="3" Text="{x:Bind File.Path}" Style="{StaticResource InfoStyle}"/>
+        <c:TextBox Grid.Column="2" Grid.Row="3" Text="{x:Bind File.Path}" Style="{StaticResource InfoStyleTextBox}" IsReadOnly="True"/>
         <c:TextBlock Grid.Column="2" Grid.Row="4" Text="{x:Bind File.DateCreated}" Style="{StaticResource InfoStyle}"/>
         <c:TextBlock Grid.Column="2" Grid.Row="5" Text="{x:Bind BasicProperties.DateModified}" Style="{StaticResource InfoStyle}"/>
     </c:Grid>
