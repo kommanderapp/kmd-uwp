@@ -30,3 +30,5 @@ Release Date: **11/15/2017**
 * Quick-access locations
 * Fully configurable hotkeys
 * Navigate by path
+* Switch between single and double explorer views
+* Switch between GridView and ListView
