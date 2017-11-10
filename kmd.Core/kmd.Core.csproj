@@ -186,8 +186,10 @@
     </Compile>
     <Compile Include="Explorer\ExplorerViewModel.cs" />
     <Compile Include="Explorer\Models\ExplorerNavigationHistory.cs" />
-    <Compile Include="Explorer\States\ExplorerViewStates.cs" />
+    <Compile Include="Explorer\States\ExplorerViewStateManager.cs" />
     <Compile Include="Extensions\Converters\BooleanToActiveExplorerConverter.cs" />
+    <Compile Include="Extensions\Converters\BooleanToGridLengthConverter.cs" />
+    <Compile Include="Extensions\Converters\InverseBooleanConverter.cs" />
     <Compile Include="FluentKeyboard.xaml.cs">
       <DependentUpon>FluentKeyboard.xaml</DependentUpon>
     </Compile>

@@ -22,7 +22,10 @@
     <UserControl.Resources>
         <explorer:ExplorerViewModelLocator x:Key="ExplorerViewModelLocator" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converteresExt:BooleanToGridLengthConverter x:Key="BooleanToGridLengthConverter" />
         <converteresExt:BooleanToActiveExplorerConverter x:Key="BooleanToActiveExplorerConverter" />
+        <converteresExt:InverseBooleanVisibilityConverter x:Key="InverseBooleanVisibilityConverter" />
+       
 
         <ItemsPanelTemplate x:Key="ItemsWrapGridTemplate">
             <ItemsWrapGrid Orientation="Horizontal" />
@@ -49,18 +52,18 @@
                 </interactivity:Interaction.Behaviors>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition x:Name="DateCreatedColumn" Width="{Binding DataContext.ExplorerViewStateManager.ShowDateCreated, ElementName=RootElement, Converter={StaticResource BooleanToGridLengthConverter}}" />
+                    <ColumnDefinition x:Name="AttributesColumn" Width="{Binding DataContext.ExplorerViewStateManager.ShowAttributes, ElementName=RootElement, Converter={StaticResource BooleanToGridLengthConverter}}" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Image Height="30" Source="{x:Bind Icon}" />
                         <TextBlock Text="{x:Bind Name}" />
                     </StackPanel>
-                    <TextBlock Text="{x:Bind DisplayType}" />
+                    <TextBlock Text="{x:Bind DisplayType}" Visibility="{Binding DataContext.ExplorerViewStateManager.ShowDisyplayType, ElementName=RootElement}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1">
-                    <TextBlock Text="{x:Bind DateCreated}" />
+                    <TextBlock Text="{x:Bind DateCreated.LocalDateTime}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="{x:Bind Attributes}" />
@@ -242,35 +245,91 @@
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="4">
-                    <controls1:ExplorerGridView
-                        x:Name="StorageItems"
-                        AllowDrop="True"
-                        CanDragItems="True"
-                        DoubleTapped="StorageItems_DoubleTapped"
-                        DragItemsCompleted="StorageItems_DragItemsCompleted"
-                        DragItemsStarting="StorageItems_DragItemsStarting"
-                        DragOver="StorageItems_DragOver"
-                        Drop="StorageItems_Drop"
-                        ItemTemplate="{StaticResource ExplorerListDataGridItemTemplate}"
-                        ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
-                        ItemsSource="{Binding ExplorerItems}"
-                        ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                        SelectionChanged="StorageItems_SelectionChanged"
-                        SelectionMode="Extended">
-                        <controls1:ExplorerGridView.ItemContainerStyle>
-                            <Style TargetType="GridViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                <Setter Property="VerticalContentAlignment" Value="Bottom" />
-                                <Setter Property="FocusVisualPrimaryBrush" Value="Transparent" />
-                            </Style>
-                        </controls1:ExplorerGridView.ItemContainerStyle>
-                        <controls1:ExplorerGridView.Style>
-                            <Style TargetType="controls1:ExplorerGridView">
-                                <Setter Property="ContextFlyout" Value="{StaticResource ExplorerMenuFlyout}" />
-                            </Style>
-                        </controls1:ExplorerGridView.Style>
-                    </controls1:ExplorerGridView>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <controls1:ExplorerGridView
+                            x:Name="StorageItems"
+                            AllowDrop="True"
+                            CanDragItems="True"
+                            DoubleTapped="StorageItems_DoubleTapped"
+                            DragItemsCompleted="StorageItems_DragItemsCompleted"
+                            DragItemsStarting="StorageItems_DragItemsStarting"
+                            DragOver="StorageItems_DragOver"
+                            Drop="StorageItems_Drop"
+                            ItemTemplate="{StaticResource ExplorerListDataGridItemTemplate}"
+                            ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
+                            ItemsSource="{Binding ExplorerItems}"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                            SelectionChanged="StorageItems_SelectionChanged"
+                            SelectionMode="Extended">
+                            <controls1:ExplorerGridView.ItemContainerStyle>
+                                <Style TargetType="GridViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="VerticalContentAlignment" Value="Bottom" />
+                                    <Setter Property="FocusVisualPrimaryBrush" Value="Transparent" />
+                                </Style>
+                            </controls1:ExplorerGridView.ItemContainerStyle>
+                            <controls1:ExplorerGridView.Style>
+                                <Style TargetType="controls1:ExplorerGridView">
+                                    <Setter Property="ContextFlyout" Value="{StaticResource ExplorerMenuFlyout}" />
+                                </Style>
+                            </controls1:ExplorerGridView.Style>
+                        </controls1:ExplorerGridView>
+                        <CommandBar Grid.Row="1">
+                            <AppBarButton
+                                x:Name="ColumSelectorButton"
+                                Icon="AllApps"
+                                Label="Columns"
+                                Visibility="{x:Bind IsInTilesView, Mode=OneWay, Converter={StaticResource InverseBooleanVisibilityConverter}}">
+                                <AppBarButton.Flyout>
+                                    <Flyout>
+                                        <StackPanel>
+                                            <CheckBox
+                                                x:Name="ShowDisyplayType"
+                                                Content="DisyplayType"
+                                                IsChecked="{Binding ExplorerViewStateManager.ShowDisyplayType, Mode=TwoWay}" />
+                                            <CheckBox
+                                                x:Name="ShowDateCreated"
+                                                Content="DateCreated"
+                                                IsChecked="{Binding ExplorerViewStateManager.ShowDateCreated, Mode=TwoWay}" />
+                                            <CheckBox
+                                                x:Name="ShowAttributes"
+                                                Content="Attributes"
+                                                IsChecked="{Binding ExplorerViewStateManager.ShowAttributes, Mode=TwoWay}" />
+                                        </StackPanel>
+                                    </Flyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
+                            <AppBarToggleButton x:Name="ChangeExplorerViewStateButton" IsChecked="{x:Bind IsInTilesView, Mode=TwoWay}">
+                                <interactivity:Interaction.Behaviors>
+                                    <core:DataTriggerBehavior Binding="{Binding IsChecked, ElementName=ChangeExplorerViewStateButton}" Value="False">
+                                        <core:ChangePropertyAction
+                                            PropertyName="Icon"
+                                            TargetObject="{Binding ElementName=ChangeExplorerViewStateButton}"
+                                            Value="ViewAll" />
+                                        <core:ChangePropertyAction
+                                            PropertyName="Label"
+                                            TargetObject="{Binding ElementName=ChangeExplorerViewStateButton}"
+                                            Value="GridView" />
+                                    </core:DataTriggerBehavior>
+                                    <core:DataTriggerBehavior Binding="{Binding IsChecked, ElementName=ChangeExplorerViewStateButton}" Value="True">
+                                        <core:ChangePropertyAction
+                                            PropertyName="Icon"
+                                            TargetObject="{Binding ElementName=ChangeExplorerViewStateButton}"
+                                            Value="List" />
+                                        <core:ChangePropertyAction
+                                            PropertyName="Label"
+                                            TargetObject="{Binding ElementName=ChangeExplorerViewStateButton}"
+                                            Value="ListView" />
+                                    </core:DataTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
+                            </AppBarToggleButton>
+                        </CommandBar>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>

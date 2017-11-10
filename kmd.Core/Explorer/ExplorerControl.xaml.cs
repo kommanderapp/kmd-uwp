@@ -62,7 +62,7 @@ namespace kmd.Core.Explorer
 
         public static readonly DependencyProperty IsActiveProperty =
             DependencyProperty.Register("IsActive", typeof(bool), typeof(ExplorerControl), new PropertyMetadata(false));
-
+               
         public ExplorerControl()
         {
             InitializeComponent();
@@ -73,7 +73,7 @@ namespace kmd.Core.Explorer
                 Path = new PropertyPath("CurrentFolder"),
                 Source = ViewModel
             });
-
+                      
             Loaded += ExplorerControl_Loaded;
             Unloaded += ExplorerControl_Unloaded;
         }
@@ -166,7 +166,8 @@ namespace kmd.Core.Explorer
         private async void ExplorerControl_Loaded(object sender, RoutedEventArgs e)
         {
             ExplorerManager.ExplorerManager.Register(this);
-            await ViewModel.InitializeAsync(RootFolder);
+            IsInTilesView = await ApplicationData.Current.LocalSettings.ReadAsync<bool>(IsInTilesViewSettingKey);
+            await ViewModel.InitializeAsync(ExplorerTag, RootFolder);            
         }
 
         private void ExplorerControl_Unloaded(object sender, RoutedEventArgs e)
@@ -386,31 +387,34 @@ namespace kmd.Core.Explorer
                 PathBox.Text = ViewModel.CurrentFolder.Path;
             }
         }
+        private bool _isInTilesView;
 
-        private ExplorerViewStates _explorerState;
-        public ExplorerViewStates ExplorerViewStates
+        public bool IsInTilesView
         {
-            get => _explorerState;
+            get => _isInTilesView;
             set
             {
-                if (value == _explorerState) return;
-                switch (value)
+                if (value == _isInTilesView) return;
+
+                if (value)
                 {
-                    case ExplorerViewStates.DataGrid:
-                        ShowAsDataGrid();
-                        break;
-                    case ExplorerViewStates.Tiles:
-                        ShowAsTiles();
-                        break;
-                    default:
-                        break;
+                    ShowAsTiles();
+                }
+                else
+                {
+                    ShowAsDataGrid();
                 }
 
-                _explorerState = value;
+                _isInTilesView = value;
+                Bindings.Update();
+                ApplicationData.Current.LocalSettings.SaveAsync(IsInTilesViewSettingKey, value).FireAndForget();
             }
         }
 
-        private void ShowAsDataGrid()
+        private string IsInTilesViewSettingKey { get => $"Explorer{ExplorerTag}{nameof(IsInTilesView)}"; }
+
+
+    private void ShowAsDataGrid()
         {
             StorageItems.ItemsPanel = this.Resources["ItemsStackPanelTemplate"] as ItemsPanelTemplate;
             StorageItems.ItemTemplate = this.Resources["ExplorerListDataGridItemTemplate"] as DataTemplate;
@@ -432,7 +436,7 @@ namespace kmd.Core.Explorer
         }
 
         private void OpenWith_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             ViewModel.ExecuteCommand(typeof(OpenWithSelectedItemCommand));
         }
     }

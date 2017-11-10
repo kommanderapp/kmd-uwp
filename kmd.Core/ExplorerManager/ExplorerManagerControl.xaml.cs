@@ -137,41 +137,7 @@ namespace kmd.Core.ExplorerManager
         private static void CurrentExplorerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is ExplorerManagerControl explorerManager) explorerManager.UpdateBindings(); 
-        }
-
-        public bool ChangeExplorerViewState
-        {
-            get
-            {
-                if (Current == null) return false;
-
-                switch (Current.ExplorerViewStates)
-                {
-                    case ExplorerViewStates.DataGrid:
-                        return false;                        
-                    case ExplorerViewStates.Tiles:
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-            set
-            {
-                if (Current != null)
-                {
-                    if (value)
-                    {
-                        Current.ExplorerViewStates = ExplorerViewStates.Tiles;
-                    }
-                    else
-                    {
-                        Current.ExplorerViewStates = ExplorerViewStates.DataGrid;
-                    }
-                }
-
-                Bindings.Update();
-            }
-        }
+        }        
 
         private bool _changeExplorersCount;
         public bool ChangeExplorersCount

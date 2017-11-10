@@ -4,6 +4,7 @@ using kmd.Core.Explorer.Commands;
 using kmd.Core.Explorer.Commands.Configuration;
 using kmd.Core.Explorer.Contracts;
 using kmd.Core.Explorer.Models;
+using kmd.Core.Explorer.States;
 using kmd.Core.Helpers;
 using kmd.Core.Services.Contracts;
 using kmd.Storage.Contracts;
@@ -26,6 +27,8 @@ namespace kmd.Core.Explorer
 
     public class ExplorerViewModel : ViewModelBase, IExplorerViewModel, IViewModelWithCommandBindings
     {
+        public ExplorerViewStateManager ExplorerViewStateManager { get; private set; }
+
         public ExplorerViewModel(IExplorerCommandBindingsProvider commandBindingsProvider,
             ILocationService locationService)
         {
@@ -33,7 +36,7 @@ namespace kmd.Core.Explorer
             _locationService = locationService ?? throw new ArgumentNullException(nameof(locationService));
         }
 
-        public async Task InitializeAsync(IStorageFolder folder = null)
+        public async Task InitializeAsync(string explorerTag, IStorageFolder folder = null)
         {
             CommandBindings = _commandBindingsProvider.GetBindings(this);
             NavigationHistory = new ExplorerNavigationHistory();
@@ -41,6 +44,9 @@ namespace kmd.Core.Explorer
             var locations = await _locationService.GetLocationsAsync();
             Locations = new ObservableCollection<IStorageFolder>(locations);
             CurrentFolder = folder ?? Locations.First();
+
+            ExplorerViewStateManager = new ExplorerViewStateManager();
+            await ExplorerViewStateManager.InitializeAsync(explorerTag);
         }
 
         public CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
