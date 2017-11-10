@@ -172,15 +172,18 @@ namespace kmd.Core.Explorer
         {
             get
             {
-                return _selectedLocationItem;
+                if(Locations != null && CurrentFolder != null)
+                {
+                    return Locations.FirstOrDefault(x => CurrentFolder.Path.Contains(x.Path));
+                }
+
+                return null;
             }
             set
             {
-                Set(ref _selectedLocationItem, value);
+                CurrentFolder = value;
             }
         }
-
-        private IStorageFolder _selectedLocationItem;
 
         public IExplorerItem SelectedItemBeforeExpanding { get; set; }
 
@@ -222,7 +225,7 @@ namespace kmd.Core.Explorer
         {
             this.ExecuteCommand(typeof(NavigateCommand));
             NavigationHistory.SetCurrent(CurrentFolder);
-            SelectedLocationItem = Locations.FirstOrDefault(x => CurrentFolder.Path.Contains(x.Path));
+            RaisePropertyChanged(nameof(SelectedLocationItem));           
         }
 
         protected async Task OnExplorerItemsUpdateAsync()

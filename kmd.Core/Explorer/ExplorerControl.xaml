@@ -205,8 +205,7 @@
                             Grid.Column="0"
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding Locations}"
-                            SelectedItem="{Binding SelectedLocationItem, Mode=TwoWay}"
-                            SelectionChanged="Locations_SelectionChanged" />
+                            SelectedItem="{Binding SelectedLocationItem, Mode=TwoWay}" />
                         <controls1:PathBox
                             x:Name="PathBox"
                             Grid.Row="0"

@@ -363,12 +363,6 @@ namespace kmd.Core.Explorer
             ViewModel.ExecuteCommand(typeof(SelectedItemDetailsCommand));
         }
 
-        private void Locations_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var folder = (sender as ComboBox)?.SelectedItem as IStorageFolder;
-            ViewModel.CurrentFolder = folder;
-        }
-
         private async static void CurrentFolderChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sender = d as ExplorerControl;
