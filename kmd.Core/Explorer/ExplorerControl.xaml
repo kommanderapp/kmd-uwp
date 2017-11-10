@@ -25,7 +25,7 @@
         <converteresExt:BooleanToGridLengthConverter x:Key="BooleanToGridLengthConverter" />
         <converteresExt:BooleanToActiveExplorerConverter x:Key="BooleanToActiveExplorerConverter" />
         <converteresExt:InverseBooleanVisibilityConverter x:Key="InverseBooleanVisibilityConverter" />
-       
+
 
         <ItemsPanelTemplate x:Key="ItemsWrapGridTemplate">
             <ItemsWrapGrid Orientation="Horizontal" />
@@ -72,7 +72,18 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ExplorerListTilesItemTemplate" x:DataType="contracts:IExplorerItem">
-            <Grid Name="ItemControl" Background="Transparent">
+            <Grid
+                Name="ItemControl"
+                Background="Transparent"
+                ToolTipService.Placement="Mouse">
+                <ToolTipService.ToolTip>
+                    <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" BorderThickness="0">
+                        <TextBlock Text="{x:Bind DisplayType}" />
+                        <TextBlock Text="{x:Bind Attributes}" />
+                        <TextBlock Text="{x:Bind DateCreated.LocalDateTime}" />
+                        <TextBlock Text="{x:Bind Path}" TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </ToolTipService.ToolTip>
                 <StackPanel
                     Width="70"
                     Height="80"
