@@ -32,3 +32,6 @@ Release Date: **11/15/2017**
 * Navigate by path
 * Switch between single and double explorer views
 * Switch between GridView and ListView
+* Configure visble data while in ListView
+* The whole visual state is persistable
+
