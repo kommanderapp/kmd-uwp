@@ -8,7 +8,7 @@ using kmd.Core.Explorer.Contracts;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("ItemPathToClipboard", "ItemPathToClipboard", ModifierKeys.Control, VirtualKey.Enter)]
+    [ExplorerCommand("ItemPathToClipboard", "Item path to clipboard", ModifierKeys.Control, VirtualKey.Enter)]
     public class ItemPathToClipboardCommand : ExplorerCommandBase
     {
         public ItemPathToClipboardCommand(ICilpboardService cilpboardService)

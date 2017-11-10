@@ -15,7 +15,7 @@ using kmd.Core.Helpers;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("PasteToCurrentFolder", "PasteToCurrentFolder", ModifierKeys.Control, VirtualKey.V)]
+    [ExplorerCommand("PasteToCurrentFolder", "Paste to current folder", ModifierKeys.Control, VirtualKey.V)]
     public class PasteToCurrentFolderCommand : ExplorerCommandBase
     {
         public PasteToCurrentFolderCommand(ICilpboardService cilpboardService, IDialogService dialogService, NavigateCommand navigateCommand)

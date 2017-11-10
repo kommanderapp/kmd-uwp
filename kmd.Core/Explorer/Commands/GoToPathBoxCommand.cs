@@ -5,7 +5,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("GoToPathBox", "GoToPathBox", ModifierKeys.Control, VirtualKey.Q)]
+    [ExplorerCommand("GoToPathBox", "Go to PathBox", ModifierKeys.Control, VirtualKey.Q)]
     public class GoToPathBoxCommand : ExplorerCommandBase
     {
         protected override bool OnCanExecute(IExplorerViewModel vm)

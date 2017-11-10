@@ -10,10 +10,10 @@ namespace kmd.Core.ExplorerTabs.Commands
         {
             var descriptors = new List<ExplorerTabsCommandDescriptor>();
 
-            var addTabDescriptor = new ExplorerTabsCommandDescriptor("AddTab", "ExplorerTabsCommands_AddTab", Hotkey.For(ModifierKeys.Control, Windows.System.VirtualKey.T));
-            var removeTabDescriptor = new ExplorerTabsCommandDescriptor("RemoveTab", "ExplorerTabsCommands_RemoveTab", Hotkey.For(ModifierKeys.Control, Windows.System.VirtualKey.W));
-            var copyToOtherExplorerDescriptor = new ExplorerTabsCommandDescriptor("CopyToOtherExplorer", "ExplorerTabsCommands_CopyToOtherExplorer", Hotkey.For(ModifierKeys.None, Windows.System.VirtualKey.F5));
-            var moveToOtherExplorerDescriptor = new ExplorerTabsCommandDescriptor("MoveToOtherExplorer", "ExplorerTabsCommands_MoveToOtherExplorer", Hotkey.For(ModifierKeys.None, Windows.System.VirtualKey.F6));
+            var addTabDescriptor = new ExplorerTabsCommandDescriptor("AddTab", "Add a tab", Hotkey.For(ModifierKeys.Control, Windows.System.VirtualKey.T));
+            var removeTabDescriptor = new ExplorerTabsCommandDescriptor("RemoveTab", "Remove current tab", Hotkey.For(ModifierKeys.Control, Windows.System.VirtualKey.W));
+            var copyToOtherExplorerDescriptor = new ExplorerTabsCommandDescriptor("CopyToOtherExplorer", "Copy to second explorer", Hotkey.For(ModifierKeys.None, Windows.System.VirtualKey.F5));
+            var moveToOtherExplorerDescriptor = new ExplorerTabsCommandDescriptor("MoveToOtherExplorer", "Move to second explorer", Hotkey.For(ModifierKeys.None, Windows.System.VirtualKey.F6));
 
             HotkeyPersistenceService.SetPrefferedHotkey(addTabDescriptor);
             HotkeyPersistenceService.SetPrefferedHotkey(removeTabDescriptor);

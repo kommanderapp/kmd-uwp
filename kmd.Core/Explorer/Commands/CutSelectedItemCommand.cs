@@ -9,7 +9,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("CutSelectedItem", "CutSelectedItem", ModifierKeys.Control, VirtualKey.X)]
+    [ExplorerCommand("CutSelectedItem", "Cut selected item", ModifierKeys.Control, VirtualKey.X)]
     public class CutSelectedItemCommand : ExplorerCommandBase
     {
         public CutSelectedItemCommand(ICilpboardService cilpboardService)

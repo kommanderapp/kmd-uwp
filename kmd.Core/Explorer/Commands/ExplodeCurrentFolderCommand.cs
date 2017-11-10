@@ -8,7 +8,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("ExplodeCurrentFolder", "ExplodeCurrentFolder", ModifierKeys.Control, VirtualKey.B)]
+    [ExplorerCommand("ExplodeCurrentFolder", "Explode current folder", ModifierKeys.Control, VirtualKey.B)]
     public class ExplodeCurrentFolderCommand : ExplorerCommandBase
     {
         public ExplodeCurrentFolderCommand(IStorageFolderExploder storageFolderExploder,

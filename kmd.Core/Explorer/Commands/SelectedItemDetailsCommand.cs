@@ -8,7 +8,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("SelectedItemDetails", "SelectedItemDetails", ModifierKeys.None, VirtualKey.Space)]
+    [ExplorerCommand("SelectedItemDetails", "Selected item details", ModifierKeys.None, VirtualKey.Space)]
     public class SelectedItemDetailsCommand : ExplorerCommandBase
     {
         public SelectedItemDetailsCommand(IDialogService dialogService)

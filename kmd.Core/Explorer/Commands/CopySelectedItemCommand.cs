@@ -9,7 +9,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("CopySelectedItem", "CopySelectedItem", ModifierKeys.Control, VirtualKey.C)]
+    [ExplorerCommand("CopySelectedItem", "Copy selected item", ModifierKeys.Control, VirtualKey.C)]
     public class CopySelectedItemCommand : ExplorerCommandBase
     {
         public CopySelectedItemCommand(ICilpboardService cilpboardService)

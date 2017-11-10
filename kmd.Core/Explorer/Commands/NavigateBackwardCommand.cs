@@ -5,7 +5,7 @@ using kmd.Core.Explorer.Contracts;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("NavigateBackward", "NavigateBackward", ModifierKeys.Control, VirtualKey.Left)]
+    [ExplorerCommand("NavigateBackward", "Navigate backward", ModifierKeys.Control, VirtualKey.Left)]
     public class NavigateBackwardCommand : ExplorerCommandBase
     {
         protected override bool OnCanExecute(IExplorerViewModel vm)

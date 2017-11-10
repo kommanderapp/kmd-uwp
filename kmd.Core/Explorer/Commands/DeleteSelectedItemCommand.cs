@@ -8,7 +8,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("DeleteSelectedItem", "DeleteSelectedItem", ModifierKeys.None, VirtualKey.Delete)]
+    [ExplorerCommand("DeleteSelectedItem", "Delete selected item", ModifierKeys.None, VirtualKey.Delete)]
     public class DeleteSelectedItemCommand : ExplorerCommandBase
     {
         public DeleteSelectedItemCommand(IDialogService dialogService)

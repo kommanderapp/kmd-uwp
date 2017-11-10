@@ -11,7 +11,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("AddNewFolder", "AddNewFolder", key: VirtualKey.F, modifierKey: ModifierKeys.Control)]
+    [ExplorerCommand("AddNewFolder", "Add new folder", key: VirtualKey.F, modifierKey: ModifierKeys.Control)]
     public class AddNewFolderCommand : ExplorerCommandBase
     {
         public AddNewFolderCommand(IDialogService dialogService)

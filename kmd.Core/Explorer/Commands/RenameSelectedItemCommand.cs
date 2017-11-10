@@ -11,7 +11,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("RenameSelectedItem", "RenameSelectedItem", ModifierKeys.None, VirtualKey.F2)]
+    [ExplorerCommand("RenameSelectedItem", "Rename selected item", ModifierKeys.None, VirtualKey.F2)]
     public class RenameSelectedItemCommand : ExplorerCommandBase
     {
         public RenameSelectedItemCommand(IDialogService dialogService)

@@ -7,7 +7,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("NavigateToParrent", "NavigateToParrent", ModifierKeys.None, VirtualKey.Back)]
+    [ExplorerCommand("NavigateToParrent", "Navigate to parrent", ModifierKeys.None, VirtualKey.Back)]
     public class NavigateToParrentCommand : ExplorerCommandBase
     {
         public NavigateToParrentCommand(NavigateCommand navigateCommand)

@@ -5,7 +5,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("NavigateForwardC", "NavigateForward", ModifierKeys.Control, VirtualKey.Right)]
+    [ExplorerCommand("NavigateForwardC", "Navigate forward", ModifierKeys.Control, VirtualKey.Right)]
     public class NavigateForwardCommand : ExplorerCommandBase
     {
         protected override bool OnCanExecute(IExplorerViewModel vm)

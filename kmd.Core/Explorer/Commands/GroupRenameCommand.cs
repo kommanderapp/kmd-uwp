@@ -11,7 +11,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("GroupRenameCommand", "GroupRenameCommand", key: VirtualKey.R, modifierKey: ModifierKeys.Control)]
+    [ExplorerCommand("GroupRenameCommand", "Group rename", key: VirtualKey.R, modifierKey: ModifierKeys.Control)]
     public class GroupRenameCommand : ExplorerCommandBase
     {
         public GroupRenameCommand(IDialogService dialogService)

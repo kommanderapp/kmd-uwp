@@ -7,7 +7,7 @@ using Windows.System;
 
 namespace kmd.Core.Explorer.Commands
 {
-    [ExplorerCommand("OpenWithSelectedItemCommand", "OpenWithSelectedItemCommand", ModifierKeys.Control, VirtualKey.O)]
+    [ExplorerCommand("OpenWithSelectedItemCommand", "Open with", ModifierKeys.Control, VirtualKey.O)]
     public class OpenWithSelectedItemCommand : ExplorerCommandBase
     {
         public OpenWithSelectedItemCommand(IFileLauncher fileLauncher)
