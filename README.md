@@ -7,6 +7,7 @@ It will *probably* change the way you work with your files.
 The project is in active development **now**.
 
 Release Date: **11/15/2017**
+Update: Currently passing Windows Store Certification
 
 ## Features Implemented
 
