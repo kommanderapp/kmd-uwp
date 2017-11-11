@@ -26,8 +26,9 @@ namespace kmd.Views
 
         private async void Feedback_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
-            await launcher.LaunchAsync();
+            //TODO fix problems with microsfot engagment nuget
+            //var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
+            //await launcher.LaunchAsync();
         }
     }
 }
