@@ -37,3 +37,6 @@ Update: **Currently passing Windows Store Certification**
 * Configure visble data while in ListView
 * The whole visual state is persistable
 
+## Screenshot time
+![screenshot](https://i.imgur.com/PtB1V4P.png)
+
