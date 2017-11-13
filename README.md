@@ -11,10 +11,9 @@ Not enough? Kommander is open-source, implement your needs in your own.
 Just clone the repo and build with Visual Studio 2017.
 
 ## Updates
-* v0.5 released
+* v0.5 released (*waiting for certification*)
 
 ## Core Features and growing
-
 * Multi-Window Explorer
 * Multi-Tabs in Explorer
 * Copy/Cut/Paste from the app to native explorer and vice versa
@@ -40,15 +39,13 @@ Just clone the repo and build with Visual Studio 2017.
 * Configure visble data while in ListView
 * The whole visual state is persistable
 
+### Support
+- Issues<br />Report issues on [Github issues](https://github.com/OData/RESTier/issues).
+- Feedback<br />Please send mails to [aram.koch@gmail.com](mailto:aram.koch@gmail.com).
+- Telegram<br />Conect to telegram group [Kommander-Group](https://t.me/joinchat/CdXk5w8Re0diPJwAfpbt_w)
 
 ## Contribution
 There are many ways for you to contribute to kommander. The easiest way is to participate in discussion of features and issues. You can also contribute by sending pull requests of features or bug fixes to us. Please refer to the [CONTRIBUTING.md](https://github.com/kommanderapp/kmd-uwp/blob/master/CONTRIBUTING.md) for more details.
 
 ## Code of Conduct
 [Contributor Covenant Code of Conduct](https://github.com/kommanderapp/kmd-uwp/blob/master/CODE_OF_CONDUCT.md)
-
-### Support
-- Issues<br />Report issues on [Github issues](https://github.com/OData/RESTier/issues).
-- Feedback<br />Please send mails to [aram.koch@gmail.com](mailto:aram.koch@gmail.com).
-- Telegram<br />Conect to telegram group [Kommander-Group](https://t.me/joinchat/CdXk5w8Re0diPJwAfpbt_w)
-
