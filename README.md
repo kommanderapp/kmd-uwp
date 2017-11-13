@@ -40,7 +40,7 @@ Just clone the repo and build with Visual Studio 2017.
 * The whole visual state is persistable
 
 ### Support
-- Issues<br />Report issues on [Github issues](https://github.com/OData/RESTier/issues).
+- Issues<br />Report issues on [Github issues](https://github.com/kommanderapp/kmd-uwp/issues).
 - Feedback<br />Please send mails to [aram.koch@gmail.com](mailto:aram.koch@gmail.com).
 - Telegram<br />Conect to telegram group [Kommander-Group](https://t.me/joinchat/CdXk5w8Re0diPJwAfpbt_w)
 
