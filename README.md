@@ -1,16 +1,20 @@
 
-## kmd - Kommander
-Kommander is next generation UWP file manager with the focus on usability. 
+# kmd - Kommander
+## Kommander is a File manager with Fluent Design and maximum customizability 
+Easily manage your files: create, rename, delete, copy, move.... 
+Be more productive by our new multi-tabbed/multi-window views. 
+Customize every aspect of commander to fit your needs. Change how items look, change explorer counts, configure hotkeys for all commands. 
+Not enough? Kommander is open-source, implement your needs in your own.
 
-It will *probably* change the way you work with your files.
+![screenshot](https://i.imgur.com/PtB1V4P.png)
 
-The project is in active development **now**.
+## Build and Run
+Just clone the repo and build with Visual Studio 2017.
 
-Release Date: **11/15/2017**
+## Updates
+* v0.5 released
 
-Update: **Currently passing Windows Store Certification**
-
-## Features Implemented
+## Core Features and growing
 
 * Multi-Window Explorer
 * Multi-Tabs in Explorer
@@ -37,6 +41,4 @@ Update: **Currently passing Windows Store Certification**
 * Configure visble data while in ListView
 * The whole visual state is persistable
 
-## Screenshot time
-![screenshot](https://i.imgur.com/PtB1V4P.png)
 
