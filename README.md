@@ -42,3 +42,9 @@ Just clone the repo and build with Visual Studio 2017.
 * The whole visual state is persistable
 
 
+## Contribution
+There are many ways for you to contribute to kommander. The easiest way is to participate in discussion of features and issues. You can also contribute by sending pull requests of features or bug fixes to us. Please refer to the [CONTRIBUTING.md](https://github.com/kommanderapp/kmd-uwp/blob/master/CONTRIBUTING.md) for more details.
+
+## Code of Conduct
+[Contributor Covenant Code of Conduct](https://github.com/kommanderapp/kmd-uwp/blob/master/CODE_OF_CONDUCT.md)
+
