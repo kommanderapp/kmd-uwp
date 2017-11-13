@@ -1,4 +1,3 @@
-
 # kmd - Kommander
 ## Kommander is a File manager with Fluent Design and maximum customizability 
 Easily manage your files: create, rename, delete, copy, move.... 
@@ -47,4 +46,9 @@ There are many ways for you to contribute to kommander. The easiest way is to pa
 
 ## Code of Conduct
 [Contributor Covenant Code of Conduct](https://github.com/kommanderapp/kmd-uwp/blob/master/CODE_OF_CONDUCT.md)
+
+### Support
+- Issues<br />Report issues on [Github issues](https://github.com/OData/RESTier/issues).
+- Feedback<br />Please send mails to [aram.koch@gmail.com](mailto:aram.koch@gmail.com).
+- Telegram<br />Conect to telegram group [Kommander-Group](https://t.me/joinchat/CdXk5w8Re0diPJwAfpbt_w)
 
