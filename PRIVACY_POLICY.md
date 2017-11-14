@@ -1,7 +1,7 @@
 # Privacy Policy
 
 ### What information do we collect?
-Kommander does not collect any information. However it does provide you access to files and folders on your device.
+Kommander **does not collect any information**. However it does provide you access to files and folders on your device.
 
 ### Third party links
 Occasionally, you may open files or links in the app that go to other websites. 
