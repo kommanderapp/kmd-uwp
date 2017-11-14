@@ -1,5 +1,5 @@
 # kmd - Kommander
-## Kommander is a File manager with Fluent Design and maximum customizability 
+## Kommander is a file explorer with Fluent Design and maximum customizability 
 Easily manage your files: create, rename, delete, copy, move.... 
 Be more productive by our new multi-tabbed/multi-window views. 
 Customize every aspect of commander to fit your needs. Change how items look, change explorer counts, configure hotkeys for all commands. 
