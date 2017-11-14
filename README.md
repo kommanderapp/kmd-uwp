@@ -39,10 +39,12 @@ Just clone the repo and build with Visual Studio 2017.
 * Configure visble data while in ListView
 * The whole visual state is persistable
 
-### Support
+## Support
 - Issues<br />Report issues on [Github issues](https://github.com/kommanderapp/kmd-uwp/issues).
 - Feedback<br />Please send mails to [aram.koch@gmail.com](mailto:aram.koch@gmail.com).
 - Telegram<br />Conect to telegram group [Kommander-Group](https://t.me/joinchat/CdXk5w8Re0diPJwAfpbt_w)
+
+*Fastest way to connect with us is Telegram group.*
 
 ## Contribution
 There are many ways for you to contribute to kommander. The easiest way is to participate in discussion of features and issues. You can also contribute by sending pull requests of features or bug fixes to us. Please refer to the [CONTRIBUTING.md](https://github.com/kommanderapp/kmd-uwp/blob/master/CONTRIBUTING.md) for more details.
