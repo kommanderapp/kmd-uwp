@@ -1,4 +1,4 @@
-## Privacy Policy
+# Privacy Policy
 
 ### What information do we collect?
 Kommander does not collect any information. However it does provide you access to files and folders on your device.
