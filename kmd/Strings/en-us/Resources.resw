@@ -146,7 +146,7 @@
     <comment>About this application title for Settings</comment>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>Kommander is is a file manager with fluent design and maximum customizability. Built by geeks for geeks.</value>
+    <value>Kommander is a file manager with fluent design and maximum customizability. Built by geeks for geeks.</value>
     <comment>About this application description for Settings</comment>
   </data>
   <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
