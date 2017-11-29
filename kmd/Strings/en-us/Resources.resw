@@ -240,4 +240,10 @@
   <data name="Settings_ExplorerMode_Single.Content" xml:space="preserve">
     <value>Single</value>
   </data>
+  <data name="Comparer_Title.Text" xml:space="preserve">
+    <value>Comparer</value>
+  </data>
+  <data name="Shell_Comparer" xml:space="preserve">
+    <value>Comparer</value>
+  </data>
 </root>
