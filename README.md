@@ -9,7 +9,7 @@ Be more productive by our new multi-tabbed/multi-window views.
 Customize every aspect of commander to fit your needs. Change how items look, change explorer counts, configure hotkeys for all commands. 
 Not enough? Kommander is open-source, implement your needs in your own.
 
-![screenshot](https://i.imgur.com/PtB1V4P.png)
+![screenshot](images/kommander-animated.gif)
 
 ## Build and Run
 Just clone the repo and build with Visual Studio 2017.
@@ -20,6 +20,8 @@ Just clone the repo and build with Visual Studio 2017.
 ## Core Features and growing
 * Multi-Window Explorer
 * Multi-Tabs in Explorer
+* Fully configurable hotkeys
+* File Contanet Comparer
 * Copy/Cut/Paste from the app to native explorer and vice versa
 * Delete Items
 * Copy Selected item path to clipboard
@@ -36,7 +38,6 @@ Just clone the repo and build with Visual Studio 2017.
 * Group files in folder
 * Sort files and folders
 * Quick-access locations
-* Fully configurable hotkeys
 * Navigate by path
 * Switch between single and double explorer views
 * Switch between GridView and ListView
