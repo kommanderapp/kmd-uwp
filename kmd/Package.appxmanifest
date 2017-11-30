@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/windowsTemplateStudio" IgnorableNamespaces="uap mp genTemplate">
-  <Identity Name="31150kommander.383449923250C" Publisher="CN=3CE60EBF-44F7-4B67-90EB-473227C1860C" Version="1.1.1.0" />
+  <Identity Name="31150kommander.383449923250C" Publisher="CN=3CE60EBF-44F7-4B67-90EB-473227C1860C" Version="1.2.2.0" />
   <mp:PhoneIdentity PhoneProductId="dc5f388f-c63c-4547-851d-312da01e9c7a" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>kommander (beta)</DisplayName>
