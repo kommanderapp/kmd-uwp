@@ -15,8 +15,8 @@ Not enough? Kommander is open-source, implement your needs in your own.
 Just clone the repo and build with Visual Studio 2017.
 
 ## Updates
-* v0.5c released (with integrated diff)
-* v0.5 released
+* v0.5c released (store version 1.2.2.0)
+* v0.5 released (store version 1.1.1.0)
 
 ## Core Features and growing
 * Multi-Window Explorer
