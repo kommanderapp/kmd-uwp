@@ -13,13 +13,13 @@ namespace kmd.Core.Explorer.States
         private bool? _showDateCreated;
         private bool? _showAttributes;
 
-        public bool ShowDisyplayType
+        public bool ShowDisplayType
         {
             get => _showDisplayType ?? true;
             set
             {
                 Set(ref _showDisplayType, value);
-                ApplicationData.Current.LocalSettings.SaveAsync($"{nameof(ShowDisyplayType)}{_explorerTag}", value).FireAndForget();
+                ApplicationData.Current.LocalSettings.SaveAsync($"{nameof(ShowDisplayType)}{_explorerTag}", value).FireAndForget();
             }
         }
 
@@ -47,7 +47,7 @@ namespace kmd.Core.Explorer.States
         {
             _explorerTag = explorerTag;
 
-            ShowDisyplayType = await ApplicationData.Current.LocalSettings.ReadAsync<bool?>($"{nameof(ShowDisyplayType)}{_explorerTag}") ?? true;
+            ShowDisplayType = await ApplicationData.Current.LocalSettings.ReadAsync<bool?>($"{nameof(ShowDisplayType)}{_explorerTag}") ?? true;
             ShowDateCreated = await ApplicationData.Current.LocalSettings.ReadAsync<bool?>($"{nameof(ShowDateCreated)}{_explorerTag}") ?? true;
             ShowAttributes = await ApplicationData.Current.LocalSettings.ReadAsync<bool?>($"{nameof(ShowAttributes)}{_explorerTag}") ?? true;
         }        

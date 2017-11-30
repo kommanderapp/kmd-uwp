@@ -11,6 +11,7 @@ namespace kmd.Views
     public sealed partial class ShellPage : Page
     {
         private object _lastSelectedItem;
+
         public NavigationServiceEx NavigationService
         {
             get
@@ -25,9 +26,9 @@ namespace kmd.Views
 
             NavigationService.Frame = shellFrame;
             NavigationService.Navigated += Frame_Navigated;
-            PopulateNavItems();            
+            PopulateNavItems();
         }
-        
+
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
             if (e != null)
@@ -73,9 +74,10 @@ namespace kmd.Views
         }
 
         private void PopulateNavItems()
-        {            
+        {
             ShellNavigation.MenuItems.Add(new NavigationViewItem() { Content = "Shell_Main".GetLocalized(), Tag = typeof(MainViewModel).FullName, Icon = new SymbolIcon(Symbol.Document) });
-            ShellNavigation.MenuItems.Add(new NavigationViewItem() { Content = "Shell_Locations".GetLocalized(), Tag = typeof(LocationsViewModel).FullName, Icon = new SymbolIcon(Symbol.MapDrive) });            
+            ShellNavigation.MenuItems.Add(new NavigationViewItem() { Content = "Shell_Locations".GetLocalized(), Tag = typeof(LocationsViewModel).FullName, Icon = new SymbolIcon(Symbol.MapDrive) });
+            ShellNavigation.MenuItems.Add(new NavigationViewItem() { Content = "Shell_Comparer".GetLocalized(), Tag = typeof(ComparerPage).FullName, Icon = new SymbolIcon(Symbol.TwoPage) });
         }
     }
 }

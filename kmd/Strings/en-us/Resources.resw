@@ -146,7 +146,7 @@
     <comment>About this application title for Settings</comment>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>Settings page placeholder text.  Your app description goes here.</value>
+    <value>Kommander is a file manager with fluent design and maximum customizability. Built by geeks for geeks.</value>
     <comment>About this application description for Settings</comment>
   </data>
   <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
@@ -239,5 +239,11 @@
   </data>
   <data name="Settings_ExplorerMode_Single.Content" xml:space="preserve">
     <value>Single</value>
+  </data>
+  <data name="Comparer_Title.Text" xml:space="preserve">
+    <value>Comparer</value>
+  </data>
+  <data name="Shell_Comparer" xml:space="preserve">
+    <value>Comparer</value>
   </data>
 </root>

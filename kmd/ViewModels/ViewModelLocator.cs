@@ -25,6 +25,7 @@ namespace kmd.ViewModels
         {
             NavigationService.Configure(typeof(MainViewModel).FullName, typeof(MainPage));
             NavigationService.Configure(typeof(LocationsViewModel).FullName, typeof(LocationsPage));
+            NavigationService.Configure(typeof(ComparerPage).FullName, typeof(ComparerPage));
             NavigationService.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsPage));
         }
     }

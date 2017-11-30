@@ -1,0 +1,110 @@
+﻿<UserControl
+    x:Class="kmd.Core.Comparer.ComparerControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:kmd.Core.Comparer"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <local:ComparerViewModelLocator x:Key="ComparerViewModelLocator" />
+    </UserControl.Resources>
+    <Grid Name="Root" DataContext="{Binding ComparerViewModel, Source={StaticResource ComparerViewModelLocator}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <ProgressBar IsIndeterminate="True" Opacity="{Binding IsBusy, Converter={StaticResource BooleanToOpacityConverter}}" />
+        </Grid>
+        <Grid
+            Name="File1Toolbar"
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox
+                Name="File1Path"
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                IsEnabled="False"
+                Text="{Binding File1.Path, Mode=OneWay}" />
+            <Button
+                Name="File1PathPicker"
+                Grid.Column="1"
+                VerticalAlignment="Stretch"
+                Command="{Binding PickFile1}"
+                Style="{ThemeResource ButtonRevealStyle}">
+                <SymbolIcon Symbol="OpenFile" />
+            </Button>
+        </Grid>
+        <Grid
+            Name="File2Toolbar"
+            Grid.Row="1"
+            Grid.Column="2"
+            HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox
+                Name="File2Path"
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                IsEnabled="False"
+                Text="{Binding File2.Path, Mode=OneWay}" />
+            <Button
+                Name="File2PathPicker"
+                Grid.Column="2"
+                VerticalAlignment="Stretch"
+                Command="{Binding PickFile2}"
+                Style="{ThemeResource ButtonRevealStyle}">
+                <SymbolIcon Symbol="OpenFile" />
+            </Button>
+        </Grid>
+        <WebView
+            Name="File1Diff"
+            Grid.Row="2"
+            Grid.Column="0"
+            local:WebViewExtensions.HtmlString="{Binding File1DiffHtml, Mode=OneWay}" />
+        <controls:GridSplitter
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Width="11"
+            Background="Gray"
+            FontSize="13"
+            Foreground="White"
+            ResizeBehavior="BasedOnAlignment"
+            ResizeDirection="Auto">
+            <controls:GridSplitter.Element>
+                <Grid>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="Segoe MDL2 Assets"
+                        Foreground="Black"
+                        IsHitTestVisible="False"
+                        Text="&#xE784;" />
+                </Grid>
+            </controls:GridSplitter.Element>
+        </controls:GridSplitter>
+        <WebView
+            Name="File2Diff"
+            Grid.Row="2"
+            Grid.Column="2"
+            local:WebViewExtensions.HtmlString="{Binding File2DiffHtml, Mode=OneWay}" />
+    </Grid>
+</UserControl>

@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Contracts\IFileLauncher.cs" />
+    <Compile Include="Contracts\IFilePickerService.cs" />
     <Compile Include="Contracts\IFolderPickerService.cs" />
     <Compile Include="Contracts\IPathService.cs" />
     <Compile Include="Contracts\IStorageFolderExploder.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Contracts\IStorageFolderRootsExpander.cs" />
     <Compile Include="Extensions\StorageFolderExtensions.cs" />
     <Compile Include="Impl\FileLauncher.cs" />
+    <Compile Include="Impl\FilePickerService.cs" />
     <Compile Include="Impl\FolderPickerService.cs" />
     <Compile Include="Impl\PathService.cs" />
     <Compile Include="Impl\StorageFolderFilter.cs" />

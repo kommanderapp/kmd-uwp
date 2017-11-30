@@ -26,7 +26,6 @@
         <converteresExt:BooleanToActiveExplorerConverter x:Key="BooleanToActiveExplorerConverter" />
         <converteresExt:InverseBooleanVisibilityConverter x:Key="InverseBooleanVisibilityConverter" />
 
-
         <ItemsPanelTemplate x:Key="ItemsWrapGridTemplate">
             <ItemsWrapGrid Orientation="Horizontal" />
         </ItemsPanelTemplate>
@@ -60,7 +59,7 @@
                         <Image Height="30" Source="{x:Bind Icon}" />
                         <TextBlock Text="{x:Bind Name}" />
                     </StackPanel>
-                    <TextBlock Text="{x:Bind DisplayType}" Visibility="{Binding DataContext.ExplorerViewStateManager.ShowDisyplayType, ElementName=RootElement}" />
+                    <TextBlock Text="{x:Bind DisplayType}" Visibility="{Binding DataContext.ExplorerViewStateManager.ShowDisplayType, ElementName=RootElement}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="{x:Bind DateCreated.LocalDateTime}" />
@@ -300,9 +299,9 @@
                                     <Flyout>
                                         <StackPanel>
                                             <CheckBox
-                                                x:Name="ShowDisyplayType"
-                                                Content="DisyplayType"
-                                                IsChecked="{Binding ExplorerViewStateManager.ShowDisyplayType, Mode=TwoWay}" />
+                                                x:Name="ShowDisplayType"
+                                                Content="DisplayType"
+                                                IsChecked="{Binding ExplorerViewStateManager.ShowDisplayType, Mode=TwoWay}" />
                                             <CheckBox
                                                 x:Name="ShowDateCreated"
                                                 Content="DateCreated"
